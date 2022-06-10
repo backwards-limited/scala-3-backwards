@@ -1,0 +1,330 @@
+package tech.backwards.bookofmonads
+
+import munit._
+
+/**
+ * Monads
+ */
+class Ex11Suite extends FunSuite {
+  test("Count leaves of a Tree") {
+    import Ex11Fixture._
+
+    assertEquals(
+      numberOfLeaves(
+        Node(
+          Leaf("a"),
+          Node(
+            Leaf("b"),
+            Node(
+              Leaf("c"),
+              Leaf("d")
+            )
+          )
+        )
+      ),
+      4
+    )
+  }
+
+  test("Relabel tree") {
+    import Ex11aFixture._
+
+    assertEquals(
+      relabel(
+        Node(
+          Leaf("a"),
+          Node(
+            Leaf("b"),
+            Leaf("c")
+          )
+        ),
+        10
+      ),
+      Node(
+        Leaf(10 -> "a"),
+        Node(
+          Leaf(11 -> "b"),
+          Leaf(12 -> "c")
+        )
+      ) -> 13
+    )
+  }
+
+  test("Relabel tree") {
+    import Ex11bFixture._
+
+    assertEquals(
+      relabel(
+        Node(
+          Leaf("a"),
+          Node(
+            Leaf("b"),
+            Leaf("c")
+          )
+        )
+      )(10),
+      Node(
+        Leaf(10 -> "a"),
+        Node(
+          Leaf(11 -> "b"),
+          Leaf(12 -> "c")
+        )
+      ) -> 13
+    )
+  }
+
+  test("Relabel tree") {
+    import Ex11cFixture._
+
+    assertEquals(
+      relabel(
+        Node(
+          Leaf("a"),
+          Node(
+            Leaf("b"),
+            Leaf("c")
+          )
+        )
+      )(10),
+      Node(
+        Leaf(10 -> "a"),
+        Node(
+          Leaf(11 -> "b"),
+          Leaf(12 -> "c")
+        )
+      ) -> 13
+    )
+  }
+
+  test("Relabel tree") {
+    import Ex11dFixture._
+
+    assertEquals(
+      relabel(
+        Node(
+          Leaf("a"),
+          Node(
+            Leaf("b"),
+            Leaf("c")
+          )
+        )
+      )(10),
+      Node(
+        Leaf(10 -> "a"),
+        Node(
+          Leaf(11 -> "b"),
+          Leaf(12 -> "c")
+        )
+      ) -> 13
+    )
+  }
+
+  test("Relabel tree") {
+    import Ex11eFixture._
+
+    assertEquals(
+      relabel(
+        Node(
+          Leaf("a"),
+          Node(
+            Leaf("b"),
+            Leaf("c")
+          )
+        )
+      )(10),
+      Node(
+        Leaf(10 -> "a"),
+        Node(
+          Leaf(11 -> "b"),
+          Leaf(12 -> "c")
+        )
+      ) -> 13
+    )
+  }
+
+  test("Relabel tree") {
+    import Ex11fFixture._
+
+    assertEquals(
+      relabel(
+        Node(
+          Leaf("a"),
+          Node(
+            Leaf("b"),
+            Leaf("c")
+          )
+        )
+      )(10),
+      Node(
+        Leaf(10 -> "a"),
+        Node(
+          Leaf(11 -> "b"),
+          Leaf(12 -> "c")
+        )
+      ) -> 13
+    )
+  }
+}
+
+trait Ex11Fixture {
+  sealed abstract class Tree[A] // Binary trees
+
+  case class Leaf[A](value: A) extends Tree[A]
+
+  case class Node[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+
+  def numberOfLeaves[A](t: Tree[A]): Int =
+    t match {
+      case Leaf(_) => 1
+      case Node(l, r) => numberOfLeaves(l) + numberOfLeaves(r)
+    }
+}
+
+object Ex11Fixture extends Ex11Fixture
+
+object Ex11aFixture extends Ex11Fixture {
+  /**
+   * Relabel the leaves of the tree left-to-right.
+   * Start with a tree t, the result of relabel should contain the same elements,
+   * but with each one paired with the index it would receive if the leaves of t were flattened into a list
+   * starting with the leftmost leaf and ending with the rightmost one.
+   * {{{
+   *             *            ------->            *
+   *          *     z                          *     (3, z)
+   *       x     y                      (1, x)   (2, y)
+   * }}}
+   * First attempt (see Haskell alternative for more explanation):
+   */
+  def relabel[A](t: Tree[A], i: Int): (Tree[(Int, A)], Int) =
+    t match {
+      case Leaf(x) =>
+        (Leaf((i, x)), i + 1)
+
+      case Node(l, r) =>
+        val (ll, i1) = relabel(l, i)
+        val (rr, i2) = relabel(r, i1)
+        (Node(ll, rr), i2)
+    }
+}
+
+object Ex11bFixture extends Ex11Fixture {
+  def relabel[A](t: Tree[A]): Int => (Tree[(Int, A)], Int) =
+    t match {
+      case Leaf(x) =>
+        i => (Leaf((i, x)), i + 1)
+
+      case Node(l, r) =>
+        i => {
+          val (ll, i1) = relabel(l)(i)
+          val (rr, i2) = relabel(r)(i1)
+          (Node(ll, rr), i2)
+        }
+    }
+}
+
+object Ex11cFixture extends Ex11Fixture {
+  def next[A, B](f: Int => (A, Int))(g: A => Int => (B, Int)): Int => (B, Int) =
+    i => {
+      val (r, i1) = f(i)
+      g(r)(i1)
+    }
+
+  def pure[A](x: A): Int => (A, Int) =
+    i => (x, i)
+
+  def relabel[A](t: Tree[A]): Int => (Tree[(Int, A)], Int) =
+    t match {
+      case Leaf(x) =>
+        i => (Leaf((i, x)), i + 1)
+
+      case Node(l, r) =>
+        next(relabel(l)) { ll =>
+          next(relabel(r)) { rr =>
+            pure(Node(ll, rr))
+          }
+        }
+    }
+}
+
+object Ex11dFixture extends Ex11Fixture {
+  extension[A] (f: Int => (A, Int)) {
+    def next[B](g: A => Int => (B, Int)): Int => (B, Int) =
+      i => {
+        val (r, i1) = f(i)
+        g(r)(i1)
+      }
+  }
+
+  def pure[A](x: A): Int => (A, Int) =
+    i => (x, i)
+
+  def relabel[A](t: Tree[A]): Int => (Tree[(Int, A)], Int) =
+    t match {
+      case Leaf(x) =>
+        i => (Leaf((i, x)), i + 1)
+
+      case Node(l, r) =>
+        relabel(l) next { ll =>
+          relabel(r) next { rr =>
+            pure(Node(ll, rr))
+          }
+        }
+    }
+}
+
+object Ex11eFixture extends Ex11Fixture {
+  type WithCounter[A] = Int => (A, Int)
+
+  extension[A] (f: WithCounter[A]) {
+    def next[B](g: A => WithCounter[B]): WithCounter[B] =
+      i => {
+        val (r, i1) = f(i)
+        g(r)(i1)
+      }
+  }
+
+  def pure[A](x: A): WithCounter[A] =
+    i => (x, i)
+
+  def relabel[A](t: Tree[A]): WithCounter[Tree[(Int, A)]] =
+    t match {
+      case Leaf(x) =>
+        i => (Leaf((i, x)), i + 1)
+
+      case Node(l, r) =>
+        relabel(l) next { ll =>
+          relabel(r) next { rr =>
+            pure(Node(ll, rr))
+          }
+        }
+    }
+}
+
+object Ex11fFixture extends Ex11Fixture {
+  // The following type synonym has two type variables — the first one is the state itself, and the second is the value type:
+  type State[S, A] = S => (A, S)
+
+  extension[A] (f: State[Int, A]) {
+    def next[B](g: A => State[Int, B]): State[Int, B] =
+      i => {
+        val (r, i1) = f(i)
+        g(r)(i1)
+      }
+  }
+
+  def pure[A](x: A): State[Int, A] =
+    i => (x, i)
+
+  def relabel[A](t: Tree[A]): State[Int, Tree[(Int, A)]] =
+    t match {
+      case Leaf(x) =>
+        i => (Leaf((i, x)), i + 1)
+
+      case Node(l, r) =>
+        relabel(l) next { ll =>
+          relabel(r) next { rr =>
+            pure(Node(ll, rr))
+          }
+        }
+    }
+}
