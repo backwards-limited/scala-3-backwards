@@ -1,13 +1,14 @@
-package tech.backwards.bookofmonads
+package tech.backwards.bookofmonads.ch1
 
-import munit._
+import munit.*
+import tech.backwards.bookofmonads.*
 
 /**
  * Monads
  */
-class Ex11Suite extends FunSuite {
+class Ex1Suite extends FunSuite {
   test("Count leaves of a Tree") {
-    import Ex11Fixture._
+    import Ex1Fixture.*
 
     assertEquals(
       numberOfLeaves(
@@ -27,7 +28,7 @@ class Ex11Suite extends FunSuite {
   }
 
   test("Relabel tree") {
-    import Ex11aFixture._
+    import Ex1aFixture.*
 
     assertEquals(
       relabel(
@@ -51,7 +52,7 @@ class Ex11Suite extends FunSuite {
   }
 
   test("Relabel tree") {
-    import Ex11bFixture._
+    import Ex1bFixture.*
 
     assertEquals(
       relabel(
@@ -74,7 +75,7 @@ class Ex11Suite extends FunSuite {
   }
 
   test("Relabel tree") {
-    import Ex11cFixture._
+    import Ex1cFixture.*
 
     assertEquals(
       relabel(
@@ -97,7 +98,7 @@ class Ex11Suite extends FunSuite {
   }
 
   test("Relabel tree") {
-    import Ex11dFixture._
+    import Ex1dFixture.*
 
     assertEquals(
       relabel(
@@ -120,7 +121,7 @@ class Ex11Suite extends FunSuite {
   }
 
   test("Relabel tree") {
-    import Ex11eFixture._
+    import Ex1eFixture.*
 
     assertEquals(
       relabel(
@@ -143,7 +144,7 @@ class Ex11Suite extends FunSuite {
   }
 
   test("Relabel tree") {
-    import Ex11fFixture._
+    import Ex1fFixture.*
 
     assertEquals(
       relabel(
@@ -166,7 +167,7 @@ class Ex11Suite extends FunSuite {
   }
 }
 
-trait Ex11Fixture {
+trait Ex1Fixture {
   sealed abstract class Tree[A] // Binary trees
 
   case class Leaf[A](value: A) extends Tree[A]
@@ -180,9 +181,9 @@ trait Ex11Fixture {
     }
 }
 
-object Ex11Fixture extends Ex11Fixture
+object Ex1Fixture extends Ex1Fixture
 
-object Ex11aFixture extends Ex11Fixture {
+object Ex1aFixture extends Ex1Fixture {
   /**
    * Relabel the leaves of the tree left-to-right.
    * Start with a tree t, the result of relabel should contain the same elements,
@@ -207,7 +208,7 @@ object Ex11aFixture extends Ex11Fixture {
     }
 }
 
-object Ex11bFixture extends Ex11Fixture {
+object Ex1bFixture extends Ex1Fixture {
   def relabel[A](t: Tree[A]): Int => (Tree[(Int, A)], Int) =
     t match {
       case Leaf(x) =>
@@ -222,7 +223,7 @@ object Ex11bFixture extends Ex11Fixture {
     }
 }
 
-object Ex11cFixture extends Ex11Fixture {
+object Ex1cFixture extends Ex1Fixture {
   def next[A, B](f: Int => (A, Int))(g: A => Int => (B, Int)): Int => (B, Int) =
     i => {
       val (r, i1) = f(i)
@@ -246,8 +247,8 @@ object Ex11cFixture extends Ex11Fixture {
     }
 }
 
-object Ex11dFixture extends Ex11Fixture {
-  extension[A] (f: Int => (A, Int)) {
+object Ex1dFixture extends Ex1Fixture {
+  extension[A](f: Int => (A, Int)) {
     def next[B](g: A => Int => (B, Int)): Int => (B, Int) =
       i => {
         val (r, i1) = f(i)
@@ -272,10 +273,10 @@ object Ex11dFixture extends Ex11Fixture {
     }
 }
 
-object Ex11eFixture extends Ex11Fixture {
+object Ex1eFixture extends Ex1Fixture {
   type WithCounter[A] = Int => (A, Int)
 
-  extension[A] (f: WithCounter[A]) {
+  extension[A](f: WithCounter[A]) {
     def next[B](g: A => WithCounter[B]): WithCounter[B] =
       i => {
         val (r, i1) = f(i)
@@ -300,11 +301,11 @@ object Ex11eFixture extends Ex11Fixture {
     }
 }
 
-object Ex11fFixture extends Ex11Fixture {
+object Ex1fFixture extends Ex1Fixture {
   // The following type synonym has two type variables — the first one is the state itself, and the second is the value type:
   type State[S, A] = S => (A, S)
 
-  extension[A] (f: State[Int, A]) {
+  extension[A](f: State[Int, A]) {
     def next[B](g: A => State[Int, B]): State[Int, B] =
       i => {
         val (r, i1) = f(i)
