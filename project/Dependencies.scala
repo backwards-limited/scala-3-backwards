@@ -3,31 +3,43 @@ import sbt._
 object Dependencies {
   def apply(): Seq[ModuleID] =
     List(
-      specs2, munit, scalacheck, scalatestContainers, scribe, pprint,
+      specs2, munit, weaver, scalacheck, scalatestContainers, scribe, pprint,
       cats, catsEffect, refined, monocle, shapeless, parserCombinators,
       http4s, fs2, sttp, circe
     ).flatten
 
   lazy val specs2: Seq[ModuleID] = {
     val group = "org.specs2"
-    val version = "5.0.0"
+    val version = "5.0.7"
 
     List(
       "specs2-core", "specs2-scalacheck", "specs2-matcher-extra"
     ).map(group %% _ % version % "test, it" withSources() withJavadoc()) ++ List(
       "specs2-cats"
-    ).map(group %% _ % "4.15.0" % "test, it" withSources() withJavadoc())
+    ).map(group %% _ % "4.17.0" % "test, it" withSources() withJavadoc())
   }
 
-  lazy val munit: Seq[ModuleID] =
-    List("org.scalameta" %% "munit" % "1.0.0-M4" % "test, it" withSources() withJavadoc())
+  lazy val munit: Seq[ModuleID] = {
+    val group = "org.scalameta"
+    val version = "1.0.0-M6"
+
+    List(
+      "munit", "munit-scalacheck"
+    ).map(group %% _ % version % "test, it" withSources() withJavadoc() exclude("org.typelevel", "munit-cats-effect-2_2.13") exclude("org.typelevel", "munit-cats-effect-2")) ++ List(
+      "org.typelevel" %% "discipline-munit" % "2.0.0-M3" % "test, it"
+    )
+  }
+
+  lazy val weaver: Seq[ModuleID] =
+    List("com.disneystreaming" %% "weaver-cats" % "0.8.0" % "test, it" withSources() withJavadoc())
+
 
   lazy val scalacheck: Seq[ModuleID] =
-    List("org.scalacheck" %% "scalacheck" % "1.16.0" % "test, it" withSources() withJavadoc())
+    List("org.scalacheck" %% "scalacheck" % "1.17.0" % "test, it" withSources() withJavadoc())
 
   lazy val scalatestContainers: Seq[ModuleID] = {
     val group = "com.dimafeng"
-    val version = "0.40.8"
+    val version = "0.40.10"
 
     List(
       "testcontainers-scala-munit", "testcontainers-scala-kafka", "testcontainers-scala-mysql", "testcontainers-scala-postgresql"
@@ -35,14 +47,14 @@ object Dependencies {
   }
 
   lazy val scribe: Seq[ModuleID] =
-    List("com.outr" %% "scribe" % "3.8.3" withSources() withJavadoc())
+    List("com.outr" %% "scribe" % "3.10.3" withSources() withJavadoc())
 
   lazy val pprint: Seq[ModuleID] =
-    List("com.lihaoyi" %% "pprint" % "0.7.3")
+    List("com.lihaoyi" %% "pprint" % "0.8.0")
 
   lazy val cats: Seq[ModuleID] = {
     val group = "org.typelevel"
-    val version = "2.7.0"
+    val version = "2.8.0"
 
     List(
       "cats-core", "cats-free"
@@ -50,12 +62,12 @@ object Dependencies {
       "cats-laws", "cats-testkit"
     ).map(group %% _ % version % "test, it" withSources() withJavadoc()) ++ List(
       "cats-mtl"
-    ).map(group %% _ % "1.2.1" withSources() withJavadoc())
+    ).map(group %% _ % "1.3.0" withSources() withJavadoc())
   }
 
   lazy val catsEffect: Seq[ModuleID] = {
     val group = "org.typelevel"
-    val version = "3.3.12"
+    val version = "3.3.14"
 
     List(
       "cats-effect"
@@ -64,7 +76,7 @@ object Dependencies {
 
   lazy val refined: Seq[ModuleID] = {
     val group = "eu.timepit"
-    val version = "0.9.29"
+    val version = "0.10.1"
 
     List(
       "refined", "refined-cats"
@@ -83,14 +95,14 @@ object Dependencies {
   }
 
   lazy val shapeless: Seq[ModuleID] =
-    List("org.typelevel" %% "shapeless3-deriving" % "3.0.1")
+    List("org.typelevel" %% "shapeless3-deriving" % "3.2.0")
 
   lazy val parserCombinators: Seq[ModuleID] =
     List("org.scala-lang.modules" %% "scala-parser-combinators" % "2.1.1")
 
   lazy val http4s: Seq[ModuleID] = {
     val group = "org.http4s"
-    val version = "1.0.0-M33"
+    val version = "1.0.0-M36"
 
     List(
       "http4s-core", "http4s-dsl", "http4s-circe", "http4s-client", "http4s-blaze-client", "http4s-server", "http4s-blaze-server"
@@ -99,7 +111,7 @@ object Dependencies {
 
   lazy val fs2: Seq[ModuleID] = {
     val group = "co.fs2"
-    val version = "3.2.7"
+    val version = "3.3.0"
 
     List(
       "fs2-core", "fs2-io", "fs2-reactive-streams"
@@ -108,7 +120,7 @@ object Dependencies {
 
   lazy val sttp: Seq[ModuleID] = {
     val group = "com.softwaremill.sttp.client3"
-    val version = "3.6.2"
+    val version = "3.8.0"
 
     List(
       "core", "circe", "async-http-client-backend-cats"
