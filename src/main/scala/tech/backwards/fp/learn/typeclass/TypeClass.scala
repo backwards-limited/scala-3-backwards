@@ -5,11 +5,9 @@ trait TypeClass[A] {
 }
 
 object TypeClass extends TypeClassGivens {
-  def apply[A: TypeClass]: TypeClass[A] = implicitly
-
   extension[A: TypeClass](a: A) {
     def foo: String =
-      TypeClass[A].foo(a)
+      summon[TypeClass[A]].foo(a)
   }
 }
 
