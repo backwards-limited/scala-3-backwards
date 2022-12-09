@@ -13,7 +13,7 @@ object Show extends ShowGivens {
   }
 }
 
-trait ShowGivens {
+sealed trait ShowGivens {
   import tech.backwards.fp.learn.typeclass.Show.*
 
   given Show[Int] with {

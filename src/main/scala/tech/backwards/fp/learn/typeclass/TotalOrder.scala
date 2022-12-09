@@ -18,8 +18,8 @@ object TotalOrder extends TotalOrderGivens { self =>
   }
 }
 
-trait TotalOrderGivens {
-  import tech.backwards.fp.learn.typeclass.TotalOrder.syntax._
+sealed trait TotalOrderGivens {
+  import tech.backwards.fp.learn.typeclass.TotalOrder.syntax.*
 
   given TotalOrder[Int] with {
     def less(x: Int, y: Int): Boolean =
@@ -32,8 +32,8 @@ trait TotalOrderGivens {
   }
 
   given [A: TotalOrder]: TotalOrder[List[A]] with {
-    def less(x: List[A], y: List[A]): Boolean =
-      x.zip(y).foldM(false) { case (outcome, (x, y)) =>
+    def less(xs: List[A], ys: List[A]): Boolean =
+      xs.zip(ys).foldM(false) { case (outcome, (x, y)) =>
         Option.unless(x less y)(outcome)
       } getOrElse true
   }

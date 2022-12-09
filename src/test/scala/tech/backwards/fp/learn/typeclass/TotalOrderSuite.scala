@@ -15,7 +15,7 @@ class TotalOrderSuite extends ScalaCheckSuite {
   )
 
   property("Total order Ints with syntax") {
-    import tech.backwards.fp.learn.typeclass.TotalOrder.syntax._
+    import tech.backwards.fp.learn.typeclass.TotalOrder.syntax.*
 
     forAll((x: Int, y: Int) => x < y ==>
       assert(x less y)
@@ -27,7 +27,7 @@ class TotalOrderSuite extends ScalaCheckSuite {
   )
 
   property("Total order Strings with syntax") {
-    import tech.backwards.fp.learn.typeclass.TotalOrder.syntax._
+    import tech.backwards.fp.learn.typeclass.TotalOrder.syntax.*
 
     assert("4" less "5")
   }
@@ -37,7 +37,7 @@ class TotalOrderSuite extends ScalaCheckSuite {
   )
 
   property("Total order List of Int with syntax") {
-    import tech.backwards.fp.learn.typeclass.TotalOrder.syntax._
+    import tech.backwards.fp.learn.typeclass.TotalOrder.syntax.*
 
     assert(List(4, 4, 99) less List(4, 5, 91))
   }

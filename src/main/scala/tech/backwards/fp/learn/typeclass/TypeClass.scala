@@ -11,7 +11,7 @@ object TypeClass extends TypeClassGivens {
   }
 }
 
-trait TypeClassGivens {
+sealed trait TypeClassGivens {
   given TypeClass[Int] with {
     def foo(a: Int): String =
       s"Int: $a"
