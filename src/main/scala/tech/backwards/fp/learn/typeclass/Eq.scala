@@ -37,7 +37,7 @@ sealed trait EqGivens {
       x == y
   }
   
-  given [A: Eq]: Eq[List[A]] with {
+  given[A: Eq]: Eq[List[A]] with {
     def eq(xs: List[A], ys: List[A]): Boolean =
       (xs.length == ys.length) && xs.zip(ys).foldM(true) { case (outcome, (x, y)) =>
         Option.when(x ==== y)(outcome)

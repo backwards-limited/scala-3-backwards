@@ -26,7 +26,7 @@ sealed trait ShowGivens {
       x.toString
   }
 
-  given [A: Show]: Show[List[A]] with {
+  given[A: Show]: Show[List[A]] with {
     def show(xs: List[A]): String =
       xs.map(_.show).mkString("[", ", ", "]")
   }

@@ -37,4 +37,12 @@ sealed trait MonoidGivens {
     def mappend(x: Product, y: Product): Product =
       Product(x.value * y.value)
   }
+  
+  given[A]: Monoid[List[A]] with {
+    lazy val mzero: List[A] =
+      Nil
+
+    def mappend(xs: List[A], ys: List[A]): List[A] =
+      xs ++ ys
+  }
 }
