@@ -9,7 +9,7 @@ enum Maybe[+A] {
 
 sealed trait Maybe[+A]
 
-final case class Just[A](value: A)
+final case class Just[A](value: A) extends Maybe[A]
 
 object Just {
   given Functor[Just] with {
@@ -18,7 +18,7 @@ object Just {
   }
 }
 
-final case class Nothing[A]()
+final case class Nothing[A]() extends Maybe[A]
 
 object Nothing {
   given Functor[Nothing] with {
