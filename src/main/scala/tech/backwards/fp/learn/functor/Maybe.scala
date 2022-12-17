@@ -1,6 +1,7 @@
 package tech.backwards.fp.learn.functor
 
 /*
+TODO - How to migrate Scala 2 (below) to something like:
 enum Maybe[+A] {
   case Just[A](value: A) extends Maybe[A]
   case Nothing[A]() extends Maybe[A]
@@ -21,13 +22,13 @@ object Just {
 final case class Nothing[A]() extends Maybe[A]
 
 object Nothing {
+  def apply[A]: Nothing[A] =
+    new Nothing[A]()
+
   given Functor[Nothing] with {
     def fmap[A, B](fa: Nothing[A])(f: A => B): Nothing[B] =
       apply[B]
   }
-
-  def apply[A]: Nothing[A] =
-    new Nothing[A]()
 }
 
 object Maybe {

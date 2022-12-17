@@ -25,8 +25,8 @@ object Functor extends FunctorGivens {
 }
 
 sealed trait FunctorGivens {
-  given Functor[Id] with {
-    def fmap[A, B](fa: Id[A])(f: A => B): Id[B] =
-      Id(f(fa.value))
+  given Functor[List] with {
+    def fmap[A, B](fa: List[A])(f: A => B): List[B] =
+      fa map f
   }
 }

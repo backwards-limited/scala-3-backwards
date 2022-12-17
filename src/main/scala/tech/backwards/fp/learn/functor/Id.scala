@@ -7,5 +7,10 @@ object Id {
   
   extension[A](id: Id[A]) {
     def value: A = id
-  } 
+  }
+
+  given Functor[Id] with {
+    def fmap[A, B](fa: Id[A])(f: A => B): Id[B] =
+      Id(f(fa.value))
+  }
 }

@@ -4,7 +4,7 @@ import munit.ScalaCheckSuite
 import org.scalacheck.Prop._
 import org.scalacheck.Test
 
-class FunctorSuite extends ScalaCheckSuite {
+class IdFunctorSuite extends ScalaCheckSuite {
   override def scalaCheckTestParameters: Test.Parameters =
     super.scalaCheckTestParameters.withMinSuccessfulTests(100).withMaxDiscardRatio(10)
 
