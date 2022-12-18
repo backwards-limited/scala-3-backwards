@@ -16,10 +16,12 @@ object Functor extends FunctorGivens {
         apply[F].fmap(fa)(f)
     }
     
-    extension[F[_]: Functor, A, B](f: A => B) {
-      @targetName("fmap")
-      def `<$>`(fa: F[A]): F[B] =
-        apply[F].fmap(fa)(f)
+    object function {
+      extension[F[_] : Functor, A, B] (f: A => B) {
+        @targetName("fmap")
+        def `<$>`(fa: F[A]): F[B] =
+          apply[F].fmap(fa)(f)
+      } 
     }
   }
 }

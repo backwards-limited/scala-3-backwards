@@ -30,7 +30,7 @@ class ListFunctorSuite extends ScalaCheckSuite {
   }
 
   property("List Functor fmap of function syntax") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.*
+    import tech.backwards.fp.learn.functor.Functor.syntax.function.*
 
     assertEquals(
       ((x: Int) => x + 1) `<$>` List(1, 2, 3),

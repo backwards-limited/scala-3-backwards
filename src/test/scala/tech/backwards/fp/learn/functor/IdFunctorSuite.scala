@@ -25,7 +25,7 @@ class IdFunctorSuite extends ScalaCheckSuite {
   }
 
   property("Functor fmap of function for Id syntax") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.*
+    import tech.backwards.fp.learn.functor.Functor.syntax.function.*
 
     assertEquals(
       ((x: Int) => x + 1) `<$>` Id(1),

@@ -32,8 +32,14 @@ object Nothing {
 }
 
 object Maybe {
-  /*implicit val functorMaybe: Functor[Maybe] =
-    new Functor[Maybe] {
-      def fmap[A, B](fa: Maybe[A])(f: A => B): Maybe[B] = ???
-    }*/
+  given Functor[Maybe] with {
+    def fmap[A, B](fa: Maybe[A])(f: A => B): Maybe[B] =
+      fa match {
+        case n: Nothing[A] =>
+          Nothing.given_Functor_Nothing.fmap(n)(f)
+
+        case j: Just[A] =>
+          Just.given_Functor_Just.fmap(j)(f)
+      }
+  }
 }
