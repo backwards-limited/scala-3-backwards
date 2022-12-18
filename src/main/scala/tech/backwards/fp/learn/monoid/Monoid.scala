@@ -13,7 +13,7 @@ object Monoid extends MonoidGivens {
     summon[Monoid[A]]
 
   object syntax {
-    extension[A: Monoid](x: A) {
+    extension [A: Monoid](x: A) {
       @targetName("mappend")
       def |+|(y: A): A =
         summon[Monoid[A]].mappend(x, y)
@@ -40,7 +40,7 @@ sealed trait MonoidGivens {
       Product(x.value * y.value)
   }
   
-  given[A]: Monoid[List[A]] with {
+  given [A]: Monoid[List[A]] with {
     lazy val mzero: List[A] =
       Nil
 
@@ -48,7 +48,7 @@ sealed trait MonoidGivens {
       xs ++ ys
   }
 
-  given[A: Monoid, B: Monoid]: Monoid[Pair[A, B]] with {
+  given [A: Monoid, B: Monoid]: Monoid[Pair[A, B]] with {
     lazy val mzero: Pair[A, B] =
       Pair(Monoid[A].mzero, Monoid[B].mzero)
 

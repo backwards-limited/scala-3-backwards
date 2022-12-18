@@ -23,10 +23,10 @@ class DisjunctionFunctorSuite extends ScalaCheckSuite {
       Left[String, Int]("foo")
     )
 
-    /*assertEquals(
+    assertEquals(
       Left[String, Int]("foo") `<$>` (_ + 1),
       Left[String, Int]("foo")
-    )*/
+    )
   }
 
   property("Right Disjunction Functor fmap")(
@@ -44,10 +44,10 @@ class DisjunctionFunctorSuite extends ScalaCheckSuite {
       Right[String, Int](11)
     )
 
-    /*assertEquals(
+    assertEquals(
       Right[String, Int](10) `<$>` (_ + 1),
       Right[String, Int](11)
-    )*/
+    )
   }
 
   property("Disjunction Functor fmap syntax") {
@@ -61,10 +61,10 @@ class DisjunctionFunctorSuite extends ScalaCheckSuite {
       leftDisjunction
     )
 
-    /*assertEquals(
+    assertEquals(
       leftDisjunction `<$>` (_ + 1),
       leftDisjunction
-    )*/
+    )
 
     val rightDisjunction: Disjunction[String, Int] =
       Right[String, Int](10)
@@ -74,19 +74,19 @@ class DisjunctionFunctorSuite extends ScalaCheckSuite {
       Right[String, Int](11)
     )
 
-    /*assertEquals(
+    assertEquals(
       rightDisjunction `<$>` (_ + 1),
       Right[String, Int](11)
-    )*/
+    )
   }
 
   property("Left Disjunction Functor fmap of function syntax") {
     import tech.backwards.fp.learn.functor.Functor.syntax.function.*
 
-    /*assertEquals(
+    assertEquals(
       ((x: Int) => x + 1) fmap Left[String, Int]("foo"),
       Left[String, Int]("foo")
-    )*/
+    )
 
     assertEquals(
       ((x: Int) => x + 1) `<$>` Left[String, Int]("foo"),
@@ -97,10 +97,10 @@ class DisjunctionFunctorSuite extends ScalaCheckSuite {
   property("Right Disjunction Functor fmap of function syntax") {
     import tech.backwards.fp.learn.functor.Functor.syntax.function.*
 
-    /*assertEquals(
+    assertEquals(
       ((x: Int) => x + 1) fmap Right[String, Int](10),
       Right[String, Int](11)
-    )*/
+    )
 
     assertEquals(
       ((x: Int) => x + 1) `<$>` Right[String, Int](10),
@@ -137,7 +137,7 @@ class DisjunctionFunctorSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("Right Disjunction Functor fmap syntax - obey composition") {
+  property("Right Disjunction Functor fmap syntax - obey composition") {
     import tech.backwards.fp.learn.functor.Functor.syntax.*
 
     val f: Int => Int =
@@ -150,5 +150,5 @@ class DisjunctionFunctorSuite extends ScalaCheckSuite {
       Right[String, Int](10) `<$>` f `<$>` g,
       Right[String, Int](10).fmap(f andThen g)
     )
-  }*/
+  }
 }

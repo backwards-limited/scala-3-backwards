@@ -7,7 +7,7 @@ trait Show[A] {
 }
 
 object Show extends ShowGivens {
-  extension[A: Show](x: A) {
+  extension [A: Show](x: A) {
     def show: String =
       summon[Show[A]].show(x)
   }
@@ -26,7 +26,7 @@ sealed trait ShowGivens {
       x.toString
   }
 
-  given[A: Show]: Show[List[A]] with {
+  given [A: Show]: Show[List[A]] with {
     def show(xs: List[A]): String =
       xs.map(_.show).mkString("[", ", ", "]")
   }

@@ -11,7 +11,7 @@ object TotalOrder extends TotalOrderGivens { self =>
     summon[TotalOrder[A]].less(x, y)
 
   object syntax {
-    extension[A: TotalOrder](x: A) {
+    extension [A: TotalOrder](x: A) {
       def less(y: A): Boolean =
         self.less(x, y)
     }
@@ -31,7 +31,7 @@ sealed trait TotalOrderGivens {
       x < y
   }
 
-  given[A: TotalOrder]: TotalOrder[List[A]] with {
+  given [A: TotalOrder]: TotalOrder[List[A]] with {
     def less(xs: List[A], ys: List[A]): Boolean =
       xs.zip(ys).foldM(false) { case (outcome, (x, y)) =>
         Option.unless(x less y)(outcome)

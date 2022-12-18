@@ -11,16 +11,23 @@ object Functor extends FunctorGivens {
     summon[Functor[F]]
 
   object syntax {
-    extension[F[_]: Functor, A](fa: F[A]) {
+    extension [F[_]: Functor, A](fa: F[A]) {
       def fmap[B](f: A => B): F[B] =
         apply[F].fmap(fa)(f)
+
+      @targetName("map")
+      def `<$>`[B](f: A => B): F[B] =
+        fmap(f)
     }
     
     object function {
-      extension[F[_] : Functor, A, B] (f: A => B) {
-        @targetName("fmap")
-        def `<$>`(fa: F[A]): F[B] =
+      extension [F[_]: Functor, A, B] (f: A => B) {
+        def fmap(fa: F[A]): F[B] =
           apply[F].fmap(fa)(f)
+
+        @targetName("map")
+        def `<$>`(fa: F[A]): F[B] =
+          fmap(fa)
       } 
     }
   }

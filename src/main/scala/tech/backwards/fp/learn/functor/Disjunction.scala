@@ -1,5 +1,7 @@
 package tech.backwards.fp.learn.functor
 
+import scala.language.experimental.erasedDefinitions
+
 sealed trait Disjunction[+L, +R]
 
 final case class Left[L, R](value: L) extends Disjunction[L, R]
@@ -21,13 +23,13 @@ object Right {
 }
 
 object Disjunction {
-  given[L]: Functor[[A] =>> Disjunction[L, A]] with {
+  given [L]: Functor[[A] =>> Disjunction[L, A]] with {
     def fmap[A, B](fa: Disjunction[L, A])(f: A => B): Disjunction[L, B] =
       fa match {
-        case l: Left[L, A] =>
+        case l @ Left(_) =>
           Left.functorLeft.fmap(l)(f)
 
-        case r: Right[L, A] =>
+        case r @ Right(_) =>
           Right.functorRight.fmap(r)(f)
       }
   }
