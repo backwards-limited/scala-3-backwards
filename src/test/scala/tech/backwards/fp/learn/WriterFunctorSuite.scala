@@ -1,8 +1,8 @@
-package tech.backwards.fp.learn.functor
+package tech.backwards.fp.learn
 
 import cats.implicits.toShow
 import munit.ScalaCheckSuite
-import tech.backwards.fp.learn.functor.Writer.tell
+import tech.backwards.fp.learn.Writer.tell
 import tech.backwards.io.Console.syntax.*
 import org.scalacheck.Prop.*
 import org.scalacheck.Test
@@ -24,7 +24,7 @@ class WriterFunctorSuite extends ScalaCheckSuite {
   }
 
   property("Writer Functor fmap syntax") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.*
+    import tech.backwards.fp.learn.Functor.syntax.*
 
     assertEquals(
       Writer(() => "foo" -> 10).fmap(_ + 1).run(),
@@ -33,7 +33,7 @@ class WriterFunctorSuite extends ScalaCheckSuite {
   }
 
   property("Writer Functor fmap of arbitrary syntax") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.*
+    import tech.backwards.fp.learn.Functor.syntax.*
 
     forAll((x: Int) =>
       assertEquals(
@@ -44,7 +44,7 @@ class WriterFunctorSuite extends ScalaCheckSuite {
   }
 
   property("Writer Functor fmap of function syntax") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.function.*
+    import tech.backwards.fp.learn.Functor.syntax.function.*
 
     assertEquals(
       ((x: Int) => x + 1).fmap(Writer(() => "foo" -> 10)).run(),
@@ -53,7 +53,7 @@ class WriterFunctorSuite extends ScalaCheckSuite {
   }
 
   property("Writer Functor fmap - obey identity") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.*
+    import tech.backwards.fp.learn.Functor.syntax.*
 
     assertEquals(
       Writer(() => "foo" -> 10).fmap(identity).run(),
@@ -74,7 +74,7 @@ class WriterFunctorSuite extends ScalaCheckSuite {
   }
 
   property("Writer Functor fmap syntax - obey composition") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.*
+    import tech.backwards.fp.learn.Functor.syntax.*
 
     val f: Int => Int =
       _ + 2

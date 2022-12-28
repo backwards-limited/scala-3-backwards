@@ -1,4 +1,4 @@
-package tech.backwards.fp.learn.typeclass
+package tech.backwards.fp.learn
 
 import munit.ScalaCheckSuite
 import org.scalacheck.Test
@@ -13,7 +13,7 @@ class EqSuite extends ScalaCheckSuite {
   }
 
   property("Eq of Ints with syntax") {
-    import tech.backwards.fp.learn.typeclass.Eq.syntax.*
+    import tech.backwards.fp.learn.Eq.syntax.*
 
     assert(1 ==== 1)
     assert(1 !=== 2)
@@ -25,7 +25,7 @@ class EqSuite extends ScalaCheckSuite {
   }
 
   property("Eq of Strings with syntax") {
-    import tech.backwards.fp.learn.typeclass.Eq.syntax.*
+    import tech.backwards.fp.learn.Eq.syntax.*
 
     assert("asd" ==== "asd")
     assert("dsa"!=== "qwerty")
@@ -39,7 +39,7 @@ class EqSuite extends ScalaCheckSuite {
   }
 
   property("Eq of List of Int with syntax") {
-    import tech.backwards.fp.learn.typeclass.Eq.syntax.*
+    import tech.backwards.fp.learn.Eq.syntax.*
 
     assert(List(1, 2, 3) ==== List(1, 2, 3))
     assert(List(1, 2, 3) !=== List(3, 4, 5))
@@ -53,7 +53,7 @@ class EqSuite extends ScalaCheckSuite {
   }
 
   property("Eq of List of String with syntax") {
-    import tech.backwards.fp.learn.typeclass.Eq.syntax.*
+    import tech.backwards.fp.learn.Eq.syntax.*
 
     assert(List("aa", "bbb", "ccc") ==== List("aa", "bbb", "ccc"))
     assert(List("aa", "bbb", "ccc") !=== List("a", "bb", "cc"))
@@ -62,7 +62,7 @@ class EqSuite extends ScalaCheckSuite {
   property("Eq of different types should not compile")(
     assertNoDiff(
       compileErrors("""Eq.eq("asd", 5)"""),
-      """|error: No given instance of type tech.backwards.fp.learn.typeclass.Eq[Matchable] was found for an implicit parameter of method eq in object Eq
+      """|error: No given instance of type tech.backwards.fp.learn.Eq[Matchable] was found for an implicit parameter of method eq in object Eq
          |Eq.eq("asd", 5)
          |              ^
          |""".stripMargin.stripLineEnd

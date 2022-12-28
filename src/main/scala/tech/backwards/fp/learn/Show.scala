@@ -1,4 +1,4 @@
-package tech.backwards.fp.learn.typeclass
+package tech.backwards.fp.learn
 
 import cats.implicits._
 
@@ -14,7 +14,7 @@ object Show extends ShowGivens {
 }
 
 sealed trait ShowGivens {
-  import tech.backwards.fp.learn.typeclass.Show.*
+  import tech.backwards.fp.learn.Show.*
 
   given Show[Int] with {
     def show(x: Int): String =

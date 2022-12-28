@@ -1,4 +1,4 @@
-package tech.backwards.fp.learn.typeclass
+package tech.backwards.fp.learn
 
 import scala.annotation.targetName
 import cats.implicits.*
@@ -25,7 +25,7 @@ object Eq extends EqGivens { self =>
 }
 
 sealed trait EqGivens {
-  import tech.backwards.fp.learn.typeclass.Eq.syntax.*
+  import tech.backwards.fp.learn.Eq.syntax.*
 
   given Eq[Int] with {
     def eq(x: Int, y: Int): Boolean =

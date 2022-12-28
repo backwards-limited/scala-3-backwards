@@ -1,4 +1,4 @@
-package tech.backwards.fp.learn.functor
+package tech.backwards.fp.learn
 
 /*
 TODO - How to migrate Scala 2 (below) to something like:
@@ -35,10 +35,10 @@ object Maybe {
   given Functor[Maybe] with {
     def fmap[A, B](fa: Maybe[A])(f: A => B): Maybe[B] =
       fa match {
-        case n: Nothing[A] =>
+        case n @ Nothing() =>
           Nothing.given_Functor_Nothing.fmap(n)(f)
 
-        case j: Just[A] =>
+        case j @ Just(_) =>
           Just.given_Functor_Just.fmap(j)(f)
       }
   }

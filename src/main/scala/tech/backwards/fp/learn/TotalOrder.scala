@@ -1,4 +1,4 @@
-package tech.backwards.fp.learn.typeclass
+package tech.backwards.fp.learn
 
 import cats.implicits._
 
@@ -19,7 +19,7 @@ object TotalOrder extends TotalOrderGivens { self =>
 }
 
 sealed trait TotalOrderGivens {
-  import tech.backwards.fp.learn.typeclass.TotalOrder.syntax.*
+  import tech.backwards.fp.learn.TotalOrder.syntax.*
 
   given TotalOrder[Int] with {
     def less(x: Int, y: Int): Boolean =

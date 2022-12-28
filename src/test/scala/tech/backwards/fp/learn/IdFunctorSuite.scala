@@ -1,4 +1,4 @@
-package tech.backwards.fp.learn.functor
+package tech.backwards.fp.learn
 
 import munit.ScalaCheckSuite
 import org.scalacheck.Prop._
@@ -16,7 +16,7 @@ class IdFunctorSuite extends ScalaCheckSuite {
   )
 
   property("Functor fmap of Id syntax") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.*
+    import tech.backwards.fp.learn.Functor.syntax.*
 
     assertEquals(
       Id(1).fmap(_ + 1),
@@ -25,7 +25,7 @@ class IdFunctorSuite extends ScalaCheckSuite {
   }
 
   property("Functor fmap of function for Id syntax") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.function.*
+    import tech.backwards.fp.learn.Functor.syntax.function.*
 
     assertEquals(
       ((x: Int) => x + 1) `<$>` Id(1),
@@ -34,7 +34,7 @@ class IdFunctorSuite extends ScalaCheckSuite {
   }
 
   property("Functor fmap of arbitrary Id syntax") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.*
+    import tech.backwards.fp.learn.Functor.syntax.*
 
     forAll((x: Int) =>
       assertEquals(
@@ -45,7 +45,7 @@ class IdFunctorSuite extends ScalaCheckSuite {
   }
 
   property("Functor fmap of Id syntax - obey identity") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.*
+    import tech.backwards.fp.learn.Functor.syntax.*
 
     assertEquals(
       Id(1) fmap identity,
@@ -54,7 +54,7 @@ class IdFunctorSuite extends ScalaCheckSuite {
   }
 
   property("Functor fmap of Id syntax - obey composition") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.*
+    import tech.backwards.fp.learn.Functor.syntax.*
 
     val f: Int => Int =
       _ + 1

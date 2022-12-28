@@ -1,4 +1,4 @@
-package tech.backwards.fp.learn.functor
+package tech.backwards.fp.learn
 
 import munit.ScalaCheckSuite
 import org.scalacheck.Prop._
@@ -16,7 +16,7 @@ class MaybeFunctorSuite extends ScalaCheckSuite {
   )
 
   property("Just Functor fmap syntax") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.*
+    import tech.backwards.fp.learn.Functor.syntax.*
 
     assertEquals(
       Just(1).fmap(_ + 1),
@@ -25,7 +25,7 @@ class MaybeFunctorSuite extends ScalaCheckSuite {
   }
 
   property("Just Functor fmap of function syntax") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.function.*
+    import tech.backwards.fp.learn.Functor.syntax.function.*
 
     assertEquals(
       ((x: Int) => x + 1) `<$>` Just(1),
@@ -34,7 +34,7 @@ class MaybeFunctorSuite extends ScalaCheckSuite {
   }
 
   property("Just Functor fmap of arbitrary syntax") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.*
+    import tech.backwards.fp.learn.Functor.syntax.*
 
     forAll((x: Int) =>
       assertEquals(
@@ -52,7 +52,7 @@ class MaybeFunctorSuite extends ScalaCheckSuite {
   )
 
   property("Nothing Functor fmap syntax") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.*
+    import tech.backwards.fp.learn.Functor.syntax.*
 
     assertEquals(
       Nothing[Int].fmap(_ + 1),
@@ -61,7 +61,7 @@ class MaybeFunctorSuite extends ScalaCheckSuite {
   }
 
   property("Nothing Functor fmap of function syntax") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.function.*
+    import tech.backwards.fp.learn.Functor.syntax.function.*
 
     assertEquals(
       ((x: Int) => x + 1) `<$>` Nothing[Int],
@@ -70,7 +70,7 @@ class MaybeFunctorSuite extends ScalaCheckSuite {
   }
 
   property("Maybe Functor fmap - obey identity") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.*
+    import tech.backwards.fp.learn.Functor.syntax.*
 
     assertEquals(
       Just(1) fmap identity,
@@ -79,7 +79,7 @@ class MaybeFunctorSuite extends ScalaCheckSuite {
   }
 
   property("Maybe Functor fmap syntax - obey composition") {
-    import tech.backwards.fp.learn.functor.Functor.syntax.*
+    import tech.backwards.fp.learn.Functor.syntax.*
 
     val f: Int => Int =
       _ + 2

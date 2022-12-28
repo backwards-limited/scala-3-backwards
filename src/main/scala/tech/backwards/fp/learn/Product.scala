@@ -1,4 +1,4 @@
-package tech.backwards.fp.learn.monoid
+package tech.backwards.fp.learn
 
 opaque type Product = Int
 

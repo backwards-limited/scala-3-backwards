@@ -1,4 +1,4 @@
-package tech.backwards.fp.learn.monoid
+package tech.backwards.fp.learn
 
 import scala.annotation.targetName
 
@@ -22,7 +22,7 @@ object Monoid extends MonoidGivens {
 }
 
 sealed trait MonoidGivens {
-  import tech.backwards.fp.learn.monoid.Monoid.syntax.*
+  import tech.backwards.fp.learn.Monoid.syntax.*
 
   given Monoid[Sum] with {
     lazy val mzero: Sum =
