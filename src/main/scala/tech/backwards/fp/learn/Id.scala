@@ -13,4 +13,27 @@ object Id {
     def fmap[A, B](fa: Id[A])(f: A => B): Id[B] =
       Id(f(fa.value))
   }
+
+  given Monad[Id] with {
+    def pure[A](a: A): Id[A] =
+      Id(a)
+
+    def flatMap[A, B](fa: Id[A])(f: A => Id[B]): Id[B] =
+      f(fa.value)
+  }
 }
+
+
+
+/*
+
+implicit val monadId: Monad[Id] =
+  new Monad[Id] {
+    def pure[A](a: A): Id[A] =
+      Id(a)
+
+    def flatMap[A, B](fa: Id[A])(f: A => Id[B]): Id[B] =
+      f(fa.value)
+  }
+
+*/
