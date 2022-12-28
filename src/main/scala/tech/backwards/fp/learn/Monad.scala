@@ -21,5 +21,16 @@ object Monad {
       def >>=[B](f: A => F[B]): F[B] =
         flatMap(f)
     }
+    
+    object function {
+      extension [F[_]: Monad, A, B](f: A => F[B]) {
+        def flatMap(fa: F[A]): F[B] =
+          apply[F].flatMap(fa)(f)
+          
+        @targetName("bind")
+        def >>=(fa: F[A]): F[B] =
+          flatMap(fa)
+      }
+    }
   }
 }
