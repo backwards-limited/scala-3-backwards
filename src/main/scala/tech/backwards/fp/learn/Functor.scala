@@ -15,18 +15,24 @@ object Functor extends FunctorGivens {
       def fmap[B](f: A => B): F[B] =
         apply[F].fmap(fa)(f)
 
-      @targetName("map")
-      def `<$>`[B](f: A => B): F[B] =
+      def map[B](f: A => B): F[B] =
+        fmap(f)
+
+      @targetName("infixMap")
+      infix def `<$>`[B](f: A => B): F[B] =
         fmap(f)
     }
     
     object function {
-      extension [F[_]: Functor, A, B] (f: A => B) {
+      extension [F[_]: Functor, A, B](f: A => B) {
         def fmap(fa: F[A]): F[B] =
           apply[F].fmap(fa)(f)
 
-        @targetName("map")
-        def `<$>`(fa: F[A]): F[B] =
+        def map(fa: F[A]): F[B] =
+          fmap(fa)
+
+        @targetName("infixMap")
+        infix def `<$>`(fa: F[A]): F[B] =
           fmap(fa)
       } 
     }

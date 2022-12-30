@@ -12,14 +12,10 @@ object Monad {
   def apply[F[_]: Monad]: Monad[F] =
     summon[Monad[F]]
   
-  object syntax {
-    extension [F[_]: Monad, A](fa: F[A]) {
-      def flatMap[B](f: A => F[B]): F[B] =
-        apply[F].flatMap(fa)(f)
-
-      @targetName("bind")
-      def >>=[B](f: A => F[B]): F[B] =
-        flatMap(f)
+  object syntax extends LowerLevelExtensions {
+    extension [A](a: A) {
+      def pure[F[_]: Monad]: F[A] =
+        apply[F].pure(a)
     }
     
     object function {
@@ -32,5 +28,16 @@ object Monad {
           flatMap(fa)
       }
     }
+  }
+  
+  trait LowerLevelExtensions {
+    extension [F[_]: Monad, A](fa: F[A]) {
+      def flatMap[B](f: A => F[B]): F[B] =
+        apply[F].flatMap(fa)(f)
+
+      @targetName("bind")
+      def >>=[B](f: A => F[B]): F[B] =
+        flatMap(f)
+    }  
   }
 }

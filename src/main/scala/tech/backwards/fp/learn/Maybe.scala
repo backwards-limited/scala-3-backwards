@@ -10,36 +10,43 @@ enum Maybe[+A] {
 
 sealed trait Maybe[+A]
 
-final case class Just[A](value: A) extends Maybe[A]
+final case class Just[A] private(value: A) extends Maybe[A]
 
 object Just {
-  given Functor[Just] with {
-    def fmap[A, B](fa: Just[A])(f: A => B): Just[B] =
-      Just(f(fa.value))
-  }
+  def apply[A](a: A): Maybe[A] =
+    new Just(a)
 }
 
-final case class Nothing[A]() extends Maybe[A]
+final case class Nothing[A] private() extends Maybe[A]
 
 object Nothing {
-  def apply[A]: Nothing[A] =
+  def apply[A]: Maybe[A] =
     new Nothing[A]()
-
-  given Functor[Nothing] with {
-    def fmap[A, B](fa: Nothing[A])(f: A => B): Nothing[B] =
-      apply[B]
-  }
 }
 
 object Maybe {
   given Functor[Maybe] with {
     def fmap[A, B](fa: Maybe[A])(f: A => B): Maybe[B] =
       fa match {
-        case n @ Nothing() =>
-          Nothing.given_Functor_Nothing.fmap(n)(f)
+        case Nothing() =>
+          Nothing[B]
 
-        case j @ Just(_) =>
-          Just.given_Functor_Just.fmap(j)(f)
+        case Just(a) =>
+          Just(f(a))
       }
+  }
+  
+  given Monad[Maybe] with {
+    def pure[A](a: A): Maybe[A] =
+      Just(a)
+
+    def flatMap[A, B](fa: Maybe[A])(f: A => Maybe[B]): Maybe[B] =
+      fa match {
+        case Nothing() =>
+          Nothing[B]
+
+        case Just(a) =>
+          f(a)
+      }  
   }
 }

@@ -10,7 +10,7 @@ class MaybeFunctorSuite extends ScalaCheckSuite {
 
   property("Just Functor fmap")(
     assertEquals(
-      Functor[Just].fmap(Just(1))(_ + 1),
+      Functor[Maybe].fmap(Just(1))(_ + 1),
       Just(2)
     )
   )
@@ -22,10 +22,20 @@ class MaybeFunctorSuite extends ScalaCheckSuite {
       Just(1).fmap(_ + 1),
       Just(2)
     )
+
+    assertEquals(
+      Just(1) `<$>` (_ + 1),
+      Just(2)
+    )
   }
 
   property("Just Functor fmap of function syntax") {
     import tech.backwards.fp.learn.Functor.syntax.function.*
+
+    assertEquals(
+      ((x: Int) => x + 1) fmap Just(1),
+      Just(2)
+    )
 
     assertEquals(
       ((x: Int) => x + 1) `<$>` Just(1),
@@ -46,7 +56,7 @@ class MaybeFunctorSuite extends ScalaCheckSuite {
 
   property("Nothing Functor fmap")(
     assertEquals(
-      Functor[Nothing].fmap(Nothing[Int])(_ + 1),
+      Functor[Maybe].fmap(Nothing[Int])(_ + 1),
       Nothing[Int]
     )
   )
@@ -58,10 +68,20 @@ class MaybeFunctorSuite extends ScalaCheckSuite {
       Nothing[Int].fmap(_ + 1),
       Nothing[Int]
     )
+
+    assertEquals(
+      Nothing[Int] `<$>` (_ + 1),
+      Nothing[Int]
+    )
   }
 
   property("Nothing Functor fmap of function syntax") {
     import tech.backwards.fp.learn.Functor.syntax.function.*
+
+    assertEquals(
+      ((x: Int) => x + 1) fmap Nothing[Int],
+      Nothing[Int]
+    )
 
     assertEquals(
       ((x: Int) => x + 1) `<$>` Nothing[Int],
@@ -75,6 +95,11 @@ class MaybeFunctorSuite extends ScalaCheckSuite {
     assertEquals(
       Just(1) fmap identity,
       Just(1)
+    )
+
+    assertEquals(
+      Nothing[Int] `<$>` identity,
+      Nothing[Int]
     )
   }
 
@@ -93,7 +118,7 @@ class MaybeFunctorSuite extends ScalaCheckSuite {
     )
 
     assertEquals(
-      Nothing[Int] fmap f fmap g,
+      Nothing[Int] `<$>` f `<$>` g,
       Nothing[Int].fmap(f andThen g)
     )
   }
