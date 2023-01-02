@@ -4,33 +4,29 @@ import scala.language.experimental.erasedDefinitions
 
 sealed trait Disjunction[+L, +R]
 
-final case class Left[L, R](value: L) extends Disjunction[L, R]
+final case class Left[L, R] private(value: L) extends Disjunction[L, R]
 
 object Left {
-  given functorLeft[L]: Functor[[A] =>> Left[L, A]] with {
-    def fmap[A, B](fa: Left[L, A])(f: A => B): Left[L, B] =
-      Left(fa.value)
-  }
+  def apply[L, R](l: L): Disjunction[L, R] =
+    new Left(l)
 }
 
-final case class Right[L, R](value: R) extends Disjunction[L, R]
+final case class Right[L, R] private(value: R) extends Disjunction[L, R]
 
 object Right {
-  given functorRight[L]: Functor[[A] =>> Right[L, A]] with {
-    def fmap[A, B](fa: Right[L, A])(f: A => B): Right[L, B] =
-      Right(f(fa.value))
-  }
+  def apply[L, R](r: R): Disjunction[L, R] =
+    new Right(r)
 }
 
 object Disjunction {
   given [L]: Functor[[A] =>> Disjunction[L, A]] with {
     def fmap[A, B](fa: Disjunction[L, A])(f: A => B): Disjunction[L, B] =
       fa match {
-        case l @ Left(_) =>
-          Left.functorLeft.fmap(l)(f)
+        case Left(l) =>
+          Left(l)
 
-        case r @ Right(_) =>
-          Right.functorRight.fmap(r)(f)
+        case Right(a) =>
+          Right(f(a))
       }
   }
 }
