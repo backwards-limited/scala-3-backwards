@@ -1,7 +1,5 @@
 package tech.backwards.fp.learn
 
-import scala.language.experimental.erasedDefinitions
-
 sealed trait Disjunction[+L, +R]
 
 final case class Left[L, R] private(value: L) extends Disjunction[L, R]
@@ -27,6 +25,20 @@ object Disjunction {
 
         case Right(a) =>
           Right(f(a))
+      }
+  }
+
+  given [L]: Monad[[A] =>> Disjunction[L, A]] with {
+    def pure[A](a: A): Disjunction[L, A] =
+      Right(a)
+
+    def flatMap[A, B](fa: Disjunction[L, A])(f: A => Disjunction[L, B]): Disjunction[L, B] =
+      fa match {
+        case Left(l) =>
+          Left(l)
+
+        case Right(a) =>
+          f(a)
       }
   }
 }
