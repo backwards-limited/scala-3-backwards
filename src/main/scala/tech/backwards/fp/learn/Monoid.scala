@@ -23,6 +23,14 @@ object Monoid extends MonoidGivens {
 
 sealed trait MonoidGivens {
   import tech.backwards.fp.learn.Monoid.syntax.*
+  
+  given Monoid[String] with {
+    lazy val mzero: String =
+      ""
+
+    def mappend(x: String, y: String): String =
+      x + y
+  }
 
   given Monoid[Sum] with {
     lazy val mzero: Sum =

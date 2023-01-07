@@ -138,8 +138,8 @@ class DisjunctionMonadSuite extends ScalaCheckSuite {
     assertEquals(
       for {
         x <- 1.pure[Disjunction]
-        y <- Left[String, Int]("foo")
-        z <- 3.pure[Disjunction]
+        y <- 2.pure[Disjunction]
+        z <- Left[String, Int]("foo")
       } yield x + y + z,
       Left("foo")
     )
