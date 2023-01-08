@@ -24,7 +24,7 @@ object Writer {
       tell[W].as(a)
 
     def flatMap[A, B](fa: Writer[W, A])(f: A => Writer[W, B]): Writer[W, B] = {
-      val (w, a) = fa.run()
+      val (w, a)  = fa.run()
       val (w2, b) = f(a).run()
 
       tell(w |+| w2).as(b)

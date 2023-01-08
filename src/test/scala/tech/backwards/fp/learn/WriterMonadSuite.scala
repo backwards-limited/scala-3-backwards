@@ -31,7 +31,7 @@ class WriterMonadSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("Writer Monad flatMap syntax") {
+  property("Writer Monad flatMap syntax") {
     import tech.backwards.fp.learn.Monad.syntax.*
 
     assertEquals(
@@ -43,29 +43,29 @@ class WriterMonadSuite extends ScalaCheckSuite {
       Writer(() => List("foo") -> 10).flatMap(x => Writer(() => List("bar") -> (x + 1))).run(),
       List("foo", "bar") -> 11
     )
-  }*/
+  }
 
-  /*property("Writer Monad pure and flatMap syntax") {
+  property("Writer Monad pure and flatMap syntax") {
     import tech.backwards.fp.learn.Functor.syntax.*
     import tech.backwards.fp.learn.Monad.syntax.*
 
     assertEquals(
-      5.pure[Writer[String, *]].flatMap(x => tell[String].as(x + 1)).run(),
+      5.pure[[A] =>> Writer[String, A]].flatMap(x => tell[String].as(x + 1)).run(),
       Monoid[String].mzero -> 6
     )
-  }*/
+  }
 
-  /*property("Writer for comprehension syntax") {
+  property("Writer for comprehension syntax") {
     import tech.backwards.fp.learn.Functor.syntax.*
     import tech.backwards.fp.learn.Monad.syntax.*
 
     val writer: Writer[List[String], Int] =
       for {
-        x <- 1.pure[Writer[List[String], *]]
+        x <- 1.pure[[A] =>> Writer[List[String], A]]
         _ <- tell(List("one"))
-        y <- 2.pure[Writer[List[String], *]]
+        y <- 2.pure[[A] =>> Writer[List[String], A]]
         _ <- tell(List("two"))
-        z <- 3.pure[Writer[List[String], *]]
+        z <- 3.pure[[A] =>> Writer[List[String], A]]
         _ <- tell(List("three"))
       } yield x + y + z
 
@@ -73,9 +73,9 @@ class WriterMonadSuite extends ScalaCheckSuite {
       writer.run(),
       List("one", "two", "three") -> 6
     )
-  }*/
+  }
 
-  /*property("Writer for comprehension syntax") {
+  property("Writer for comprehension syntax") {
     import tech.backwards.fp.learn.Functor.syntax.*
     import tech.backwards.fp.learn.Monad.syntax.*
 
@@ -95,25 +95,25 @@ class WriterMonadSuite extends ScalaCheckSuite {
       writer.run(),
       List("one", "two", "three") -> 6
     )
-  }*/
+  }
 
-  /*property("Writer Monad flatMap of arbitrary syntax") {
+  property("Writer Monad flatMap of arbitrary syntax") {
     import tech.backwards.fp.learn.Monad.syntax.*
 
     forAll((x: Int) =>
       assertEquals(
         Writer(() => "foo" -> x).flatMap(x => Writer(() => "bar" -> (x + 1))).run(),
-        ("foobar" -> (x + 1))
+        "foobar" -> (x + 1)
       )
     )
-  }*/
+  }
 
-  /*property("Writer Monad flatMap of function syntax") {
+  property("Writer Monad flatMap of function syntax") {
     import tech.backwards.fp.learn.Monad.syntax.function.*
 
     assertEquals(
-      { x: Int => Writer(() => "bar" -> (x + 1)) }.flatMap(Writer(() => "foo" -> 5)).run(),
+      ((x: Int) => Writer(() => "bar" -> (x + 1))).flatMap(Writer(() => "foo" -> 5)).run(),
       "foobar" -> 6
     )
-  }*/
+  }
 }
