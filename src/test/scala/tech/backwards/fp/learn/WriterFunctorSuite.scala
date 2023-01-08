@@ -2,7 +2,7 @@ package tech.backwards.fp.learn
 
 import cats.implicits.toShow
 import munit.ScalaCheckSuite
-import tech.backwards.fp.learn.Writer.tell
+import tech.backwards.fp.learn.Writer._
 import tech.backwards.io.Console.syntax.*
 import org.scalacheck.Prop.*
 import org.scalacheck.Test

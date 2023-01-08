@@ -1,7 +1,7 @@
 package tech.backwards.fp.learn
 
 import munit.ScalaCheckSuite
-import tech.backwards.fp.learn.Writer.tell
+import tech.backwards.fp.learn.Writer._
 import tech.backwards.io.Console.syntax.*
 import org.scalacheck.Prop.*
 import org.scalacheck.Test
@@ -26,7 +26,7 @@ class WriterMonadSuite extends ScalaCheckSuite {
     import tech.backwards.fp.learn.Functor.syntax.*
 
     assertEquals(
-      Monad[[A] =>> Writer[String, A]].flatMap(tell[String].as(5))(x => tell[String].as(x + 1)).run(),
+      Monad[[A] =>> Writer[String, A]].flatMap(writer[String].as(5))(x => writer[String].as(x + 1)).run(),
       Monoid[String].mzero -> 6
     )
   }
@@ -50,7 +50,7 @@ class WriterMonadSuite extends ScalaCheckSuite {
     import tech.backwards.fp.learn.Monad.syntax.*
 
     assertEquals(
-      5.pure[[A] =>> Writer[String, A]].flatMap(x => tell[String].as(x + 1)).run(),
+      5.pure[[A] =>> Writer[String, A]].flatMap(x => writer[String].as(x + 1)).run(),
       Monoid[String].mzero -> 6
     )
   }
@@ -59,40 +59,18 @@ class WriterMonadSuite extends ScalaCheckSuite {
     import tech.backwards.fp.learn.Functor.syntax.*
     import tech.backwards.fp.learn.Monad.syntax.*
 
-    val writer: Writer[List[String], Int] =
+    val program: Writer[List[String], Int] =
       for {
-        x <- 1.pure[[A] =>> Writer[List[String], A]]
+        x <- writer[List[String]].as(1)
         _ <- tell(List("one"))
-        y <- 2.pure[[A] =>> Writer[List[String], A]]
+        y <- writer[List[String]].as(2)
         _ <- tell(List("two"))
-        z <- 3.pure[[A] =>> Writer[List[String], A]]
+        z <- writer[List[String]].as(3)
         _ <- tell(List("three"))
       } yield x + y + z
 
     assertEquals(
-      writer.run(),
-      List("one", "two", "three") -> 6
-    )
-  }
-
-  property("Writer for comprehension syntax") {
-    import tech.backwards.fp.learn.Functor.syntax.*
-    import tech.backwards.fp.learn.Monad.syntax.*
-
-    type Writer[A] = tech.backwards.fp.learn.Writer[List[String], A]
-
-    val writer: Writer[Int] =
-      for {
-        x <- 1.pure[Writer]
-        _ <- tell(List("one"))
-        y <- 2.pure[Writer]
-        _ <- tell(List("two"))
-        z <- 3.pure[Writer]
-        _ <- tell(List("three"))
-      } yield x + y + z
-
-    assertEquals(
-      writer.run(),
+      program.run(),
       List("one", "two", "three") -> 6
     )
   }
