@@ -25,4 +25,15 @@ object State {
         ss -> f(a)
       )
   }
+
+  given [S]: Monad[[A] =>> State[S, A]] with {
+    def pure[A](a: A): State[S, A] =
+      State(_ -> a)
+
+    def flatMap[A, B](fa: State[S, A])(f: A => State[S, B]): State[S, B] =
+      State(s =>
+        val (ss, a) = fa.run(s)
+        f(a).run(ss)
+      )
+  }
 }
