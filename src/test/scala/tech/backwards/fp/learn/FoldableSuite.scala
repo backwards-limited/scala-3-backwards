@@ -69,7 +69,7 @@ class FoldableSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("Maybe Foldable") {
+  property("Maybe Foldable") {
     assertEquals(
       Foldable[Maybe].foldr(Just("a"))("seed")((a, b) => s"$b-$a"),
       "seed-a"
@@ -91,16 +91,16 @@ class FoldableSuite extends ScalaCheckSuite {
       Nothing[String].foldr("seed")((a, b) => s"$b-$a"),
       "seed"
     )
-  }*/
+  }
 
-  /*property("Disjunction Foldable") {
+  property("Disjunction Foldable") {
     assertEquals(
-      Foldable[Disjunction[String, *]].foldr(Right("a"))("seed")((a, b) => s"$b-$a"),
+      Foldable[[A] =>> Disjunction[String, A]].foldr(Right("a"))("seed")((a, b) => s"$b-$a"),
       "seed-a"
     )
 
     assertEquals(
-      Foldable[Disjunction[String, *]].foldr(Left[String, String]("whoops"))("seed")((a, b) => s"$b-$a"),
+      Foldable[[A] =>> Disjunction[String, A]].foldr(Left[String, String]("whoops"))("seed")((a, b) => s"$b-$a"),
       "seed"
     )
 
@@ -115,5 +115,5 @@ class FoldableSuite extends ScalaCheckSuite {
       Nothing[String].foldr("seed")((a, b) => s"$b-$a"),
       "seed"
     )
-  }*/
+  }
 }

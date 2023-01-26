@@ -49,4 +49,15 @@ object Maybe {
           f(a)
       }  
   }
+  
+  given Foldable[Maybe] with {
+    def foldr[A, B](fa: Maybe[A])(seed: B)(f: (A, B) => B): B =
+      fa match {
+        case Nothing() =>
+          seed
+
+        case Just(a) =>
+          f(a, seed)
+      }
+  }
 }

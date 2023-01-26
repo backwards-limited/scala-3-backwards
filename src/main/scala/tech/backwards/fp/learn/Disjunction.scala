@@ -41,4 +41,15 @@ object Disjunction {
           f(a)
       }
   }
+  
+  given [L]: Foldable[[A] =>> Disjunction[L, A]] with {
+    def foldr[A, B](fa: Disjunction[L, A])(seed: B)(f: (A, B) => B): B =
+      fa match {
+        case Left(_) =>
+          seed
+
+        case Right(a) =>
+          f(a, seed)
+      }
+  }
 }
