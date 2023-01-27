@@ -18,7 +18,7 @@ object Functor extends FunctorGivens {
       def map[B](f: A => B): F[B] =
         fmap(f)
 
-      @targetName("infixMap")
+      @targetName("`map`")
       infix def `<$>`[B](f: A => B): F[B] =
         fmap(f)
 
@@ -34,7 +34,7 @@ object Functor extends FunctorGivens {
         def map(fa: F[A]): F[B] =
           fmap(fa)
 
-        @targetName("infixMap")
+        @targetName("`map`")
         infix def `<$>`(fa: F[A]): F[B] =
           fmap(fa)
       } 

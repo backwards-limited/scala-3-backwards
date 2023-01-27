@@ -26,4 +26,12 @@ object Id {
     def foldr[A, B](fa: Id[A])(seed: B)(f: (A, B) => B): B =
       f(fa.value, seed)
   }
+
+  given Applicative[Id] with {
+    def pure[A](a: A): Id[A] =
+      Id(a)
+
+    def ap[A, B](ff: Id[A => B])(fa: Id[A]): Id[B] =
+      ff.value(fa)
+  }
 }
