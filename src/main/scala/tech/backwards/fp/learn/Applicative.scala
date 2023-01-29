@@ -32,12 +32,11 @@ object Applicative extends ApplicativeGivens {
 }
 
 sealed trait ApplicativeGivens {
-  /*implicit val monadList: Monad[List] =
-    new Monad[List] {
-      def pure[A](a: A): List[A] =
-        List(a)
+  given Applicative[List] with {
+    def pure[A](a: A): List[A] =
+      List(a)
 
-      def flatMap[A, B](fa: List[A])(f: A => List[B]): List[B] =
-        fa.flatMap(f)
-    }*/
+    def ap[A, B](ff: List[A => B])(fa: List[A]): List[B] =
+      ff flatMap fa.map
+  }
 }
