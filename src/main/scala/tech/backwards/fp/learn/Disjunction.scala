@@ -19,14 +19,14 @@ object Right {
 object Disjunction {
   object syntax {
     extension [A](a: A) {
-      def right[L] =
+      def right[L]: Disjunction[L, A] =
         Right[L, A](a)
-        
-      def left[R] =
+
+      def left[R]: Disjunction[A, R] =
         Left[A, R](a)
     }
   }
-  
+
   given [L]: Functor[[A] =>> Disjunction[L, A]] with {
     def fmap[A, B](fa: Disjunction[L, A])(f: A => B): Disjunction[L, B] =
       fa match {
@@ -67,13 +67,16 @@ object Disjunction {
     def pure[A](a: A): Disjunction[L, A] =
       Right(a)
 
-    def ap[A, B](ff: Disjunction[L, A => B])(fa: Disjunction[L, A]): Disjunction[L, B] =
+    def ap[A, B](ff: Disjunction[L, A => B])(fa: Disjunction[L, A]): Disjunction[L, B] = {
+      import tech.backwards.fp.learn.Functor.syntax.*
+
       ff match {
         case Left(l) =>
           Left(l)
 
         case Right(f) =>
-          Functor[[A] =>> Disjunction[L, A]].fmap(fa)(f)
+          fa fmap f
       }
+    }
   }
 }
