@@ -17,6 +17,16 @@ object Right {
 }
 
 object Disjunction {
+  object syntax {
+    extension [A](a: A) {
+      def right[L] =
+        Right[L, A](a)
+        
+      def left[R] =
+        Left[A, R](a)
+    }
+  }
+  
   given [L]: Functor[[A] =>> Disjunction[L, A]] with {
     def fmap[A, B](fa: Disjunction[L, A])(f: A => B): Disjunction[L, B] =
       fa match {
@@ -50,6 +60,20 @@ object Disjunction {
 
         case Right(a) =>
           f(a, seed)
+      }
+  }
+
+  given [L]: Applicative[[A] =>> Disjunction[L, A]] with {
+    def pure[A](a: A): Disjunction[L, A] =
+      Right(a)
+
+    def ap[A, B](ff: Disjunction[L, A => B])(fa: Disjunction[L, A]): Disjunction[L, B] =
+      ff match {
+        case Left(l) =>
+          Left(l)
+
+        case Right(f) =>
+          Functor[[A] =>> Disjunction[L, A]].fmap(fa)(f)
       }
   }
 }
