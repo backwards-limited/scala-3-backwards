@@ -1,5 +1,7 @@
 package tech.backwards.fp.learn
 
+import scala.util.chaining.*
+
 final case class Writer[W, A](run: () => (W, A))
 
 object Writer {
@@ -27,12 +29,12 @@ object Writer {
     def pure[A](a: A): Writer[W, A] =
       writer[W].as(a)
 
-    def flatMap[A, B](fa: Writer[W, A])(f: A => Writer[W, B]): Writer[W, B] = {
-      val (w, a)  = fa.run()
-      val (w2, b) = f(a).run()
-
-      tell(w |+| w2).as(b)
-    }
+    def flatMap[A, B](fa: Writer[W, A])(f: A => Writer[W, B]): Writer[W, B] =
+      fa.run().pipe((w, a) =>
+        f(a).run().pipe((w2, b) =>
+          tell(w |+| w2).as(b)
+        )
+      )
   }
 
   given [W: Monoid]: Applicative[[A] =>> Writer[W, A]] with {

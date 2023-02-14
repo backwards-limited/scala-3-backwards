@@ -1,5 +1,7 @@
 package tech.backwards.fp.learn
 
+import scala.util.chaining.*
+
 final case class State[S, A](run: S => (S, A)) {
   def exec(s: S): S =
     run(s)._1
@@ -21,8 +23,9 @@ object State {
   given [S]: Functor[[A] =>> State[S, A]] with {
     def fmap[A, B](fa: State[S, A])(f: A => B): State[S, B] =
       State(s =>
-        val (ss, a) = fa.run(s)
-        ss -> f(a)
+        fa.run(s).pipe((s, a) =>
+          s -> f(a)
+        )
       )
   }
 
@@ -32,8 +35,23 @@ object State {
 
     def flatMap[A, B](fa: State[S, A])(f: A => State[S, B]): State[S, B] =
       State(s =>
-        val (ss, a) = fa.run(s)
-        f(a).run(ss)
+        fa.run(s).pipe((s, a) =>
+          f(a).run(s)
+        )
+      )
+  }
+
+  given [S]: Applicative[[A] =>> State[S, A]] with {
+    def pure[A](a: A): State[S, A] =
+      State(_ -> a)
+
+    def ap[A, B](ff: State[S, A => B])(fa: State[S, A]): State[S, B] =
+      State(s =>
+        ff.run(s).pipe((s, f) =>
+          fa.run(s).pipe((s, a) =>
+            s -> f(a)
+          )
+        )
       )
   }
 }
