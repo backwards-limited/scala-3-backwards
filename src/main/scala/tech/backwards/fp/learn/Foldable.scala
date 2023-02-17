@@ -16,14 +16,14 @@ object Foldable extends FoldableGivens {
         apply[F].foldr(fa)(seed)(f)
     }
 
-    extension [A](fa: (A, A))(using F: Foldable[[X] =>> (X, X)]) {
+    extension [A](fa: (A, A)) {
       def foldr[B](seed: B)(f: (A, B) => B): B =
-        F.foldr(fa)(seed)(f)
+        foldableTuple2.foldr(fa)(seed)(f)
     }
 
-    extension [A](fa: (A, A, A))(using F: Foldable[[X] =>> (X, X, X)]) {
+    extension [A](fa: (A, A, A)) {
       def foldr[B](seed: B)(f: (A, B) => B): B =
-        F.foldr(fa)(seed)(f)
+        foldableTuple3.foldr(fa)(seed)(f)
     }
   }
 }
@@ -37,12 +37,12 @@ sealed trait FoldableGivens {
       fa.foldRight(seed)(f)
   }
 
-  given Foldable[[X] =>> (X, X)] with {
+  given foldableTuple2: Foldable[[X] =>> (X, X)] with {
     def foldr[A, B](fa: (A, A))(seed: B)(f: (A, B) => B): B =
       foldRight(fa.productIterator.toList.asInstanceOf[List[A]])(seed)(f)
   }
 
-  given Foldable[[X] =>> (X, X, X)] with {
+  given foldableTuple3: Foldable[[X] =>> (X, X, X)] with {
     def foldr[A, B](fa: (A, A, A))(seed: B)(f: (A, B) => B): B =
       foldRight(fa.productIterator.toList.asInstanceOf[List[A]])(seed)(f)
   }
