@@ -34,4 +34,9 @@ object Id {
     def ap[A, B](ff: Id[A => B])(fa: Id[A]): Id[B] =
       ff.value(fa)
   }
+
+  given Traversal[Id] with {
+    def traverse[G[_]: Applicative, A, B](fa: Id[A])(f: A => G[B]): G[Id[B]] =
+      Applicative[G].functor.fmap(f(fa.value))(Id.apply)
+  }
 }
