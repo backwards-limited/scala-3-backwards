@@ -12,10 +12,19 @@ object Monad extends MonadGivens {
   def apply[F[_]: Monad]: Monad[F] =
     summon[Monad[F]]
   
-  object syntax extends LowerLevelExtensions {
+  object syntax {
     extension [A](a: A) {
       def pure[F[_]: Monad]: F[A] =
         apply[F].pure(a)
+    }
+
+    extension [F[_]: Monad, A](fa: F[A]) {
+      def flatMap[B](f: A => F[B]): F[B] =
+        apply[F].flatMap(fa)(f)
+
+      @targetName("bind")
+      def >>=[B](f: A => F[B]): F[B] =
+        flatMap(f)
     }
     
     object function {
@@ -28,17 +37,6 @@ object Monad extends MonadGivens {
           flatMap(fa)
       }
     }
-  }
-  
-  trait LowerLevelExtensions {
-    extension [F[_]: Monad, A](fa: F[A]) {
-      def flatMap[B](f: A => F[B]): F[B] =
-        apply[F].flatMap(fa)(f)
-
-      @targetName("bind")
-      def >>=[B](f: A => F[B]): F[B] =
-        flatMap(f)
-    }  
   }
 }
 
