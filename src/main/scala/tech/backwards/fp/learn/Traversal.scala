@@ -22,5 +22,22 @@ object Traversal extends TraversalGivens {
 }
 
 sealed trait TraversalGivens {
+  given Traversal[[X] =>> (X, X)] with {
+    def traverse[G[_]: Applicative, A, B](fa: (A, A))(f: A => G[B]): G[(B, B)] = {
+      //import tech.backwards.fp.learn.Applicative.syntax.function.*
+      import tech.backwards.fp.learn.Applicative.syntax.*
 
+      Applicative[G].functor.fmap(f(fa._1))((x: B) => (y: B) => (x, y)) ap f(fa._2)
+    }
+  }
 }
+
+/*
+implicit val traversalTuple2: Traversal[Lambda[X => (X, X)]] =
+  new Traversal[Lambda[X => (X, X)]] {
+    def traverse[G[_]: Applicative, A, B](fa: (A, A))(f: A => G[B]): G[(B, B)] = {
+      import tech.backwards.fp.learn.Applicative.syntax.function._
+
+      Applicative[G].functor.fmap(f(fa._1))((x: B) => (y: B) => (x, y)) ap f(fa._2)
+    }
+*/

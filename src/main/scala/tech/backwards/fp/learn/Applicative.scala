@@ -16,20 +16,18 @@ object Applicative extends ApplicativeGivens {
     summon[Applicative[F]]
 
   object syntax {
-    implicit class Syntax[A](a: A) {
+    extension [A](a: A) {
       def pure[F[_]: Applicative]: F[A] =
         apply[F].pure(a)
     }
 
-    object function {
-      extension [F[_]: Applicative, A, B](ff: F[A => B]) {
-        def ap(fa: F[A]): F[B] =
-          apply[F].ap(ff)(fa)
+    extension [F[_]: Applicative, A, B](ff: F[A => B]) {
+      def ap(fa: F[A]): F[B] =
+        apply[F].ap(ff)(fa)
 
-        @targetName("`ap`")
-        def <*>(fa: F[A]): F[B] =
-          ap(fa)
-      }
+      @targetName("`ap`")
+      def <*>(fa: F[A]): F[B] =
+        ap(fa)
     }
   }
 }
