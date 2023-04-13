@@ -31,6 +31,19 @@ object Traversal extends TraversalGivens {
         Applicative[F].functor.fmap(fa._1)((x: A) => (y: A) => (x, y)).ap(fa._2)
       }
     }
+
+    extension [A](fa: (A, A, A)) {
+      def traverse[G[_]: Applicative, B](f: A => G[B]): G[(B, B, B)] =
+        traversalTuple3.traverse(fa)(f)
+    }
+
+    extension [F[_]: Applicative, A](fa: (F[A], F[A], F[A])) {
+      def sequence: F[(A, A, A)] = {
+        import tech.backwards.fp.learn.Applicative.syntax.*
+
+        Applicative[F].functor.fmap(fa._1)((x: A) => (y: A) => (z: A) => (x, y, z)).ap(fa._2).ap(fa._3)
+      }
+    }
   }
 }
 
@@ -40,6 +53,14 @@ sealed trait TraversalGivens {
       import tech.backwards.fp.learn.Applicative.syntax.*
 
       Applicative[G].functor.fmap(f(fa._1))((x: B) => (y: B) => (x, y)) ap f(fa._2)
+    }
+  }
+
+  given traversalTuple3: Traversal[[X] =>> (X, X, X)] with {
+    def traverse[G[_]: Applicative, A, B](fa: (A, A, A))(f: A => G[B]): G[(B, B, B)] = {
+      import tech.backwards.fp.learn.Applicative.syntax.*
+
+      Applicative[G].functor.fmap(f(fa._1))((x: B) => (y: B) => (z: B) => (x, y, z)) ap f(fa._2) ap f(fa._3)
     }
   }
 }
