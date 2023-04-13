@@ -63,8 +63,6 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  //////////////////////////////////////////////////////
-
   property("Traverse Tuple3[Id]")(
     assertEquals(
       Traversal[[X] =>> (X, X, X)].traverse((1, 2, 3))(x => Id(x * 2)),
@@ -90,7 +88,7 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("Traverse List[Id]")(
+  property("Traverse List[Id]")(
     assertEquals(
       Traversal[List].traverse(List(1, 2, 3))(x => Id(x + 2)),
       Id(List(3, 4, 5))
@@ -115,7 +113,9 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  property("Traverse Id[List]")(
+  //////////////////////////////////////////////////////
+
+  /*property("Traverse Id[List]")(
     assertEquals(
       Traversal[Id].traverse(Id(1))(x => List(x + 1)),
       List(Id(2))

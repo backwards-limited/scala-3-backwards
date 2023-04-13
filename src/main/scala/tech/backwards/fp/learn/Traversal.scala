@@ -63,4 +63,14 @@ sealed trait TraversalGivens {
       Applicative[G].functor.fmap(f(fa._1))((x: B) => (y: B) => (z: B) => (x, y, z)) ap f(fa._2) ap f(fa._3)
     }
   }
+
+  given Traversal[List] with {
+    def traverse[G[_]: Applicative, A, B](fa: List[A])(f: A => G[B]): G[List[B]] = {
+      import tech.backwards.fp.learn.Applicative.syntax.*
+
+      fa.foldRight(Applicative[G].pure(List.empty[B]))((a, bs) =>
+        Applicative[G].functor.fmap(f(a))((b: B) => (bs: List[B]) => b +: bs) ap bs
+      )
+    }
+  }
 }
