@@ -32,8 +32,6 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  //////////////////////////////////////////////////////
-
   /*
    * Note Scala 2:
    *  - Traversal[Lambda[X => (X, X)]]
@@ -47,7 +45,7 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   )
 
-  /*property("Traverse Tuple2[Id] syntax") {
+  property("Traverse Tuple2[Id] syntax") {
     import tech.backwards.fp.learn.Traversal.syntax._
 
     assertEquals(
@@ -65,7 +63,9 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  property("Traverse Tuple3[Id]")(
+  //////////////////////////////////////////////////////
+
+  /*property("Traverse Tuple3[Id]")(
     assertEquals(
       Traversal[Lambda[X => (X, X, X)]].traverse((1, 2, 3))(x => Id(x * 2)),
       Id(2, 4, 6)
