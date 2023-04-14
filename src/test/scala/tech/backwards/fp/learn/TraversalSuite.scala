@@ -137,10 +137,9 @@ class TraversalSuite extends ScalaCheckSuite {
       List(Id(1), Id(2), Id(3))
     )
   }
-  
-  //////////////////////////////////////////////////////
 
-  /*property("Traverse List[List]")(
+  // Note we prove/explain (below) the following using Cats.
+  property("Traverse List[List]")(
     assertEquals(
       Traversal[List].traverse(List(1, 2, 3)) {
         case 1 => List(2)
@@ -168,6 +167,55 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
+  property("Traverse List[List] proof/explanation using Cats") {
+    import cats.implicits.*
+
+    // f(a)
+    val b: List[List[Int]] =
+      List(1, 2, 3).map {
+        case 1 => List(2)
+        case 2 => List(3, 4)
+        case 3 => List(5, 6, 7)
+      }
+
+    println(b) // List(List(2), List(3, 4), List(5, 6, 7))
+
+    // Traverse folds rights for list i.e. we start the above with 3, then 2, then 1
+
+    // 1st iteration: List(5, 6, 7)
+    // fmap(f(a))((b: B) => (bs: List[B]) => b +: bs)
+    val c: List[List[Int] => List[Int]] =
+    List(5, 6, 7).map(x => (bs: List[Int]) => x +: bs)
+
+    // ap bs - Where initially bs = Nil
+    val d: List[List[Int]] =
+      c.ap(List(List.empty[Int]))
+
+    println(d) // List(List(5), List(6), List(7))
+
+    // 2nd iteration: List(3, 4)
+    // fmap(f(a))((b: B) => (bs: List[B]) => b +: bs)
+    val e: List[List[Int] => List[Int]] =
+    List(3, 4).map(x => (bs: List[Int]) => x +: bs)
+
+    // ap bs - This time bs = d (from previous calculation)
+    val f: List[List[Int]] =
+      e.ap(d)
+
+    println(f) // List(List(3, 5), List(3, 6), List(3, 7), List(4, 5), List(4, 6), List(4, 7))
+
+    // 3rd iteration: List(2)
+    // fmap(f(a))((b: B) => (bs: List[B]) => b +: bs)
+    val g: List[List[Int] => List[Int]] =
+    List(2).map(x => (bs: List[Int]) => x +: bs)
+
+    // ap bs - This time bs = f (from previous calculation)
+    val h: List[List[Int]] =
+      g.ap(f)
+
+    println(h) // List(List(2, 3, 5), List(2, 3, 6), List(2, 3, 7), List(2, 4, 5), List(2, 4, 6), List(2, 4, 7))
+  }
+
   property("Sequence List[List] syntax") {
     import tech.backwards.fp.learn.Traversal.syntax.*
 
@@ -179,7 +227,11 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  property("Traverse Tuple2[List]")(
+  // TODO - Proof/Explanation of above sequence using Cats
+
+  //////////////////////////////////////////////////////
+
+  /*property("Traverse Tuple2[List]")(
     assertEquals(
       Traversal[Lambda[X => (X, X)]].traverse((1, 3)) {
         case 1 => List(2, 3)
