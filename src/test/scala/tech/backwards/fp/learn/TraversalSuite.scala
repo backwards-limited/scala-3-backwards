@@ -24,7 +24,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Id[Id] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Id(Id(2)).sequence,
@@ -46,7 +46,7 @@ class TraversalSuite extends ScalaCheckSuite {
   )
 
   property("Traverse Tuple2[Id] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (1, 2).traverse(x => Id(x * 2)),
@@ -55,7 +55,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Tuple2[Id] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (Id(1), Id(2)).sequence,
@@ -71,7 +71,7 @@ class TraversalSuite extends ScalaCheckSuite {
   )
 
   property("Traverse Tuple3[Id] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (1, 2, 3).traverse(x => Id(x * 2)),
@@ -80,7 +80,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Tuple3[Id] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (Id(1), Id(2), Id(3)).sequence,
@@ -96,7 +96,7 @@ class TraversalSuite extends ScalaCheckSuite {
   )
 
   property("Traverse List[Id] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       List(1, 2, 3).traverse(x => Id(x + 2)),
@@ -105,7 +105,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence List[Id] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       List(Id(1), Id(2), Id(3)).sequence,
@@ -113,34 +113,34 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  //////////////////////////////////////////////////////
-
-  /*property("Traverse Id[List]")(
+  property("Traverse Id[List]")(
     assertEquals(
-      Traversal[Id].traverse(Id(1))(x => List(x + 1)),
-      List(Id(2))
+      Traversal[Id].traverse(Id(1))(x => List(x + 1, x + 2)),
+      List(Id(2), Id(3))
     )
   )
 
   property("Traverse Id[List] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
-      Id(1).traverse(x => List(x + 1)),
-      List(Id(2))
+      Id(1).traverse(x => List(x + 1, x + 2)),
+      List(Id(2), Id(3))
     )
   }
 
   property("Sequence Id[List]") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Id(List(1, 2, 3)).sequence,
       List(Id(1), Id(2), Id(3))
     )
   }
+  
+  //////////////////////////////////////////////////////
 
-  property("Traverse List[List]")(
+  /*property("Traverse List[List]")(
     assertEquals(
       Traversal[List].traverse(List(1, 2, 3)) {
         case 1 => List(2)
@@ -154,7 +154,7 @@ class TraversalSuite extends ScalaCheckSuite {
   )
 
   property("Traverse List[List] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       List(1, 2, 3) traverse {
@@ -169,7 +169,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence List[List] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       List(List(1), List(2, 3), List(4, 5, 6)).sequence,
@@ -190,7 +190,7 @@ class TraversalSuite extends ScalaCheckSuite {
   )
 
   property("Traverse Tuple2[List] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (1, 3) traverse {
@@ -202,7 +202,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Tuple2[List] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (List(2, 3), List(4)).sequence,
@@ -222,7 +222,7 @@ class TraversalSuite extends ScalaCheckSuite {
   )
 
   property("Traverse Tuple3[List] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (1, 3, 4) traverse {
@@ -235,7 +235,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Tuple3[List] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (List(1, 2), List(3), List(4, 5)).sequence,
@@ -251,7 +251,7 @@ class TraversalSuite extends ScalaCheckSuite {
   )
 
   property("Traverse Id[Maybe] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Id(5).traverse(x => Just(x + 1)),
@@ -260,7 +260,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Id[Maybe] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Id(Just(5)).sequence,
@@ -276,7 +276,7 @@ class TraversalSuite extends ScalaCheckSuite {
   )
 
   property("Traverse Maybe[Id] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(5).traverse(x => Id(x + 1)),
@@ -285,7 +285,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Maybe[Id] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(Id(5)).sequence,
@@ -309,7 +309,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Tuple2[Maybe] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (1, 2).traverse(x => Just(x + 1)),
@@ -326,7 +326,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Tuple2[Maybe] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (Just(1), Just(2)).sequence,
@@ -353,7 +353,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Maybe[Tuple1] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(1).traverse(x => Tuple1(x + 1)),
@@ -367,7 +367,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Maybe[Tuple1] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(Tuple1(1)).sequence,
@@ -393,7 +393,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Maybe[Tuple2] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(1).traverse[Lambda[X => (X, X)], Int](x => (x + 1, x + 2)),
@@ -412,7 +412,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Maybe[Tuple2] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(1, 2).sequence,
@@ -436,7 +436,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Tuple3[Maybe] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (1, 2, 3).traverse(x => Just(x + 1)),
@@ -453,7 +453,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Tuple3[Maybe] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (Just(1), Just(2), Just(3)).sequence,
@@ -484,7 +484,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Maybe[Tuple3] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(1).traverse[Lambda[X => (X, X, X)], Int](x => (x + 1, x + 2, x + 3)),
@@ -503,7 +503,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Maybe[Tuple3] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(1, 2, 3).sequence,
@@ -527,7 +527,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse List[Maybe] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       List(1, 2, 3).traverse(x => Just(x + 1)),
@@ -544,7 +544,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence List[Maybe] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       List(Just(1), Just(2), Just(3)).sequence,
@@ -570,7 +570,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Maybe[List] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(1).traverse(x => List(x)),
@@ -584,7 +584,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Maybe[List] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(List(1, 2)).sequence,
@@ -605,7 +605,7 @@ class TraversalSuite extends ScalaCheckSuite {
   )
 
   property("Traverse Id[Right] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Id(5).traverse(x => Right(x + 1)),
@@ -614,7 +614,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Id[Right] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Id(Right(5)).sequence,
@@ -630,7 +630,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Id[Left] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Id(5).traverse(_ => Left("a")),
@@ -639,7 +639,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Id[Left] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Id(Left[String, Int]("a")).sequence,
@@ -655,7 +655,7 @@ class TraversalSuite extends ScalaCheckSuite {
   )
 
   property("Traverse Right[Id] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Right(5).traverse(x => Id(x + 1)),
@@ -664,7 +664,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Right[Id] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Right(Id(5)).sequence,
@@ -673,7 +673,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Left[Id]") {
-    import tech.backwards.fp.learn.Disjunction.syntax._
+    import tech.backwards.fp.learn.Disjunction.syntax.*
 
     assertEquals(
       Traversal[Disjunction[String, *]].traverse("a".left[Int])(x => Id(x + 1)),
@@ -682,8 +682,8 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Left[Id] syntax") {
-    import tech.backwards.fp.learn.Disjunction.syntax._
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Disjunction.syntax.*
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       "a".left[Int].traverse(x => Id(x + 1)),
@@ -692,7 +692,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Left[Id] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Left[String, Id[Int]]("a").sequence,
@@ -716,7 +716,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse List[Disjunction] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       List(1, 2, 3).traverse(x => Right(x + 1)),
@@ -733,7 +733,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence List[Disjunction] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       List(Right(1), Right(2), Right(3)).sequence,
@@ -764,7 +764,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Disjunction[List] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Right(5).traverse(x => List(x + 1)),
@@ -778,7 +778,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Disjunction[List] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Right(List(5, 6)).sequence,
@@ -807,7 +807,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Tuple2[Disjunction] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (1, 2).traverse(x => Right(x + 1)),
@@ -824,7 +824,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Tuple2[Disjunction] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (Right(1), Right(2)).sequence,
@@ -855,7 +855,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Disjunction[Tuple2] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Right(1).traverse[Lambda[X => (X, X)], Int](x => (x + 1, x + 2)),
@@ -874,7 +874,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Disjunction[Tuple2] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Right(1, 2).sequence,
@@ -911,7 +911,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Tuple3[Disjunction] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (1, 2, 3).traverse(x => Right(x + 1)),
@@ -936,7 +936,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Tuple3[Disjunction] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (Right(1), Right(2), Right(3)).sequence,
@@ -972,7 +972,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Disjunction[Tuple3] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Right(1).traverse[Lambda[X => (X, X, X)], Int](x => (x + 1, x + 2, x + 3)),
@@ -991,7 +991,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Disjunction[Tuple3] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Right(1, 2, 3).sequence,
@@ -1037,7 +1037,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Maybe[Disjunction] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(1) traverse Right.apply,
@@ -1061,7 +1061,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Maybe[Disjunction] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(Right(1)).sequence,
@@ -1102,7 +1102,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Disjunction[Maybe] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Right(1) traverse Just.apply,
@@ -1126,7 +1126,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Disjunction[Maybe] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Right(Just(1)).sequence,
@@ -1157,7 +1157,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Id[State] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Id(1) traverse(x => State[String, Int](_ + "bar" -> (x + 5))) run "foo",
@@ -1171,7 +1171,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Id[State] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Id(State[String, Int](_ + "bar" -> 5)).sequence.run("foo"),
@@ -1218,7 +1218,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Tuple2[State] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (1, 2).traverse(x => State[String, Int](_ + "bar" -> (x + 5))).run("foo"),
@@ -1252,7 +1252,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Tuple2[State] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (State[String, Int](_ + "bar" -> 1), State[String, Int](_ + "bar" -> 2)).sequence.run("foo"),
@@ -1286,7 +1286,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse List[State]") {
-    import tech.backwards.fp.learn.Applicative.syntax._
+    import tech.backwards.fp.learn.Applicative.syntax.*
 
     assertEquals(
       Traversal[List].traverse(List(1, 2, 3))(x => State[String, Int](_ + "bar" -> (x + 5))).run("foo"),
@@ -1320,8 +1320,8 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse List[State] syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax._
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Applicative.syntax.*
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       List(1, 2, 3).traverse(x => State[String, Int](_ + "bar" -> (x + 5))).run("foo"),
@@ -1355,8 +1355,8 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence List[State] syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax._
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Applicative.syntax.*
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       List(1.pure[State[String, *]], State[String, Int](_ + "bar" -> 2), 3.pure[State[String, *]]).sequence.run("foo"),
@@ -1392,7 +1392,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Maybe[State] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(1).traverse(x => State[String, Int](_ + "bar" -> (x + 5))).run("foo"),
@@ -1416,7 +1416,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Maybe[State] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(State[String, Int](_ + "bar" -> 1)).sequence.run("foo"),
@@ -1462,7 +1462,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Disjunction[State] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Right(1).traverse(x => State[String, Int](_ + "bar" -> (x + 5))).run("foo"),
@@ -1486,7 +1486,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Disjunction[State] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Right(State[String, Int](_ + "bar" -> 1)).sequence.run("foo"),
@@ -1522,7 +1522,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Id[Writer] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Id(1).traverse(x => Writer("foo" -> (x + 5))).run(),
@@ -1536,7 +1536,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Id[Writer] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Id(Writer("foo" -> 1)).sequence.run(),
@@ -1583,7 +1583,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Tuple2[Writer] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (1, 2).traverse(x => Writer("foo" -> (x + 5))).run(),
@@ -1617,7 +1617,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Tuple2[Writer] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       (Writer("foo" -> 5), Writer("bar" -> 6)).sequence.run(),
@@ -1631,7 +1631,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse List[Writer]") {
-    import tech.backwards.fp.learn.Applicative.syntax._
+    import tech.backwards.fp.learn.Applicative.syntax.*
 
     assertEquals(
       Traversal[List].traverse(List(1, 2, 3))(x => Writer("foo" -> (x + 5))).run(),
@@ -1669,8 +1669,8 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse List[Writer] syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax._
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Applicative.syntax.*
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       List(1, 2, 3).traverse(x => Writer("foo" -> (x + 5))).run(),
@@ -1708,8 +1708,8 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence List[Writer] syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax._
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Applicative.syntax.*
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       List(Writer("foo" -> 1), 2.pure[Writer[String, *]], Writer("baz" -> 3)).sequence.run(),
@@ -1745,7 +1745,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Maybe[Writer] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(1).traverse(x => Writer("foo" -> (x + 5))).run(),
@@ -1769,7 +1769,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Maybe[Writer] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Just(Writer("foo" -> 1)).sequence.run(),
@@ -1815,7 +1815,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Disjunction[Writer] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Right(1).traverse(x => Writer("foo" -> (x + 5))).run(),
@@ -1839,7 +1839,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Disjunction[Writer] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Right(Writer("foo" -> 1)).sequence.run(),
@@ -1890,7 +1890,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Writer[Tuple2] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     val (fst: Writer[String, Int], snd: Writer[String, Int]) =
       Writer("foo" -> 1).traverse[Lambda[X => (X, X)], Int](x => (x + 1, x + 2))
@@ -1907,7 +1907,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Writer[Tuple2] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     val (fst: Writer[String, Int], snd: Writer[String, Int]) =
       Writer("foo" -> (1, 2)).sequence
@@ -1937,7 +1937,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Writer[List] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Writer("foo" -> 1).traverse(x => List(x + 1, x + 2)).map(_.run()),
@@ -1951,7 +1951,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Writer[List] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Writer("foo" -> List(1, 2)).sequence.map(_.run()),
@@ -1965,7 +1965,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Writer[Maybe]") {
-    import tech.backwards.fp.learn.Functor.syntax._
+    import tech.backwards.fp.learn.Functor.syntax.*
 
     assertEquals(
       Traversal[Writer[String, *]].traverse(Writer("foo" -> 1))(x => Just(x + 1)).map(_.run()),
@@ -1984,8 +1984,8 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Writer[Maybe] syntax") {
-    import tech.backwards.fp.learn.Functor.syntax._
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Functor.syntax.*
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Writer("foo" -> 1).traverse(x => Just(x + 1)).map(_.run()),
@@ -2004,8 +2004,8 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Writer[Maybe] syntax") {
-    import tech.backwards.fp.learn.Functor.syntax._
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Functor.syntax.*
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Writer("foo" -> Just(1)).sequence.map(_.run()),
@@ -2024,7 +2024,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Writer[Disjunction]") {
-    import tech.backwards.fp.learn.Functor.syntax._
+    import tech.backwards.fp.learn.Functor.syntax.*
 
     assertEquals(
       Traversal[Writer[String, *]].traverse(Writer("foo" -> 1))(x => Right(x + 1)).map(_.run()),
@@ -2043,8 +2043,8 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Writer[Disjunction] syntax") {
-    import tech.backwards.fp.learn.Functor.syntax._
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Functor.syntax.*
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Writer("foo" -> 1).traverse(x => Right(x + 1)).map(_.run()),
@@ -2063,8 +2063,8 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Writer[Disjunction] syntax") {
-    import tech.backwards.fp.learn.Functor.syntax._
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Functor.syntax.*
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
       Writer("foo" -> Right(1)).sequence.map(_.run()),
@@ -2099,7 +2099,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Traverse Writer[State] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     val state: State[String, Writer[String, Int]] =
       Writer("foo" -> 1).traverse(x => State((s: String) => s -> (x + 1)))
@@ -2117,7 +2117,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Writer[State] syntax") {
-    import tech.backwards.fp.learn.Traversal.syntax._
+    import tech.backwards.fp.learn.Traversal.syntax.*
 
     val state: State[String, Writer[String, Int]] =
       Writer("foo" -> State((s: String) => s -> 1)).sequence
