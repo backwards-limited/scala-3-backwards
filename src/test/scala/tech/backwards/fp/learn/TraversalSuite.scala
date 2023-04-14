@@ -180,7 +180,7 @@ class TraversalSuite extends ScalaCheckSuite {
 
     println(b) // List(List(2), List(3, 4), List(5, 6, 7))
 
-    // Traverse folds rights for list i.e. we start the above with 3, then 2, then 1
+    // Traverse folds rights for list i.e. we start the above with 3 i.e. List(5, 6, 7), then 2 i.e. List(3, 4), then 1 i.e. List(2)
 
     // 1st iteration: List(5, 6, 7)
     // fmap(f(a))((b: B) => (bs: List[B]) => b +: bs)
@@ -216,6 +216,7 @@ class TraversalSuite extends ScalaCheckSuite {
     println(h) // List(List(2, 3, 5), List(2, 3, 6), List(2, 3, 7), List(2, 4, 5), List(2, 4, 6), List(2, 4, 7))
   }
 
+  // Note we prove/explain (below) the following using Cats.
   property("Sequence List[List] syntax") {
     import tech.backwards.fp.learn.Traversal.syntax.*
 
@@ -227,7 +228,50 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  // TODO - Proof/Explanation of above sequence using Cats
+  property("Sequence List[List] proof/explanation using Cats") {
+    import cats.implicits.*
+
+    // f(a)
+    val b: List[List[Int]] =
+      List(List(1), List(2, 3), List(4, 5, 6))
+
+    println(b) // List(List(1), List(2, 3), List(4, 5, 6))
+
+    // Traverse folds rights for list i.e. we start the above with List(4, 5, 6), then List(2, 3), then List(1)
+
+    // 1st iteration: List(4, 5, 6)
+    // fmap(f(a))((b: B) => (bs: List[B]) => b +: bs)
+    val c: List[List[Int] => List[Int]] =
+      List(4, 5, 6).map(x => (bs: List[Int]) => x +: bs)
+
+    // ap bs - Where initially bs = Nil
+    val d: List[List[Int]] =
+      c.ap(List(List.empty[Int]))
+
+    println(d) // List(List(4), List(5), List(6))
+
+    // 2nd iteration: List(2, 3)
+    // fmap(f(a))((b: B) => (bs: List[B]) => b +: bs)
+    val e: List[List[Int] => List[Int]] =
+      List(2, 3).map(x => (bs: List[Int]) => x +: bs)
+
+    // ap bs - This time bs = d (from previous calculation)
+    val f: List[List[Int]] =
+      e.ap(d)
+
+    println(f) // List(List(2, 4), List(2, 5), List(2, 6), List(3, 4), List(3, 5), List(3, 6))
+
+    // 3rd iteration: List(1)
+    // fmap(f(a))((b: B) => (bs: List[B]) => b +: bs)
+    val g: List[List[Int] => List[Int]] =
+      List(1).map(x => (bs: List[Int]) => x +: bs)
+
+    // ap bs - This time bs = f (from previous calculation)
+    val h: List[List[Int]] =
+      g.ap(f)
+
+    println(h) // List(List(1, 2, 4), List(1, 2, 5), List(1, 2, 6), List(1, 3, 4), List(1, 3, 5), List(1, 3, 6))
+  }
 
   //////////////////////////////////////////////////////
 
