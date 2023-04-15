@@ -74,4 +74,15 @@ object Maybe {
           Nothing[B]
       }
   }
+
+  given Traversal[Maybe] with {
+    def traverse[G[_]: Applicative, A, B](fa: Maybe[A])(f: A => G[B]): G[Maybe[B]] =
+      fa match {
+        case Nothing() =>
+          Applicative[G].pure(Nothing[B])
+
+        case Just(a) =>
+          Applicative[G].functor.fmap(f(a))(Just.apply)
+      }
+  }
 }

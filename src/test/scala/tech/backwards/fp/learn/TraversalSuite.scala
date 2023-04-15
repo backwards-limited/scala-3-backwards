@@ -273,17 +273,23 @@ class TraversalSuite extends ScalaCheckSuite {
     println(h) // List(List(1, 2, 4), List(1, 2, 5), List(1, 2, 6), List(1, 3, 4), List(1, 3, 5), List(1, 3, 6))
   }
 
-  //////////////////////////////////////////////////////
-
-  /*property("Traverse Tuple2[List]")(
+  property("Traverse Tuple2[List]") {
     assertEquals(
-      Traversal[Lambda[X => (X, X)]].traverse((1, 3)) {
+      Traversal[[X] =>> (X, X)].traverse((1, 3)) {
         case 1 => List(2, 3)
         case 3 => List(4)
       },
       List((2, 4), (3, 4))
     )
-  )
+
+    assertEquals(
+      Traversal[[X] =>> (X, X)].traverse((1, 3)) {
+        case 1 => List(2, 3)
+        case 3 => List(7, 8, 9)
+      },
+      List((2, 7), (2, 8), (2, 9), (3, 7), (3, 8), (3, 9))
+    )
+  }
 
   property("Traverse Tuple2[List] syntax") {
     import tech.backwards.fp.learn.Traversal.syntax.*
@@ -304,11 +310,16 @@ class TraversalSuite extends ScalaCheckSuite {
       (List(2, 3), List(4)).sequence,
       List((2, 4), (3, 4))
     )
+
+    assertEquals(
+      (List(2, 3), List(7, 8, 9)).sequence,
+      List((2, 7), (2, 8), (2, 9), (3, 7), (3, 8), (3, 9))
+    )
   }
 
   property("Traverse Tuple3[List]")(
     assertEquals(
-      Traversal[Lambda[X => (X, X, X)]].traverse((1, 3, 4)) {
+      Traversal[[X] =>> (X, X, X)].traverse((1, 3, 4)) {
         case 1 => List(2, 3)
         case 3 => List(4)
         case 4 => List(5, 6)
@@ -339,12 +350,17 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  property("Traverse Id[Maybe]")(
+  property("Traverse Id[Maybe]") {
     assertEquals(
       Traversal[Id].traverse(Id(5))(x => Just(x + 1)),
       Just(Id(6))
     )
-  )
+
+    assertEquals(
+      Traversal[Id].traverse(Id(5))(_ => Nothing[Int]),
+      Nothing[Id[Int]]
+    )
+  }
 
   property("Traverse Id[Maybe] syntax") {
     import tech.backwards.fp.learn.Traversal.syntax.*
@@ -352,6 +368,11 @@ class TraversalSuite extends ScalaCheckSuite {
     assertEquals(
       Id(5).traverse(x => Just(x + 1)),
       Just(Id(6))
+    )
+
+    assertEquals(
+      Id(5).traverse(_ => Nothing[Int]),
+      Nothing[Id[Int]]
     )
   }
 
@@ -362,14 +383,24 @@ class TraversalSuite extends ScalaCheckSuite {
       Id(Just(5)).sequence,
       Just(Id(5))
     )
+
+    assertEquals(
+      Id(Nothing[Int]).sequence,
+      Nothing[Id[Int]]
+    )
   }
 
-  property("Traverse Maybe[Id]")(
+  property("Traverse Maybe[Id]") {
     assertEquals(
       Traversal[Maybe].traverse(Just(5))(x => Id(x + 1)),
       Id(Just(6))
     )
-  )
+
+    assertEquals(
+      Traversal[Maybe].traverse(Nothing[Int])(x => Id(x + 1)),
+      Id(Nothing[Int])
+    )
+  }
 
   property("Traverse Maybe[Id] syntax") {
     import tech.backwards.fp.learn.Traversal.syntax.*
@@ -377,6 +408,11 @@ class TraversalSuite extends ScalaCheckSuite {
     assertEquals(
       Just(5).traverse(x => Id(x + 1)),
       Id(Just(6))
+    )
+
+    assertEquals(
+      Nothing[Int].traverse(x => Id(x + 1)),
+      Id(Nothing[Int])
     )
   }
 
@@ -387,9 +423,16 @@ class TraversalSuite extends ScalaCheckSuite {
       Just(Id(5)).sequence,
       Id(Just(5))
     )
+
+    assertEquals(
+      Nothing[Id[Int]].sequence,
+      Id(Nothing[Int])
+    )
   }
 
-  property("Traverse Tuple2[Maybe]") {
+  //////////////////////////////////////////////////////
+
+  /*property("Traverse Tuple2[Maybe]") {
     assertEquals(
       Traversal[Lambda[X => (X, X)]].traverse(1, 2)(x => Just(x + 1)),
       Just(2, 3)
