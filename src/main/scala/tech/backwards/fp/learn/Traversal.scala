@@ -28,13 +28,13 @@ object Traversal extends TraversalGivens {
       def sequence: F[(A, A)] = {
         import tech.backwards.fp.learn.Applicative.syntax.*
 
-        Applicative[F].functor.fmap(fa._1)((x: A) => (y: A) => (x, y)).ap(fa._2)
+        Applicative[F].functor.fmap(fa(0))((x: A) => (y: A) => (x, y)).ap(fa(1))
       }
     }
 
     extension [F[_]: Applicative, A, B](fa: F[(A, B)]) {
       def sequence: (F[A], F[B]) =
-        Applicative[F].functor.fmap(fa)(_._1) -> Applicative[F].functor.fmap(fa)(_._2)
+        Applicative[F].functor.fmap(fa)(_(0)) -> Applicative[F].functor.fmap(fa)(_(1))
     }
 
     extension [A](fa: (A, A, A)) {
@@ -46,8 +46,13 @@ object Traversal extends TraversalGivens {
       def sequence: F[(A, A, A)] = {
         import tech.backwards.fp.learn.Applicative.syntax.*
 
-        Applicative[F].functor.fmap(fa._1)((x: A) => (y: A) => (z: A) => (x, y, z)).ap(fa._2).ap(fa._3)
+        Applicative[F].functor.fmap(fa(0))((x: A) => (y: A) => (z: A) => (x, y, z)).ap(fa(1)).ap(fa(2))
       }
+    }
+
+    extension [F[_]: Applicative, A, B, C](fa: F[(A, B, C)]) {
+      def sequence: (F[A], F[B], F[C]) =
+        (Applicative[F].functor.fmap(fa)(_(0)), Applicative[F].functor.fmap(fa)(_(1)), Applicative[F].functor.fmap(fa)(_(2)))
     }
   }
 }
@@ -57,7 +62,7 @@ sealed trait TraversalGivens {
     def traverse[G[_]: Applicative, A, B](fa: (A, A))(f: A => G[B]): G[(B, B)] = {
       import tech.backwards.fp.learn.Applicative.syntax.*
 
-      Applicative[G].functor.fmap(f(fa._1))((x: B) => (y: B) => (x, y)) ap f(fa._2)
+      Applicative[G].functor.fmap(f(fa(0)))((x: B) => (y: B) => (x, y)) ap f(fa(1))
     }
   }
 
@@ -65,7 +70,7 @@ sealed trait TraversalGivens {
     def traverse[G[_]: Applicative, A, B](fa: (A, A, A))(f: A => G[B]): G[(B, B, B)] = {
       import tech.backwards.fp.learn.Applicative.syntax.*
 
-      Applicative[G].functor.fmap(f(fa._1))((x: B) => (y: B) => (z: B) => (x, y, z)) ap f(fa._2) ap f(fa._3)
+      Applicative[G].functor.fmap(f(fa(0)))((x: B) => (y: B) => (z: B) => (x, y, z)) ap f(fa(1)) ap f(fa(2))
     }
   }
 

@@ -608,21 +608,19 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  //////////////////////////////////////////////////////
-
-  /*property("Traverse Maybe[Tuple3]") {
+  property("Traverse Maybe[Tuple3]") {
     assertEquals(
-      Traversal[Maybe].traverse[Lambda[X => (X, X, X)], Int, Int](Just(1))(x => (x + 1, x + 2, x + 3)),
+      Traversal[Maybe].traverse[[X] =>> (X, X, X), Int, Int](Just(1))(x => (x + 1, x + 2, x + 3)),
       (Just(2), Just(3), Just(4))
     )
 
     assertEquals(
-      Traversal[Maybe].traverse[Lambda[X => (X, X, X)], Int, String](Just(1))(_ => ("foo", "bar", "qux")),
+      Traversal[Maybe].traverse[[X] =>> (X, X, X), Int, String](Just(1))(_ => ("foo", "bar", "qux")),
       (Just("foo"), Just("bar"), Just("qux"))
     )
 
     assertEquals(
-      Traversal[Maybe].traverse[Lambda[X => (X, X, X)], Int, Int](Nothing[Int])(x => (x + 1, x + 2, x + 3)),
+      Traversal[Maybe].traverse[[X] =>> (X, X, X), Int, Int](Nothing[Int])(x => (x + 1, x + 2, x + 3)),
       (Nothing[Int], Nothing[Int], Nothing[Int])
     )
   }
@@ -631,17 +629,17 @@ class TraversalSuite extends ScalaCheckSuite {
     import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
-      Just(1).traverse[Lambda[X => (X, X, X)], Int](x => (x + 1, x + 2, x + 3)),
+      Just(1).traverse[[X] =>> (X, X, X), Int](x => (x + 1, x + 2, x + 3)),
       (Just(2), Just(3), Just(4))
     )
 
     assertEquals(
-      Just(1).traverse[Lambda[X => (X, X, X)], String](_ => ("foo", "bar", "qux")),
+      Just(1).traverse[[X] =>> (X, X, X), String](_ => ("foo", "bar", "qux")),
       (Just("foo"), Just("bar"), Just("qux"))
     )
 
     assertEquals(
-      Nothing[Int].traverse[Lambda[X => (X, X, X)], Int](x => (x + 1, x + 2, x + 3)),
+      Nothing[Int].traverse[[X] =>> (X, X, X), Int](x => (x + 1, x + 2, x + 3)),
       (Nothing[Int], Nothing[Int], Nothing[Int])
     )
   }
@@ -655,7 +653,9 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  property("Traverse List[Maybe]") {
+  //////////////////////////////////////////////////////
+
+  /*property("Traverse List[Maybe]") {
     assertEquals(
       Traversal[List].traverse(List(1, 2, 3))(x => Just(x + 1)),
       Just(List(2, 3, 4))

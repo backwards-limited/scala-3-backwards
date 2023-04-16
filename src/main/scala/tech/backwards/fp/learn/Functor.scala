@@ -50,11 +50,16 @@ sealed trait FunctorGivens {
 
   given Functor[Tuple1] with {
     def fmap[A, B](fa: Tuple1[A])(f: A => B): Tuple1[B] =
-      Tuple1(f(fa._1))
+      Tuple1(f(fa(0)))
   }
 
   given Functor[[X] =>> (X, X)] with {
     def fmap[A, B](fa: (A, A))(f: A => B): (B, B) =
-      f(fa._1) -> f(fa._2)
+      f(fa(0)) -> f(fa(1))
+  }
+
+  given Functor[[X] =>> (X, X, X)] with {
+    def fmap[A, B](fa: (A, A, A))(f: A => B): (B, B, B) =
+      (f(fa(0)), f(fa(1)), f(fa(2)))
   }
 }
