@@ -47,4 +47,9 @@ sealed trait FunctorGivens {
     def fmap[A, B](fa: List[A])(f: A => B): List[B] =
       fa map f
   }
+
+  given Functor[Tuple1] with {
+    def fmap[A, B](fa: Tuple1[A])(f: A => B): Tuple1[B] =
+      Tuple1(f(fa._1))
+  }
 }

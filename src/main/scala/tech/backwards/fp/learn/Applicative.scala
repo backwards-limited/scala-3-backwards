@@ -40,4 +40,12 @@ sealed trait ApplicativeGivens {
     def ap[A, B](ff: List[A => B])(fa: List[A]): List[B] =
       ff flatMap fa.map
   }
+
+  given Applicative[Tuple1] with {
+    def pure[A](a: A): Tuple1[A] =
+      Tuple1(a)
+
+    def ap[A, B](ff: Tuple1[A => B])(fa: Tuple1[A]): Tuple1[B] =
+      Tuple1(ff._1(fa._1))
+  }
 }
