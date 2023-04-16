@@ -32,6 +32,11 @@ object Traversal extends TraversalGivens {
       }
     }
 
+    extension [F[_]: Applicative, A, B](fa: F[(A, B)]) {
+      def sequence: (F[A], F[B]) =
+        Applicative[F].functor.fmap(fa)(_._1) -> Applicative[F].functor.fmap(fa)(_._2)
+    }
+
     extension [A](fa: (A, A, A)) {
       def traverse[G[_]: Applicative, B](f: A => G[B]): G[(B, B, B)] =
         traversalTuple3.traverse(fa)(f)

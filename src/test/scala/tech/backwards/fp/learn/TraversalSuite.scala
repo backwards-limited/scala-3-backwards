@@ -517,21 +517,19 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  //////////////////////////////////////////////////////
-
-  /*property("Traverse Maybe[Tuple2]") {
+  property("Traverse Maybe[Tuple2]") {
     assertEquals(
-      Traversal[Maybe].traverse[Lambda[X => (X, X)], Int, Int](Just(1))(x => (x + 1, x + 2)),
+      Traversal[Maybe].traverse[[X] =>> (X, X), Int, Int](Just(1))(x => (x + 1, x + 2)),
       (Just(2), Just(3))
     )
 
     assertEquals(
-      Traversal[Maybe].traverse[Lambda[X => (X, X)], Int, String](Just(1))(_ => ("foo", "bar")),
+      Traversal[Maybe].traverse[[X] =>> (X, X), Int, String](Just(1))(_ => ("foo", "bar")),
       (Just("foo"), Just("bar"))
     )
 
     assertEquals(
-      Traversal[Maybe].traverse[Lambda[X => (X, X)], Int, Int](Nothing[Int])(x => (x + 1, x + 2)),
+      Traversal[Maybe].traverse[[X] =>> (X, X), Int, Int](Nothing[Int])(x => (x + 1, x + 2)),
       (Nothing[Int], Nothing[Int])
     )
   }
@@ -540,17 +538,17 @@ class TraversalSuite extends ScalaCheckSuite {
     import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
-      Just(1).traverse[Lambda[X => (X, X)], Int](x => (x + 1, x + 2)),
+      Just(1).traverse[[X] =>> (X, X), Int](x => (x + 1, x + 2)),
       (Just(2), Just(3))
     )
 
     assertEquals(
-      Just(1).traverse[Lambda[X => (X, X)], String](_ => ("foo", "bar")),
+      Just(1).traverse[[X] =>> (X, X), String](_ => ("foo", "bar")),
       (Just("foo"), Just("bar"))
     )
 
     assertEquals(
-      Nothing[Int].traverse[Lambda[X => (X, X)], Int](x => (x + 1, x + 2)),
+      Nothing[Int].traverse[[X] =>> (X, X), Int](x => (x + 1, x + 2)),
       (Nothing[Int], Nothing[Int])
     )
   }
@@ -564,7 +562,9 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  property("Traverse Tuple3[Maybe]") {
+  //////////////////////////////////////////////////////
+
+  /*property("Traverse Tuple3[Maybe]") {
     assertEquals(
       Traversal[Lambda[X => (X, X, X)]].traverse(1, 2, 3)(x => Just(x + 1)),
       Just(2, 3, 4)
