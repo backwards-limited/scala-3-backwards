@@ -51,8 +51,12 @@ object Traversal extends TraversalGivens {
     }
 
     extension [F[_]: Applicative, A, B, C](fa: F[(A, B, C)]) {
-      def sequence: (F[A], F[B], F[C]) =
-        (Applicative[F].functor.fmap(fa)(_(0)), Applicative[F].functor.fmap(fa)(_(1)), Applicative[F].functor.fmap(fa)(_(2)))
+      def sequence: (F[A], F[B], F[C]) = {
+        val f: Functor[F] =
+          Applicative[F].functor
+
+        (f.fmap(fa)(_(0)), f.fmap(fa)(_(1)), f.fmap(fa)(_(2)))
+      }
     }
   }
 }
