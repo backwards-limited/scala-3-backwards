@@ -430,16 +430,14 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  //////////////////////////////////////////////////////
-
-  /*property("Traverse Tuple2[Maybe]") {
+  property("Traverse Tuple2[Maybe]") {
     assertEquals(
-      Traversal[Lambda[X => (X, X)]].traverse(1, 2)(x => Just(x + 1)),
+      Traversal[[X] =>> (X, X)].traverse(1, 2)(x => Just(x + 1)),
       Just(2, 3)
     )
 
     assertEquals(
-      Traversal[Lambda[X => (X, X)]].traverse(1, 2) {
+      Traversal[[X] =>> (X, X)].traverse(1, 2) {
         case 2 => Nothing[Int]
         case x => Just(x + 1)
       },
@@ -478,6 +476,9 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
+  //////////////////////////////////////////////////////
+
+  /*
   // Out of the blue I added Tuple1, when I was originally only working with Tuple2 and Tuple3
   property("Traverse Maybe[Tuple1]") {
     assertEquals(
