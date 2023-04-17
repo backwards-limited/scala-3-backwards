@@ -653,9 +653,7 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  //////////////////////////////////////////////////////
-
-  /*property("Traverse List[Maybe]") {
+  property("Traverse List[Maybe]") {
     assertEquals(
       Traversal[List].traverse(List(1, 2, 3))(x => Just(x + 1)),
       Just(List(2, 3, 4))
@@ -701,7 +699,9 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  property("Traverse Maybe[List]") {
+  //////////////////////////////////////////////////////
+
+  /*property("Traverse Maybe[List]") {
     assertEquals(
       Traversal[Maybe].traverse(Just(1))(x => List(x)),
       List(Just(1))
