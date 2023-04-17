@@ -699,9 +699,7 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  //////////////////////////////////////////////////////
-
-  /*property("Traverse Maybe[List]") {
+  property("Traverse Maybe[List]") {
     assertEquals(
       Traversal[Maybe].traverse(Just(1))(x => List(x)),
       List(Just(1))
@@ -793,7 +791,7 @@ class TraversalSuite extends ScalaCheckSuite {
 
   property("Traverse Right[Id]")(
     assertEquals(
-      Traversal[Disjunction[String, *]].traverse(Right(5))(x => Id(x + 1)),
+      Traversal[[A] =>> Disjunction[String, A]].traverse(Right(5))(x => Id(x + 1)),
       Id(Right[String, Int](6))
     )
   )
@@ -820,7 +818,7 @@ class TraversalSuite extends ScalaCheckSuite {
     import tech.backwards.fp.learn.Disjunction.syntax.*
 
     assertEquals(
-      Traversal[Disjunction[String, *]].traverse("a".left[Int])(x => Id(x + 1)),
+      Traversal[[A] =>> Disjunction[String, A]].traverse("a".left[Int])(x => Id(x + 1)),
       Id("a".left[Int])
     )
   }
@@ -836,15 +834,18 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Left[Id] syntax") {
+    import tech.backwards.fp.learn.Disjunction.syntax.*
     import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
-      Left[String, Id[Int]]("a").sequence,
-      Id(Left[String, Int]("a"))
+      "a".left[Id[Int]].sequence,
+      Id("a".left[Int])
     )
   }
 
-  property("Traverse List[Disjunction]") {
+  //////////////////////////////////////////////////////
+
+  /*property("Traverse List[Disjunction]") {
     assertEquals(
       Traversal[List].traverse(List(1, 2, 3))(x => Right(x + 1)),
       Right(List(2, 3, 4))
