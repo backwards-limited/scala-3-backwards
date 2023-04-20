@@ -1241,26 +1241,24 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  //////////////////////////////////////////////////////
-
-  /*property("Traverse Disjunction[Maybe]") {
+  property("Traverse Disjunction[Maybe]") {
     assertEquals(
-      Traversal[Disjunction[String, *]].traverse(Right(1))(Just.apply),
+      Traversal[[A] =>> Disjunction[String, A]].traverse(Right(1))(Just.apply),
       Just(Right(1))
     )
 
     assertEquals(
-      Traversal[Disjunction[String, *]].traverse(Right(1))(_ => Nothing[Int]),
+      Traversal[[A] =>> Disjunction[String, A]].traverse(Right(1))(_ => Nothing[Int]),
       Nothing[Disjunction[String, Int]]
     )
 
     assertEquals(
-      Traversal[Disjunction[String, *]].traverse(Left[String, Int]("a"))(Just.apply),
+      Traversal[[A] =>> Disjunction[String, A]].traverse(Left[String, Int]("a"))(Just.apply),
       Just(Left("a"))
     )
 
     assertEquals(
-      Traversal[Disjunction[String, *]].traverse(Left[String, Int]("a"))(_ => Nothing[Int]),
+      Traversal[[A] =>> Disjunction[String, A]].traverse(Left[String, Int]("a"))(_ => Nothing[Int]),
       Just(Left("a")) // One might expect Nothing[Disjunction[String, Int]], but "worksheet" with Cats version asserts this.
     )
   }
@@ -1279,6 +1277,11 @@ class TraversalSuite extends ScalaCheckSuite {
     )
 
     assertEquals(
+      Right(1).traverse(_ => Nothing[Int]),
+      Nothing[Disjunction[scala.Nothing, Int]]
+    )
+
+    assertEquals(
       Left[String, Int]("a") traverse Just.apply,
       Just(Left("a"))
     )
@@ -1290,6 +1293,7 @@ class TraversalSuite extends ScalaCheckSuite {
   }
 
   property("Sequence Disjunction[Maybe] syntax") {
+    import tech.backwards.fp.learn.Disjunction.syntax.*
     import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
@@ -1299,6 +1303,11 @@ class TraversalSuite extends ScalaCheckSuite {
 
     assertEquals(
       Right(Nothing[Int]).sequence,
+      Nothing[Disjunction[scala.Nothing, Int]]
+    )
+
+    assertEquals(
+      Nothing[Int].right[String].sequence,
       Nothing[Disjunction[String, Int]]
     )
 
@@ -1351,12 +1360,12 @@ class TraversalSuite extends ScalaCheckSuite {
   // Quite a lot going on here, so we won't test Tuple3[State] (We didn't really need to for all others, but that's ok).
   property("Traverse Tuple2[State]") {
     assertEquals(
-      Traversal[Lambda[X => (X, X)]].traverse((1, 2))(x => State[String, Int](_ + "bar" -> (x + 5))).run("foo"),
+      Traversal[[X] =>> (X, X)].traverse((1, 2))(x => State[String, Int](_ + "bar" -> (x + 5))).run("foo"),
       "foobarbar" -> (6, 7)
     )
 
     assertEquals(
-      Traversal[Lambda[X => (X, X)]].traverse((1, 2)) {
+      Traversal[[X] =>> (X, X)].traverse((1, 2)) {
         case x @ 1 =>
           State[String, Int](_ + "bar" -> (x + 5))
         case x @ 2 =>
@@ -1366,12 +1375,12 @@ class TraversalSuite extends ScalaCheckSuite {
     )
 
     assertEquals(
-      Traversal[Lambda[X => (X, X)]].traverse((1, 2))(x => State[List[String], Int](_ ++ List("bar") -> (x + 5))).run(List("foo")),
+      Traversal[[X] =>> (X, X)].traverse((1, 2))(x => State[List[String], Int](_ ++ List("bar") -> (x + 5))).run(List("foo")),
       List("foo", "bar", "bar") -> (6, 7)
     )
 
     assertEquals(
-      Traversal[Lambda[X => (X, X)]].traverse((1, 2)) {
+      Traversal[[X] =>> (X, X)].traverse((1, 2)) {
         case x @ 1 =>
           State[List[String], Int](_ ++ List("bar") -> (x + 5))
         case x @ 2 =>
@@ -1462,7 +1471,7 @@ class TraversalSuite extends ScalaCheckSuite {
         case x @ 2 =>
           State[String, Int](_ + "bar" -> (x + 10))
         case x =>
-          (x + 1).pure[State[String, *]]
+          (x + 1).pure[[A] =>> State[String, A]]
       } run "foo",
       "foobar" -> List(2, 12, 4)
     )
@@ -1477,7 +1486,7 @@ class TraversalSuite extends ScalaCheckSuite {
         case x @ 2 =>
           State[List[String], Int](_ ++ List("bar") -> (x + 10))
         case x =>
-          (x + 1).pure[State[List[String], *]]
+          (x + 1).pure[[A] =>> State[List[String], A]]
       } run List("foo"),
       List("foo", "bar") -> List(2, 12, 4)
     )
@@ -1493,11 +1502,11 @@ class TraversalSuite extends ScalaCheckSuite {
     )
 
     assertEquals(
-      List(1, 2, 3).traverse {
+      List(1, 2, 3) traverse {
         case x @ 2 =>
           State[String, Int](_ + "bar" -> (x + 10))
         case x =>
-          (x + 1).pure[State[String, *]]
+          (x + 1).pure[[A] =>> State[String, A]]
       } run "foo",
       "foobar" -> List(2, 12, 4)
     )
@@ -1508,11 +1517,11 @@ class TraversalSuite extends ScalaCheckSuite {
     )
 
     assertEquals(
-      List(1, 2, 3).traverse {
+      List(1, 2, 3) traverse {
         case x @ 2 =>
           State[List[String], Int](_ ++ List("bar") -> (x + 10))
         case x =>
-          (x + 1).pure[State[List[String], *]]
+          (x + 1).pure[[A] =>> State[List[String], A]]
       } run List("foo"),
       List("foo", "bar") -> List(2, 12, 4)
     )
@@ -1523,12 +1532,12 @@ class TraversalSuite extends ScalaCheckSuite {
     import tech.backwards.fp.learn.Traversal.syntax.*
 
     assertEquals(
-      List(1.pure[State[String, *]], State[String, Int](_ + "bar" -> 2), 3.pure[State[String, *]]).sequence.run("foo"),
+      List(1.pure[[A] =>> State[String, A]], State[String, Int](_ + "bar" -> 2), 3.pure[[A] =>> State[String, A]]).sequence.run("foo"),
       "foobar" -> List(1, 2, 3)
     )
 
     assertEquals(
-      List(1.pure[State[List[String], *]], State[List[String], Int](_ ++ List("bar") -> 2), 3.pure[State[List[String], *]]).sequence.run(List("foo")),
+      List(1.pure[[A] =>> State[List[String], A]], State[List[String], Int](_ ++ List("bar") -> 2), 3.pure[[A] =>> State[List[String], A]]).sequence.run(List("foo")),
       List("foo", "bar") -> List(1, 2, 3)
     )
   }
@@ -1603,7 +1612,9 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  property("Traverse Disjunction[State]") {
+  //////////////////////////////////////////////////////
+
+  /*property("Traverse Disjunction[State]") {
     assertEquals(
       Traversal[Disjunction[String, *]].traverse(Right(1))(x => State[String, Int](_ + "bar" -> (x + 5))).run("foo"),
       "foobar" -> Right(6)

@@ -5,7 +5,6 @@ Scala module that not only provides useful reusable functionality, but also acts
 ## Table of Contents
 
 - [Setup](docs/setup.md)
-
 - [SBT](docs/sbt.md)
-
 - [Release](docs/release.md)
+- [Functional Programming](docs/functional-programming.md)
