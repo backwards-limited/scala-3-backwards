@@ -1900,9 +1900,7 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  //////////////////////////////////////////////////////
-
-  /*property("Traverse Maybe[Writer]") {
+  property("Traverse Maybe[Writer]") {
     assertEquals(
       Traversal[Maybe].traverse(Just(1))(x => Writer("foo" -> (x + 5))).run(),
       "foo" -> Just(6)
@@ -1972,7 +1970,9 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  property("Traverse Disjunction[Writer]") {
+  //////////////////////////////////////////////////////
+
+  /*property("Traverse Disjunction[Writer]") {
     assertEquals(
       Traversal[Disjunction[String, *]].traverse(Right(1))(x => Writer("foo" -> (x + 5))).run(),
       "foo" -> Right(6)
