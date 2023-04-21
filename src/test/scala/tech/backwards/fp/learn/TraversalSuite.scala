@@ -1970,26 +1970,24 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  //////////////////////////////////////////////////////
-
-  /*property("Traverse Disjunction[Writer]") {
+  property("Traverse Disjunction[Writer]") {
     assertEquals(
-      Traversal[Disjunction[String, *]].traverse(Right(1))(x => Writer("foo" -> (x + 5))).run(),
+      Traversal[[A] =>> Disjunction[String, A]].traverse(Right(1))(x => Writer("foo" -> (x + 5))).run(),
       "foo" -> Right(6)
     )
 
     assertEquals(
-      Traversal[Disjunction[String, *]].traverse(Left[String, Int]("a"))(x => Writer("foo" -> (x + 5))).run(),
+      Traversal[[A] =>> Disjunction[String, A]].traverse(Left[String, Int]("a"))(x => Writer("foo" -> (x + 5))).run(),
       "" -> Left("a")
     )
 
     assertEquals(
-      Traversal[Disjunction[String, *]].traverse(Right(1))(x => Writer(List("foo") -> (x + 5))).run(),
+      Traversal[[A] =>> Disjunction[String, A]].traverse(Right(1))(x => Writer(List("foo") -> (x + 5))).run(),
       List("foo") -> Right(6)
     )
 
     assertEquals(
-      Traversal[Disjunction[String, *]].traverse(Left[String, Int]("a"))(x => Writer(List("foo") -> (x + 5))).run(),
+      Traversal[[A] =>> Disjunction[String, A]].traverse(Left[String, Int]("a"))(x => Writer(List("foo") -> (x + 5))).run(),
       Nil -> Left("a")
     )
   }
@@ -2042,7 +2040,9 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  test("Traverse Writer[Id]") {
+  //////////////////////////////////////////////////////
+
+  /*test("Traverse Writer[Id]") {
     assertEquals(
       Traversal[Writer[String, *]].traverse(Writer("foo" -> 1))(x => Id(x)).value.run(),
       "foo" -> 1
