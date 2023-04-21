@@ -2040,23 +2040,21 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  //////////////////////////////////////////////////////
-
-  /*test("Traverse Writer[Id]") {
+  test("Traverse Writer[Id]") {
     assertEquals(
-      Traversal[Writer[String, *]].traverse(Writer("foo" -> 1))(x => Id(x)).value.run(),
+      Traversal[[A] =>> Writer[String, A]].traverse(Writer("foo" -> 1))(x => Id(x)).value.run(),
       "foo" -> 1
     )
 
     assertEquals(
-      Traversal[Writer[List[String], *]].traverse(Writer(List("foo") -> 1))(x => Id(x)).value.run(),
+      Traversal[[A] =>> Writer[List[String], A]].traverse(Writer(List("foo") -> 1))(x => Id(x)).value.run(),
       List("foo") -> 1
     )
   }
 
   property("Traverse Writer[Tuple2]") {
     val (fst: Writer[String, Int], snd: Writer[String, Int]) =
-      Traversal[Writer[String, *]].traverse[Lambda[X => (X, X)], Int, Int](Writer("foo" -> 1))(x => (x + 1, x + 2))
+      Traversal[[A] =>> Writer[String, A]].traverse[[X] =>> (X, X), Int, Int](Writer("foo" -> 1))(x => (x + 1, x + 2))
 
     assertEquals(
       fst.run(),
@@ -2073,7 +2071,7 @@ class TraversalSuite extends ScalaCheckSuite {
     import tech.backwards.fp.learn.Traversal.syntax.*
 
     val (fst: Writer[String, Int], snd: Writer[String, Int]) =
-      Writer("foo" -> 1).traverse[Lambda[X => (X, X)], Int](x => (x + 1, x + 2))
+      Writer("foo" -> 1).traverse[[X] =>> (X, X), Int](x => (x + 1, x + 2))
 
     assertEquals(
       fst.run(),
@@ -2103,8 +2101,9 @@ class TraversalSuite extends ScalaCheckSuite {
     )
   }
 
-  property("Traverse Writer[List]") {
+  //////////////////////////////////////////////////////
 
+  /*property("Traverse Writer[List]") {
     assertEquals(
       Traversal[Writer[String, *]].traverse(Writer("foo" -> 1))(x => List(x + 1, x + 2)).map(_.run()),
       List("foo" -> 2, "foo" -> 3)
