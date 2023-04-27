@@ -1,6 +1,7 @@
 package tech.backwards.fp.learn
 
 import scala.annotation.targetName
+import tech.backwards.fp.learn.Monoid.syntax.|+|
 
 trait Monoid[A] {
   def mzero: A
@@ -8,7 +9,7 @@ trait Monoid[A] {
   def mappend(x: A, y: A): A
 }
 
-object Monoid extends MonoidGivens {
+object Monoid {
   def apply[A: Monoid]: Monoid[A] =
     summon[Monoid[A]]
 
@@ -19,11 +20,7 @@ object Monoid extends MonoidGivens {
         summon[Monoid[A]].mappend(x, y)
     }
   }
-}
 
-sealed trait MonoidGivens {
-  import tech.backwards.fp.learn.Monoid.syntax.*
-  
   given Monoid[String] with {
     lazy val mzero: String =
       ""
@@ -47,7 +44,7 @@ sealed trait MonoidGivens {
     def mappend(x: Product, y: Product): Product =
       Product(x.value * y.value)
   }
-  
+
   given [A]: Monoid[List[A]] with {
     lazy val mzero: List[A] =
       Nil

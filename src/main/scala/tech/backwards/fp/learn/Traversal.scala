@@ -4,7 +4,7 @@ abstract class Traversal[F[_]] {
   def traverse[G[_]: Applicative, A, B](fa: F[A])(f: A => G[B]): G[F[B]]
 }
 
-object Traversal extends TraversalGivens {
+object Traversal {
   def apply[F[_]: Traversal]: Traversal[F] =
     summon[Traversal[F]]
 
@@ -59,9 +59,7 @@ object Traversal extends TraversalGivens {
       }
     }
   }
-}
 
-sealed trait TraversalGivens {
   given traversalTuple2: Traversal[[X] =>> (X, X)] with {
     def traverse[G[_]: Applicative, A, B](fa: (A, A))(f: A => G[B]): G[(B, B)] = {
       import tech.backwards.fp.learn.Applicative.syntax.*

@@ -13,7 +13,7 @@ abstract class Applicative[F[_]: Functor] {
   def ap[A, B](ff: F[A => B])(fa: F[A]): F[B]
 }
 
-object Applicative extends ApplicativeGivens {
+object Applicative {
   def apply[F[_]: Applicative]: Applicative[F] =
     summon[Applicative[F]]
 
@@ -32,9 +32,7 @@ object Applicative extends ApplicativeGivens {
         ap(fa)
     }
   }
-}
 
-sealed trait ApplicativeGivens {
   given Applicative[List] with {
     def pure[A](a: A): List[A] =
       List(a)

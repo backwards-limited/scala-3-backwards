@@ -21,7 +21,7 @@ object Id {
     def flatMap[A, B](fa: Id[A])(f: A => Id[B]): Id[B] =
       f(fa.value)
   }
-  
+
   given Foldable[Id] with {
     def foldr[A, B](fa: Id[A])(seed: B)(f: (A, B) => B): B =
       f(fa.value, seed)

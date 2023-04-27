@@ -4,14 +4,12 @@ trait TypeClass[A] {
   def foo(a: A): String
 }
 
-object TypeClass extends TypeClassGivens {
+object TypeClass {
   extension[A: TypeClass](a: A) {
     def foo: String =
       summon[TypeClass[A]].foo(a)
   }
-}
 
-sealed trait TypeClassGivens {
   given TypeClass[Int] with {
     def foo(a: Int): String =
       s"Int: $a"

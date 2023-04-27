@@ -25,7 +25,7 @@ class NestedSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("Nested Id/Id Functor syntax") {
+  property("Nested Id/Id Functor syntax") {
     import tech.backwards.fp.learn.Functor.syntax.*
 
     assertEquals(
@@ -36,7 +36,7 @@ class NestedSuite extends ScalaCheckSuite {
 
   property("Nested Id/Maybe Functor") {
     val nested: Nested[Id, Maybe, Int] =
-      Functor[Nested[Id, Maybe, *]].fmap(Nested(Id(Just(5))))(_ + 1)
+      Functor[[A] =>> Nested[Id, Maybe, A]].fmap(Nested(Id(Just(5))))(_ + 1)
 
     assertEquals(
       nested,
@@ -44,12 +44,12 @@ class NestedSuite extends ScalaCheckSuite {
     )
 
     assertEquals(
-      Functor[Nested[Id, Maybe, *]].fmap(Nested(Id(Just("foo"))))(_ + "bar"),
+      Functor[[A] =>> Nested[Id, Maybe, A]].fmap(Nested(Id(Just("foo"))))(_ + "bar"),
       Nested(Id(Just("foobar")))
     )
 
     assertEquals(
-      Functor[Nested[Id, Maybe, *]].fmap(Nested(Id(Nothing[Int])))(_ + 1),
+      Functor[[A] =>> Nested[Id, Maybe, A]].fmap(Nested(Id(Nothing[Int])))(_ + 1),
       Nested(Id(Nothing[Int]))
     )
   }
@@ -69,7 +69,7 @@ class NestedSuite extends ScalaCheckSuite {
     )
   }
 
-  property("Nested List/Maybe Functor") {
+  /*property("Nested List/Maybe Functor") {
     val nested: Nested[List, Maybe, Int] =
       Functor[Nested[List, Maybe, *]].fmap(Nested(List(Just(1), Just(2), Just(3))))(_ + 1)
 

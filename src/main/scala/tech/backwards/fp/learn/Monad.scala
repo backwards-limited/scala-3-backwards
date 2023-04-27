@@ -8,7 +8,7 @@ abstract class Monad[F[_]: Functor] {
   def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B]
 }
 
-object Monad extends MonadGivens {
+object Monad {
   def apply[F[_]: Monad]: Monad[F] =
     summon[Monad[F]]
   
@@ -38,9 +38,7 @@ object Monad extends MonadGivens {
       }
     }
   }
-}
 
-sealed trait MonadGivens {
   given Monad[List] with {
     def pure[A](a: A): List[A] =
       List(a)

@@ -2,12 +2,13 @@ package tech.backwards.fp.learn
 
 import scala.annotation.targetName
 import cats.implicits.*
+import tech.backwards.fp.learn.Eq.syntax.====
 
 trait Eq[A] {
   def eq(x: A, y: A): Boolean
 }
 
-object Eq extends EqGivens { self =>
+object Eq { self =>
   def eq[A: Eq](x: A, y: A): Boolean =
     summon[Eq[A]].eq(x, y)
 
@@ -22,10 +23,6 @@ object Eq extends EqGivens { self =>
         ! ====(y)
     }
   }
-}
-
-sealed trait EqGivens {
-  import tech.backwards.fp.learn.Eq.syntax.*
 
   given Eq[Int] with {
     def eq(x: Int, y: Int): Boolean =
@@ -36,7 +33,7 @@ sealed trait EqGivens {
     def eq(x: String, y: String): Boolean =
       x == y
   }
-  
+
   given [A: Eq]: Eq[List[A]] with {
     def eq(xs: List[A], ys: List[A]): Boolean =
       (xs.length == ys.length) && xs.zip(ys).foldM(true) { case (outcome, (x, y)) =>

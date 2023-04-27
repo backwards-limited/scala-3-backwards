@@ -6,7 +6,7 @@ trait Functor[F[_]] {
   def fmap[A, B](fa: F[A])(f: A => B): F[B]
 }
 
-object Functor extends FunctorGivens {
+object Functor {
   def apply[F[_]: Functor]: Functor[F] =
     summon[Functor[F]]
 
@@ -40,9 +40,7 @@ object Functor extends FunctorGivens {
       } 
     }
   }
-}
 
-sealed trait FunctorGivens {
   given Functor[List] with {
     def fmap[A, B](fa: List[A])(f: A => B): List[B] =
       fa map f

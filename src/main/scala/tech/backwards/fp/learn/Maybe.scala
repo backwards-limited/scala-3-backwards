@@ -25,6 +25,13 @@ object Nothing {
 }
 
 object Maybe {
+  object syntax {
+    extension[A] (a: A) {
+      def just: Maybe[A] =
+        Just(a)
+    }  
+  }
+
   given Functor[Maybe] with {
     def fmap[A, B](fa: Maybe[A])(f: A => B): Maybe[B] =
       fa match {
@@ -35,7 +42,7 @@ object Maybe {
           Just(f(a))
       }
   }
-  
+
   given Monad[Maybe] with {
     def pure[A](a: A): Maybe[A] =
       Just(a)
@@ -47,9 +54,9 @@ object Maybe {
 
         case Just(a) =>
           f(a)
-      }  
+      }
   }
-  
+
   given Foldable[Maybe] with {
     def foldr[A, B](fa: Maybe[A])(seed: B)(f: (A, B) => B): B =
       fa match {

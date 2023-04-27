@@ -6,10 +6,13 @@ trait Foldable[F[_]] {
   def foldr[A, B](fa: F[A])(seed: B)(f: (A, B) => B): B
 }
 
-object Foldable extends FoldableGivens {
+object Foldable {
   def apply[F[_]: Foldable]: Foldable[F] =
     summon[Foldable[F]]
 
+  def foldRight[A, B](xs: List[A])(seed: B)(f: (A, B) => B): B =
+    xs.foldRight(seed)(f)
+    
   object syntax {
     extension [F[_]: Foldable, A](fa: F[A]) {
       def foldr[B](seed: B)(f: (A, B) => B): B =
@@ -26,12 +29,7 @@ object Foldable extends FoldableGivens {
         foldableTuple3.foldr(fa)(seed)(f)
     }
   }
-}
-
-sealed trait FoldableGivens {
-  def foldRight[A, B](xs: List[A])(seed: B)(f: (A, B) => B): B =
-    xs.foldRight(seed)(f)
-
+  
   given Foldable[List] with {
     def foldr[A, B](fa: List[A])(seed: B)(f: (A, B) => B): B =
       fa.foldRight(seed)(f)
