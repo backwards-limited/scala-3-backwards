@@ -69,9 +69,9 @@ class NestedSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("Nested List/Maybe Functor") {
+  property("Nested List/Maybe Functor") {
     val nested: Nested[List, Maybe, Int] =
-      Functor[Nested[List, Maybe, *]].fmap(Nested(List(Just(1), Just(2), Just(3))))(_ + 1)
+      Functor[[A] =>> Nested[List, Maybe, A]].fmap(Nested(List(Just(1), Just(2), Just(3))))(_ + 1)
 
     assertEquals(
       nested,
@@ -79,12 +79,12 @@ class NestedSuite extends ScalaCheckSuite {
     )
 
     assertEquals(
-      Functor[Nested[List, Maybe, *]].fmap(Nested(List(Just(1), Just(2), Just(3))))(_ + 1),
+      Functor[[A] =>> Nested[List, Maybe, A]].fmap(Nested(List(Just(1), Just(2), Just(3))))(_ + 1),
       Nested(List(Just(2), Just(3), Just(4)))
     )
 
     assertEquals(
-      Functor[Nested[List, Maybe, *]].fmap(Nested(List(Just(1), Nothing[Int], Just(3))))(_ + 1),
+      Functor[[A] =>> Nested[List, Maybe, A]].fmap(Nested(List(Just(1), Nothing[Int], Just(3))))(_ + 1),
       Nested(List(Just(2), Nothing[Int], Just(4)))
     )
   }
@@ -106,7 +106,7 @@ class NestedSuite extends ScalaCheckSuite {
 
   property("Nested Id/Id Applicative") {
     val nested: Nested[Id, Id, Int] =
-      Applicative[Nested[Id, Id, *]].ap(Nested[Id, Id, Int => Int](Id(Id(_ + 1))))(Nested(Id(Id(5))))
+      Applicative[[A] =>> Nested[Id, Id, A]].ap(Nested[Id, Id, Int => Int](Id(Id(_ + 1))))(Nested(Id(Id(5))))
 
     assertEquals(
       nested,
@@ -114,12 +114,12 @@ class NestedSuite extends ScalaCheckSuite {
     )
 
     assertEquals(
-      Applicative[Nested[Id, Id, *]].ap(Nested[Id, Id, Int => String](Id(Id(_.toString))))(Nested(Id(Id(5)))),
+      Applicative[[A] =>> Nested[Id, Id, A]].ap(Nested[Id, Id, Int => String](Id(Id(_.toString))))(Nested(Id(Id(5)))),
       Nested(Id(Id("5")))
     )
   }
 
-  property("Nested Id/Id Applicative syntax") {
+  /*property("Nested Id/Id Applicative syntax") {
     import tech.backwards.fp.learn.Applicative.syntax.function.*
 
     assertEquals(
