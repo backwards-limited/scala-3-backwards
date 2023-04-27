@@ -119,8 +119,8 @@ class NestedSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("Nested Id/Id Applicative syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax.function.*
+  property("Nested Id/Id Applicative syntax") {
+    import tech.backwards.fp.learn.Applicative.syntax.*
 
     assertEquals(
       Nested(Id(Id((_: Int) + 1))).ap(Nested(Id(Id(5)))).value,
@@ -129,7 +129,7 @@ class NestedSuite extends ScalaCheckSuite {
   }
 
   property("Nested Id/Id Applicative and Functor syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax.function.*
+    import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Functor.syntax.*
 
     assertEquals(
@@ -139,7 +139,7 @@ class NestedSuite extends ScalaCheckSuite {
   }
 
   property("Nested Id/Id Applicative and Functor function syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax.function.*
+    import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Functor.syntax.function.*
 
     assertEquals(
@@ -158,7 +158,7 @@ class NestedSuite extends ScalaCheckSuite {
 
   property("Nested Id/Maybe Applicative") {
     val nested: Nested[Id, Maybe, Int] =
-      Applicative[Nested[Id, Maybe, *]].ap(Nested(Id(Just((_: Int) + 1))))(Nested(Id(Just(5))))
+      Applicative[[A] =>> Nested[Id, Maybe, A]].ap(Nested(Id(Just((_: Int) + 1))))(Nested(Id(Just(5))))
 
     assertEquals(
       nested,
@@ -166,22 +166,22 @@ class NestedSuite extends ScalaCheckSuite {
     )
 
     assertEquals(
-      Applicative[Nested[Id, Maybe, *]].ap(Nested(Id(Just((_: Int).toString))))(Nested(Id(Just(5)))),
+      Applicative[[A] =>> Nested[Id, Maybe, A]].ap(Nested(Id(Just((_: Int).toString))))(Nested(Id(Just(5)))),
       Nested(Id(Just("5")))
     )
 
     assertEquals(
-      Applicative[Nested[Id, Maybe, *]].ap(Nested(Id(Just((_: Int).toString))))(Nested(Id(Nothing[Int]))),
+      Applicative[[A] =>> Nested[Id, Maybe, A]].ap(Nested(Id(Just((_: Int).toString))))(Nested(Id(Nothing[Int]))),
       Nested(Id(Nothing[String]))
     )
 
     assertEquals(
-      Applicative[Nested[Id, Maybe, *]].ap(Nested(Id(Nothing[Int => String])))(Nested(Id(Just(5)))),
+      Applicative[[A] =>> Nested[Id, Maybe, A]].ap(Nested(Id(Nothing[Int => String])))(Nested(Id(Just(5)))),
       Nested(Id(Nothing[String]))
     )
   }
 
-  property("Nested Id/Maybe Applicative syntax") {
+  /*property("Nested Id/Maybe Applicative syntax") {
     import tech.backwards.fp.learn.Applicative.syntax.function.*
     import tech.backwards.fp.learn.Maybe.syntax.*
 

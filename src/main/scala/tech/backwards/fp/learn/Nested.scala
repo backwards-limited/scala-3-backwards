@@ -9,8 +9,8 @@ object Nested {
   }
   
   given [F[_]: Applicative: Functor, G[_]: Applicative: Functor]: Applicative[[A] =>> Nested[F, G, A]] with {
-    import tech.backwards.fp.learn.Functor.syntax._
-    import tech.backwards.fp.learn.Applicative.syntax._
+    import tech.backwards.fp.learn.Functor.syntax.*
+    import tech.backwards.fp.learn.Applicative.syntax.*
     
     def pure[A](a: A): Nested[F, G, A] =
       Nested(a.pure[G].pure[F]) // i.e. Nested(Applicative[F].pure(Applicative[G].pure(a)))
