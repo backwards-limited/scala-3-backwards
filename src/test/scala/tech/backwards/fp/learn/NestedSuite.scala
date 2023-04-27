@@ -181,8 +181,8 @@ class NestedSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("Nested Id/Maybe Applicative syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax.function.*
+  property("Nested Id/Maybe Applicative syntax") {
+    import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Maybe.syntax.*
 
     assertEquals(
@@ -202,7 +202,7 @@ class NestedSuite extends ScalaCheckSuite {
   }
 
   property("Nested Id/Maybe Applicative and Functor syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax.function.*
+    import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Functor.syntax.*
     import tech.backwards.fp.learn.Maybe.syntax.*
 
@@ -223,7 +223,7 @@ class NestedSuite extends ScalaCheckSuite {
   }
 
   property("Nested Id/Maybe Applicative and Functor function syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax.function.*
+    import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Functor.syntax.function.*
     import tech.backwards.fp.learn.Maybe.syntax.*
 
@@ -262,8 +262,8 @@ class NestedSuite extends ScalaCheckSuite {
   }
 
   property("Nested Id/Disjunction Applicative") {
-    val nested: Nested[Id, Disjunction[String, *], Int] =
-      Applicative[Nested[Id, Disjunction[String, *], *]].ap(Nested(Id(Right[String, Int => Int](_ + 1))))(Nested(Id(Right(5))))
+    val nested: Nested[Id, [X] =>> Disjunction[String, X], Int] =
+      Applicative[[A] =>> Nested[Id, [B] =>> Disjunction[String, B], A]].ap(Nested(Id(Right[String, Int => Int](_ + 1))))(Nested(Id(Right(5))))
 
     assertEquals(
       nested,
@@ -271,22 +271,22 @@ class NestedSuite extends ScalaCheckSuite {
     )
 
     assertEquals(
-      Applicative[Nested[Id, Disjunction[String, *], *]].ap(Nested(Id(Right[String, Int => Int](_ + 1))))(Nested(Id(Right(5)))),
+      Applicative[[A] =>> Nested[Id, [B] =>> Disjunction[String, B], A]].ap(Nested(Id(Right[String, Int => Int](_ + 1))))(Nested(Id(Right(5)))),
       Nested(Id(Right[String, Int](6)))
     )
 
     assertEquals(
-      Applicative[Nested[Id, Disjunction[String, *], *]].ap(Nested(Id(Right[String, Int => Int](_ + 1))))(Nested(Id(Left("whoops")))),
+      Applicative[[A] =>> Nested[Id, [B] =>> Disjunction[String, B], A]].ap(Nested(Id(Right[String, Int => Int](_ + 1))))(Nested(Id(Left("whoops")))),
       Nested(Id(Left[String, Int]("whoops")))
     )
 
     assertEquals(
-      Applicative[Nested[Id, Disjunction[String, *], *]].ap(Nested(Id(Left[String, Int => Int]("whoops"))))(Nested(Id(Right(5)))),
+      Applicative[[A] =>> Nested[Id, [B] =>> Disjunction[String, B], A]].ap(Nested(Id(Left[String, Int => Int]("whoops"))))(Nested(Id(Right(5)))),
       Nested(Id(Left[String, Int]("whoops")))
     )
   }
 
-  property("Nested Id/Disjunction Applicative syntax") {
+  /*property("Nested Id/Disjunction Applicative syntax") {
     import tech.backwards.fp.learn.Applicative.syntax.function.*
     import tech.backwards.fp.learn.Disjunction.syntax.*
 
