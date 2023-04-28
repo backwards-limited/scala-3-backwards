@@ -286,8 +286,8 @@ class NestedSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("Nested Id/Disjunction Applicative syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax.function.*
+  property("Nested Id/Disjunction Applicative syntax") {
+    import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Disjunction.syntax.*
 
     assertEquals(
@@ -307,7 +307,7 @@ class NestedSuite extends ScalaCheckSuite {
   }
 
   property("Nested Id/Disjunction Applicative and Functor syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax.function.*
+    import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Disjunction.syntax.*
     import tech.backwards.fp.learn.Functor.syntax.*
 
@@ -328,7 +328,7 @@ class NestedSuite extends ScalaCheckSuite {
   }
 
   property("Nested Id/Disjunction Applicative and Functor function syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax.function.*
+    import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Disjunction.syntax.*
     import tech.backwards.fp.learn.Functor.syntax.function.*
 
@@ -366,7 +366,7 @@ class NestedSuite extends ScalaCheckSuite {
     )
   }
 
-  property("Nested List/Maybe Applicative") {
+  /*property("Nested List/Maybe Applicative") {
     val nested: Nested[List, Maybe, Int] =
       Applicative[Nested[List, Maybe, *]].ap(Nested(List(Just((_: Int) + 1), Just((_: Int) + 3))))(Nested(List(Just(5), Just(6))))
 
