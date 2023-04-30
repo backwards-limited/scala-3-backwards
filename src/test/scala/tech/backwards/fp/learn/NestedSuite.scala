@@ -471,9 +471,9 @@ class NestedSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("Nested List/Disjunction Applicative") {
-    val nested: Nested[List, Disjunction[String, *], Int] =
-      Applicative[Nested[List, Disjunction[String, *], *]].ap(Nested(List(Right((_: Int) + 1), Right((_: Int) + 3))))(Nested(List(Right(5), Right(6))))
+  property("Nested List/Disjunction Applicative") {
+    val nested: Nested[List, [X] =>> Disjunction[String, X], Int] =
+      Applicative[[A] =>> Nested[List, [B] =>> Disjunction[String, B], A]].ap(Nested(List(Right((_: Int) + 1), Right((_: Int) + 3))))(Nested(List(Right(5), Right(6))))
 
     assertEquals(
       nested,
@@ -481,23 +481,23 @@ class NestedSuite extends ScalaCheckSuite {
     )
 
     assertEquals(
-      Applicative[Nested[List, Disjunction[String, *], *]].ap(Nested(List(Right((_: Int) + 1), Right((_: Int) + 3))))(Nested(List(Right(5), Right(6)))),
+      Applicative[[A] =>> Nested[List, [B] =>> Disjunction[String, B], A]].ap(Nested(List(Right((_: Int) + 1), Right((_: Int) + 3))))(Nested(List(Right(5), Right(6)))),
       Nested(List(Right[String, Int](6), Right(7), Right(8), Right(9)))
     )
 
     assertEquals(
-      Applicative[Nested[List, Disjunction[String, *], *]].ap(Nested(List(Right((_: Int) + 1), Right((_: Int) + 3))))(Nested(List(Right(5), Left("whoops")))),
+      Applicative[[A] =>> Nested[List, [B] =>> Disjunction[String, B], A]].ap(Nested(List(Right((_: Int) + 1), Right((_: Int) + 3))))(Nested(List(Right(5), Left("whoops")))),
       Nested(List(Right(6), Left("whoops"), Right(8), Left("whoops")))
     )
 
     assertEquals(
-      Applicative[Nested[List, Disjunction[String, *], *]].ap(Nested(List(Right((_: Int) + 1), Left("whoops"))))(Nested(List(Right(5), Right(6)))),
+      Applicative[[A] =>> Nested[List, [B] =>> Disjunction[String, B], A]].ap(Nested(List(Right((_: Int) + 1), Left("whoops"))))(Nested(List(Right(5), Right(6)))),
       Nested(List(Right(6), Right(7), Left("whoops"), Left("whoops")))
     )
   }
 
   property("Nested List/Disjunction Applicative syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax.function.*
+    import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Disjunction.syntax.*
 
     assertEquals(
@@ -517,7 +517,7 @@ class NestedSuite extends ScalaCheckSuite {
   }
 
   property("Nested List/Disjunction Applicative and Functor syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax.function.*
+    import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Disjunction.syntax.*
     import tech.backwards.fp.learn.Functor.syntax.*
 
@@ -538,7 +538,7 @@ class NestedSuite extends ScalaCheckSuite {
   }
 
   property("Nested List/Disjunction Applicative and Functor function syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax.function.*
+    import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Disjunction.syntax.*
     import tech.backwards.fp.learn.Functor.syntax.function.*
 
@@ -574,9 +574,17 @@ class NestedSuite extends ScalaCheckSuite {
       add `<$>` Nested(List(1.right, "whoops".left, 3.right)) <*> Nested(List(5.right, 6.right)),
       Nested(List(6.right, 7.right, "whoops".left, "whoops".left, 8.right, 9.right))
     )
+
+    def addInts(x: Int, y: Int): Int =
+      x + y
+
+    assertEquals(
+      addInts.curried `<$>` Nested(List(1.right, 2.right, 3.right)) <*> Nested(List(5.right, 6.right)),
+      Nested(List(6.right, 7.right, 7.right, 8.right, 8.right, 9.right))
+    )
   }
 
-  property("Traverse Id[Nested[Id[Id]]]") {
+  /*property("Traverse Id[Nested[Id[Id]]]") {
     val nested: Nested[Id, Id, Id[Int]] =
       Traversal[Id].traverse(Id(5))(x => Nested(Id(Id(x + 1))))
 
