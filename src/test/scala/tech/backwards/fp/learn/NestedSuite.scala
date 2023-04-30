@@ -617,7 +617,7 @@ class NestedSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("Traverse List[Nested[Id[Id]]]") {
+  property("Traverse List[Nested[Id[Id]]]") {
     val nested: Nested[Id, Id, List[Int]] =
       Traversal[List].traverse(List(1, 2))(x => Nested(Id(Id(x + 1))))
 
@@ -652,7 +652,7 @@ class NestedSuite extends ScalaCheckSuite {
 
   property("Traverse List[Nested[List[Maybe]]]") {
     val `in traversalList of fa.foldRight`: Nested[List, Maybe, List[Int]] =
-      Applicative[Nested[List, Maybe, *]].pure(List.empty[Int])
+      Applicative[[A] =>> Nested[List, Maybe, A]].pure(List.empty[Int])
 
     /*
     TODO - Trying to explain, but the following isn't quite right yet:
@@ -773,5 +773,5 @@ class NestedSuite extends ScalaCheckSuite {
         )
       )
     )
-  }*/
+  }
 }
