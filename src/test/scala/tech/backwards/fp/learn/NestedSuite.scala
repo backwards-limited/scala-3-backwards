@@ -584,7 +584,7 @@ class NestedSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("Traverse Id[Nested[Id[Id]]]") {
+  property("Traverse Id[Nested[Id[Id]]]") {
     val nested: Nested[Id, Id, Id[Int]] =
       Traversal[Id].traverse(Id(5))(x => Nested(Id(Id(x + 1))))
 
@@ -617,7 +617,7 @@ class NestedSuite extends ScalaCheckSuite {
     )
   }
 
-  property("Traverse List[Nested[Id[Id]]]") {
+  /*property("Traverse List[Nested[Id[Id]]]") {
     val nested: Nested[Id, Id, List[Int]] =
       Traversal[List].traverse(List(1, 2))(x => Nested(Id(Id(x + 1))))
 
