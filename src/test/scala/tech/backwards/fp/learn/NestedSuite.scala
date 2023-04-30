@@ -366,9 +366,9 @@ class NestedSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("Nested List/Maybe Applicative") {
+  property("Nested List/Maybe Applicative") {
     val nested: Nested[List, Maybe, Int] =
-      Applicative[Nested[List, Maybe, *]].ap(Nested(List(Just((_: Int) + 1), Just((_: Int) + 3))))(Nested(List(Just(5), Just(6))))
+      Applicative[[A] =>> Nested[List, Maybe, A]].ap(Nested(List(Just((_: Int) + 1), Just((_: Int) + 3))))(Nested(List(Just(5), Just(6))))
 
     assertEquals(
       nested,
@@ -376,23 +376,23 @@ class NestedSuite extends ScalaCheckSuite {
     )
 
     assertEquals(
-      Applicative[Nested[List, Maybe, *]].ap(Nested(List(Just((_: Int) + 1), Just((_: Int) + 3))))(Nested(List(Just(5), Just(6)))),
+      Applicative[[A] =>> Nested[List, Maybe, A]].ap(Nested(List(Just((_: Int) + 1), Just((_: Int) + 3))))(Nested(List(Just(5), Just(6)))),
       Nested(List(Just(6), Just(7), Just(8), Just(9)))
     )
 
     assertEquals(
-      Applicative[Nested[List, Maybe, *]].ap(Nested(List(Just((_: Int) + 1), Just((_: Int) + 3))))(Nested(List(Just(5), Nothing[Int]))),
+      Applicative[[A] =>> Nested[List, Maybe, A]].ap(Nested(List(Just((_: Int) + 1), Just((_: Int) + 3))))(Nested(List(Just(5), Nothing[Int]))),
       Nested(List(Just(6), Nothing[Int], Just(8), Nothing[Int]))
     )
 
     assertEquals(
-      Applicative[Nested[List, Maybe, *]].ap(Nested(List(Just((_: Int) + 1), Nothing[Int => Int])))(Nested(List(Just(5), Just(6)))),
+      Applicative[[A] =>> Nested[List, Maybe, A]].ap(Nested(List(Just((_: Int) + 1), Nothing[Int => Int])))(Nested(List(Just(5), Just(6)))),
       Nested(List(Just(6), Just(7), Nothing[Int], Nothing[Int]))
     )
   }
 
   property("Nested List/Maybe Applicative syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax.function.*
+    import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Maybe.syntax.*
 
     assertEquals(
@@ -412,7 +412,7 @@ class NestedSuite extends ScalaCheckSuite {
   }
 
   property("Nested List/Maybe Applicative and Functor syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax.function.*
+    import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Functor.syntax.*
     import tech.backwards.fp.learn.Maybe.syntax.*
 
@@ -433,7 +433,7 @@ class NestedSuite extends ScalaCheckSuite {
   }
 
   property("Nested List/Maybe Applicative and Functor function syntax") {
-    import tech.backwards.fp.learn.Applicative.syntax.function.*
+    import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Functor.syntax.function.*
     import tech.backwards.fp.learn.Maybe.syntax.*
 
@@ -471,7 +471,7 @@ class NestedSuite extends ScalaCheckSuite {
     )
   }
 
-  property("Nested List/Disjunction Applicative") {
+  /*property("Nested List/Disjunction Applicative") {
     val nested: Nested[List, Disjunction[String, *], Int] =
       Applicative[Nested[List, Disjunction[String, *], *]].ap(Nested(List(Right((_: Int) + 1), Right((_: Int) + 3))))(Nested(List(Right(5), Right(6))))
 
