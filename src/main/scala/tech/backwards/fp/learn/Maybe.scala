@@ -43,6 +43,20 @@ object Maybe {
       }
   }
 
+  given Applicative[Maybe] with {
+    def pure[A](a: A): Maybe[A] =
+      Just(a)
+
+    def ap[A, B](ff: Maybe[A => B])(fa: Maybe[A]): Maybe[B] =
+      ff match {
+        case Just(f) =>
+          Functor[Maybe].fmap(fa)(f)
+
+        case _ =>
+          Nothing[B]
+      }
+  }
+
   given Monad[Maybe] with {
     def pure[A](a: A): Maybe[A] =
       Just(a)
@@ -65,20 +79,6 @@ object Maybe {
 
         case Just(a) =>
           f(a, seed)
-      }
-  }
-
-  given Applicative[Maybe] with {
-    def pure[A](a: A): Maybe[A] =
-      Just(a)
-
-    def ap[A, B](ff: Maybe[A => B])(fa: Maybe[A]): Maybe[B] =
-      ff match {
-        case Just(f) =>
-          Functor[Maybe].fmap(fa)(f)
-
-        case _ =>
-          Nothing[B]
       }
   }
 

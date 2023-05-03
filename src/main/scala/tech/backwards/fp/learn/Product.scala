@@ -6,7 +6,7 @@ object Product {
   def apply(value: Int): Product =
     value
   
-  extension(product: Product) {
+  extension (product: Product) {
     def value: Int =
       product
   }

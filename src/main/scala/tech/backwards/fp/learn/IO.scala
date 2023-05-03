@@ -14,19 +14,19 @@ object IO {
       IO(f(fa.unsafeRunSync()))
   }
 
-  given monadIO: Monad[IO] with {
+  given applicativeIO: Applicative[IO] with {
     def pure[A](a: A): IO[A] =
       IO(a)
 
-    def flatMap[A, B](fa: IO[A])(f: A => IO[B]): IO[B] =
-      f(fa.unsafeRunSync())
-  }
-
-  given Applicative[IO] with {
-    def pure[A](a: A): IO[A] =
-      monadIO.pure(a)
-
     def ap[A, B](ff: IO[A => B])(fa: IO[A]): IO[B] =
       functorIO.fmap(fa)(ff.unsafeRunSync())
+  }
+
+  given Monad[IO] with {
+    def pure[A](a: A): IO[A] =
+      applicativeIO.pure(a)
+
+    def flatMap[A, B](fa: IO[A])(f: A => IO[B]): IO[B] =
+      f(fa.unsafeRunSync())
   }
 }

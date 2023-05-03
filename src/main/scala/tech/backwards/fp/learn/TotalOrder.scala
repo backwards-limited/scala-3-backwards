@@ -28,7 +28,7 @@ object TotalOrder { self =>
       x < y
   }
 
-  given[A: TotalOrder]: TotalOrder[List[A]] with {
+  given [A: TotalOrder]: TotalOrder[List[A]] with {
     def less(xs: List[A], ys: List[A]): Boolean =
       xs.zip(ys).foldM(false) { case (outcome, (x, y)) =>
         Option.unless(x less y)(outcome)

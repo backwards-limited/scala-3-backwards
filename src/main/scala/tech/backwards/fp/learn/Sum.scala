@@ -6,7 +6,7 @@ object Sum {
   def apply(value: Int): Sum =
     value
 
-  extension(sum: Sum) {
+  extension (sum: Sum) {
     def value: Int =
       sum
   }

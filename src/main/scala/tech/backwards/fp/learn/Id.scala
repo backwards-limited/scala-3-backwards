@@ -14,6 +14,14 @@ object Id {
       Id(f(fa.value))
   }
 
+  given Applicative[Id] with {
+    def pure[A](a: A): Id[A] =
+      Id(a)
+
+    def ap[A, B](ff: Id[A => B])(fa: Id[A]): Id[B] =
+      ff.value(fa)
+  }
+
   given Monad[Id] with {
     def pure[A](a: A): Id[A] =
       Id(a)
@@ -25,14 +33,6 @@ object Id {
   given Foldable[Id] with {
     def foldr[A, B](fa: Id[A])(seed: B)(f: (A, B) => B): B =
       f(fa.value, seed)
-  }
-
-  given Applicative[Id] with {
-    def pure[A](a: A): Id[A] =
-      Id(a)
-
-    def ap[A, B](ff: Id[A => B])(fa: Id[A]): Id[B] =
-      ff.value(fa)
   }
 
   given Traversal[Id] with {

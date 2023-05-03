@@ -22,6 +22,19 @@ object Writer {
       }
   }
 
+  given [W: Monoid]: Applicative[[A] =>> Writer[W, A]] with {
+    import tech.backwards.fp.learn.Functor.syntax.*
+    import tech.backwards.fp.learn.Monoid.syntax.*
+
+    def pure[A](a: A): Writer[W, A] =
+      writer[W].as(a)
+
+    def ap[A, B](ff: Writer[W, A => B])(fa: Writer[W, A]): Writer[W, B] =
+      (ff.run(), fa.run()) match {
+        case ((w, f), (w2, a)) => Writer((w |+| w2) -> f(a))
+      }
+  }
+
   given [W: Monoid]: Monad[[A] =>> Writer[W, A]] with {
     import tech.backwards.fp.learn.Functor.syntax.*
     import tech.backwards.fp.learn.Monoid.syntax.*
@@ -35,19 +48,6 @@ object Writer {
           tell(w |+| w2).as(b)
         )
       )
-  }
-
-  given [W: Monoid]: Applicative[[A] =>> Writer[W, A]] with {
-    import tech.backwards.fp.learn.Functor.syntax.*
-    import tech.backwards.fp.learn.Monoid.syntax.*
-
-    def pure[A](a: A): Writer[W, A] =
-      writer[W].as(a)
-
-    def ap[A, B](ff: Writer[W, A => B])(fa: Writer[W, A]): Writer[W, B] =
-      (ff.run(), fa.run()) match {
-        case ((w, f), (w2, a)) => Writer((w |+| w2) -> f(a))
-      }
   }
 
   given [W: Monoid]: Traversal[[A] =>> Writer[W, A]] with {

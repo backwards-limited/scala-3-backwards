@@ -29,18 +29,6 @@ object State {
       )
   }
 
-  given [S]: Monad[[A] =>> State[S, A]] with {
-    def pure[A](a: A): State[S, A] =
-      State(_ -> a)
-
-    def flatMap[A, B](fa: State[S, A])(f: A => State[S, B]): State[S, B] =
-      State(s =>
-        fa.run(s).pipe((s, a) =>
-          f(a).run(s)
-        )
-      )
-  }
-
   given [S]: Applicative[[A] =>> State[S, A]] with {
     def pure[A](a: A): State[S, A] =
       State(_ -> a)
@@ -51,6 +39,18 @@ object State {
           fa.run(s).pipe((s, a) =>
             s -> f(a)
           )
+        )
+      )
+  }
+
+  given [S]: Monad[[A] =>> State[S, A]] with {
+    def pure[A](a: A): State[S, A] =
+      State(_ -> a)
+
+    def flatMap[A, B](fa: State[S, A])(f: A => State[S, B]): State[S, B] =
+      State(s =>
+        fa.run(s).pipe((s, a) =>
+          f(a).run(s)
         )
       )
   }
