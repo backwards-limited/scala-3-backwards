@@ -27,15 +27,15 @@ object Functor {
     }
     
     object function {
-      extension [F[_]: Functor, A, B](f: A => B) {
-        def fmap(fa: F[A]): F[B] =
+      extension [A, B](f: A => B) {
+        def fmap[F[_]: Functor](fa: F[A]): F[B] =
           apply[F].fmap(fa)(f)
 
-        def map(fa: F[A]): F[B] =
+        def map[F[_]: Functor](fa: F[A]): F[B] =
           fmap(fa)
 
         @targetName("`map`")
-        infix def `<$>`(fa: F[A]): F[B] =
+        infix def `<$>`[F[_]: Functor](fa: F[A]): F[B] =
           fmap(fa)
       } 
     }
