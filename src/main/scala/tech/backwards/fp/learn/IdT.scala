@@ -14,12 +14,11 @@ object IdT {
 
   def lift[F[_]: Functor, A](fa: F[A]): IdT[F, A] =
     IdT(Functor[F].fmap(fa)(Id.apply))
-
-  /*implicit def functorIdT[F[_]: Functor]: Functor[IdT[F, *]] =
-    new Functor[IdT[F, *]] {
-      def fmap[A, B](fa: IdT[F, A])(f: A => B): IdT[F, B] =
-        IdT(Functor[F].fmap(fa.value)(a => Id(f(a.value))))
-    }*/
+    
+  given [F[_]: Functor]: Functor[[A] =>> IdT[F, A]] with {
+    def fmap[A, B](fa: IdT[F, A])(f: A => B): IdT[F, B] =
+      IdT(Functor[F].fmap(fa.value)(a => Id(f(a.value))))
+  }
 
   /*implicit def applicativeIdT[F[_]: Functor: Applicative]: Applicative[IdT[F, *]] =
     new Applicative[IdT[F, *]] {
