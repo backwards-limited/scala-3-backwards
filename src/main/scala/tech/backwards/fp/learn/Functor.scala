@@ -27,6 +27,7 @@ object Functor {
     }
     
     object function {
+      // Annoyingly F[A] and A => B are essentially both type constructors, so we have to declare separately
       extension [A, B](f: A => B) {
         def fmap[F[_]: Functor](fa: F[A]): F[B] =
           apply[F].fmap(fa)(f)
