@@ -18,7 +18,7 @@ object Functor {
       def map[B](f: A => B): F[B] =
         fmap(f)
 
-      @targetName("`map`")
+      @targetName("map_op")
       infix def `<$>`[B](f: A => B): F[B] =
         fmap(f)
 
@@ -35,7 +35,7 @@ object Functor {
         def map[F[_]: Functor](fa: F[A]): F[B] =
           fmap(fa)
 
-        @targetName("`map`")
+        @targetName("map_op")
         infix def `<$>`[F[_]: Functor](fa: F[A]): F[B] =
           fmap(fa)
       } 

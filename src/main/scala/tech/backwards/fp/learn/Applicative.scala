@@ -23,11 +23,22 @@ object Applicative {
         apply[F].pure(a)
     }
 
+    extension [F[_]: Applicative, A](fa: F[A]) {
+      @targetName("ap_fa")
+      def ap[B](ff: F[A => B]): F[B] =
+        apply[F].ap(ff)(fa)
+
+      @targetName("ap_op_fa")
+      def <*>[B](ff: F[A => B]): F[B] =
+        ap(ff)
+    }
+
     extension [F[_]: Applicative, A, B](ff: F[A => B]) {
+      @targetName("ap_ff")
       def ap(fa: F[A]): F[B] =
         apply[F].ap(ff)(fa)
 
-      @targetName("`ap`")
+      @targetName("ap_op_ff")
       def <*>(fa: F[A]): F[B] =
         ap(fa)
     }

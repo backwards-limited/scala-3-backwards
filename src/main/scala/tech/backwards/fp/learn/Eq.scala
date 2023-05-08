@@ -18,7 +18,7 @@ object Eq { self =>
       def ====(y: A): Boolean =
         self.eq(x, y)
 
-      @targetName("!eq")
+      @targetName("not_eq")
       def !===(y: A): Boolean =
         ! ====(y)
     }

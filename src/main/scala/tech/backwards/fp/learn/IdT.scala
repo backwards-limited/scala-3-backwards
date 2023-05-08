@@ -20,24 +20,22 @@ object IdT {
       IdT(Functor[F].fmap(fa.value)(a => Id(f(a.value))))
   }
 
-  /*implicit def applicativeIdT[F[_]: Functor: Applicative]: Applicative[IdT[F, *]] =
-    new Applicative[IdT[F, *]] {
-      import tech.backwards.fp.learn.Applicative.syntax.*
-      import tech.backwards.fp.learn.Functor.syntax.*
+  given [F[_]: Functor: Applicative]: Applicative[[A] =>> IdT[F, A]] with {
+    import tech.backwards.fp.learn.Applicative.syntax.*
+    import tech.backwards.fp.learn.Functor.syntax.*
 
-      def pure[A](a: A): IdT[F, A] =
-        IdT(Applicative[F].pure(Id(a)))
+    def pure[A](a: A): IdT[F, A] =
+      IdT(Applicative[F].pure(Id(a)))
 
-      def ap[A, B](ff: IdT[F, A => B])(fa: IdT[F, A]): IdT[F, B] =
-        IdT(ff.value `<$>` ((ff: Id[A => B]) => (fa: Id[A]) => ff <*> fa) <*> fa.value)
-    }*/
+    def ap[A, B](ff: IdT[F, A => B])(fa: IdT[F, A]): IdT[F, B] =
+      IdT(ff.value `<$>` ((ff: Id[A => B]) => (fa: Id[A]) => ff <*> fa) <*> fa.value)
+  }
 
-  /*implicit def monadIdT[F[_]: Functor: Monad]: Monad[IdT[F, *]] =
-    new Monad[IdT[F, *]] {
-      def pure[A](a: A): IdT[F, A] =
-        IdT(Monad[F].pure(Id(a)))
+  given [F[_]: Functor: Monad]: Monad[[A] =>> IdT[F, A]] with {
+    def pure[A](a: A): IdT[F, A] =
+      IdT(Monad[F].pure(Id(a)))
 
-      def flatMap[A, B](fa: IdT[F, A])(f: A => IdT[F, B]): IdT[F, B] =
-        IdT(Monad[F].flatMap(fa.value)(idA => f(idA.value).value))
-    }*/
+    def flatMap[A, B](fa: IdT[F, A])(f: A => IdT[F, B]): IdT[F, B] =
+      IdT(Monad[F].flatMap(fa.value)(idA => f(idA.value).value))
+  }
 }
