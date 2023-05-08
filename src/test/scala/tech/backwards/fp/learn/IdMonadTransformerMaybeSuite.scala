@@ -234,7 +234,7 @@ class IdMonadTransformerMaybeSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("IdT Functor and Applicative syntax") {
+  property("IdT Functor and Applicative syntax") {
     import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Functor.syntax.*
 
@@ -260,9 +260,9 @@ class IdMonadTransformerMaybeSuite extends ScalaCheckSuite {
       IdT(Just(Id(10))) `<$>` add <*> IdT(Nothing[Id[Int]]),
       IdT(Nothing[Id[Int]])
     )
-  }*/
+  }
 
-  /*property("IdT Functor and Applicative function syntax") {
+  property("IdT Functor and Applicative function syntax") {
     import tech.backwards.fp.learn.Applicative.syntax.*
     import tech.backwards.fp.learn.Functor.syntax.function.*
 
@@ -288,22 +288,40 @@ class IdMonadTransformerMaybeSuite extends ScalaCheckSuite {
       add `<$>` IdT(Just(Id(10))) <*> IdT(Just(Id(1))),
       IdT(Just(Id(11)))
     )
-  }*/
+  }
 
-  /*property("IdT for comprehension") {
+  property("IdT for comprehension") {
     import tech.backwards.fp.learn.Functor.syntax.*
     import tech.backwards.fp.learn.Monad.syntax.*
 
     val transformer: IdT[Maybe, Int] =
       for {
-        x <- 10.pure[IdT[Maybe, *]]
-        y <- 11.pure[IdT[Maybe, *]]
-        z <- 12.pure[IdT[Maybe, *]]
+        x <- 10.pure[[A] =>> IdT[Maybe, A]]
+        y <- 11.pure[[A] =>> IdT[Maybe, A]]
+        z <- 12.pure[[A] =>> IdT[Maybe, A]]
       } yield x + y + z
 
     assertEquals(
       transformer.value,
       Just(Id(33))
     )
-  }*/
+
+    assertEquals(
+      for {
+        x <- IdT.lift(Just(10))
+        y <- IdT.lift(Just(11))
+        z <- IdT.lift(Just(12))
+      } yield x + y + z,
+      IdT(Just(Id(33)))
+    )
+
+    assertEquals(
+      for {
+        x <- IdT.lift(Just(10))
+        y <- IdT.lift(Nothing[Int])
+        z <- IdT.lift(Just(12))
+      } yield x + y + z,
+      IdT(Nothing[Id[Int]])
+    )
+  }
 }
