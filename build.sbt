@@ -8,6 +8,12 @@ lazy val root: Project =
       organization := "tech.backwards",
       version := "0.1.0-SNAPSHOT",
       scalaVersion := "3.2.2",
+      scalacOptions ++= List(
+        "-explain",
+        "-Yexplicit-nulls",
+        "-Ykind-projector",
+        "-Ysafe-init"
+      ),
       fork := true,
       libraryDependencies ++= Dependencies()
     )

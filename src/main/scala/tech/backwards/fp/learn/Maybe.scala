@@ -26,13 +26,13 @@ object Nothing {
 
 object Maybe {
   object syntax {
+    def nothing[A]: Maybe[A] =
+      Nothing[A]
+
     extension [A](a: A) {
       def just: Maybe[A] =
         Just(a)
     }
-    
-    def nothing[A]: Maybe[A] =
-      Nothing.apply[A]
   }
 
   given Functor[Maybe] with {

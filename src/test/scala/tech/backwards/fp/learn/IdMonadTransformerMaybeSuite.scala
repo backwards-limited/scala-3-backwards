@@ -345,6 +345,7 @@ class IdMonadTransformerMaybeSuite extends ScalaCheckSuite {
         x <- IdT.lift(10.just)
         y <- IdT.lift(11.just)
         z <- IdT.lift(12.just)
+        _ <- IdT(0.just.map(Id.apply)) // Without "lift"
       } yield x + y + z,
       IdT(Id(33).just)
     )
