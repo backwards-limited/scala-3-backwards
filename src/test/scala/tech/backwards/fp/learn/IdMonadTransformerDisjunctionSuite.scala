@@ -100,7 +100,7 @@ class IdMonadTransformerDisjunctionSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("IdT Monad") {
+  property("IdT Monad") {
     val transformer: IdT[Disjunction[String, *], Int] =
       Monad[IdT[Disjunction[String, *], *]].pure(10)
 
@@ -155,6 +155,11 @@ class IdMonadTransformerDisjunctionSuite extends ScalaCheckSuite {
     assertEquals(
       IdT("whoops".left[Id[Int]]) >>= (a => IdT(Id(a + 1).right)),
       IdT("whoops".left[Id[Int]])
+    )
+
+    assertEquals(
+      IdT(Id(10).right) >>= (_ => IdT("whoops".left)),
+      IdT("whoops".left)
     )
   }
 
@@ -315,11 +320,11 @@ class IdMonadTransformerDisjunctionSuite extends ScalaCheckSuite {
     import tech.backwards.fp.learn.Functor.syntax.*
     import tech.backwards.fp.learn.Monad.syntax.*
 
-    val transformer: IdT[String Disjunction *, Int] =
+    val transformer: IdT[Disjunction[String, *], Int] =
       for {
-        x <- 10.pure[IdT[String Disjunction *, *]]
-        y <- 11.pure[IdT[String Disjunction *, *]]
-        z <- 12.pure[IdT[String Disjunction *, *]]
+        x <- 10.pure[IdT[Disjunction[String, *], *]]
+        y <- 11.pure[IdT[Disjunction[String, *], *]]
+        z <- 12.pure[IdT[Disjunction[String, *], *]]
       } yield x + y + z
 
     assertEquals(
@@ -334,7 +339,7 @@ class IdMonadTransformerDisjunctionSuite extends ScalaCheckSuite {
         z <- IdT.lift(12.right[String])
         _ <- IdT(0.right[String].map(Id.apply)) // Without "lift"
       } yield x + y + z,
-      IdT(Id(33).right[String])
+      IdT(Id(33).right)
     )
 
     assertEquals(
@@ -343,7 +348,7 @@ class IdMonadTransformerDisjunctionSuite extends ScalaCheckSuite {
         y <- IdT.lift("whoops".left[Int])
         z <- IdT.lift(12.right[String])
       } yield x + y + z,
-      IdT("whoops".left[Id[Int]])
+      IdT("whoops".left)
     )
-  }*/
+  }
 }
