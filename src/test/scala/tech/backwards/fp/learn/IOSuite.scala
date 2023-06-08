@@ -91,27 +91,25 @@ class IOSuite extends ScalaCheckSuite {
     import tech.backwards.fp.learn.Functor.syntax.*
     import tech.backwards.fp.learn.Monad.syntax.*
 
-    val fileContents: AtomicReference[String] =
-      new AtomicReference[String]("foo")
+    val readFile: StateT[IO, String, String] =
+      StateT((s: String) => IO(s -> s))
 
-    val readFile: IO[String] =
-      IO(fileContents.get())
+    val appendFile: String => StateT[IO, String, Unit] =
+      s => StateT.modify(_ + s)
 
-    val appendFile: String => IO[Unit] =
-      contents => IO(fileContents.getAndUpdate(_ + lineSeparator() + contents))
-
-    val program: IO[(String, String)] =
+    val program: StateT[IO, String, (String, String)] =
       for {
-        contents <- readFile
-        _ <- appendFile("bar")
-        updatedContents <- readFile
-      } yield (contents, updatedContents)
+        originalContents <- readFile
+        _ <- appendFile(s"bar$lineSeparator")
+        latestConents <- readFile
+      } yield originalContents -> latestConents
 
-    val (originalContents, updatedContents) =
-      program.unsafeRunSync()
+    val (latestContents1, (originalContents, latestContents2)) =
+      program.run(s"foo$lineSeparator").unsafeRunSync()
 
-    assertEquals(originalContents, "foo")
-    assertEquals(updatedContents, "foo" + lineSeparator() + "bar")
+    assertEquals(originalContents, s"foo$lineSeparator")
+    assertEquals(latestContents1, s"foo${lineSeparator}bar$lineSeparator")
+    assertEquals(latestContents1, latestContents2)
   }
 
   property("IO Applicative function") {
