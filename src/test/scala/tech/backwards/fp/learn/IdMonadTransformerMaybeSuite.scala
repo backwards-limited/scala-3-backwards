@@ -3,14 +3,6 @@ package tech.backwards.fp.learn
 import munit.ScalaCheckSuite
 import org.scalacheck.Test
 
-/**
- * First of the following IdT suites:
- *  - IdMonadTransformerMaybeSuite
- *  - IdMonadTransformerDisjunctionSuite
- *  - IdMonadTransformerListSuite
- *  - IdMonadTransformerStateSuite
- *  - IdMonadTransformerWriterSuite
- */
 class IdMonadTransformerMaybeSuite extends ScalaCheckSuite {
   override protected def scalaCheckTestParameters: Test.Parameters =
     super.scalaCheckTestParameters.withMinSuccessfulTests(100).withMaxDiscardRatio(10)
