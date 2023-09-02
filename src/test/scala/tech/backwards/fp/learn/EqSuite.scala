@@ -62,7 +62,7 @@ class EqSuite extends ScalaCheckSuite {
   property("Eq of different types should not compile")(
     assertNoDiff(
       compileErrors("""Eq.eq("asd", 5)"""),
-      """|error: No given instance of type tech.backwards.fp.learn.Eq[Matchable] was found for an implicit parameter of method eq in object Eq
+      """|error: No given instance of type tech.backwards.fp.learn.Eq[String | Int] was found for an implicit parameter of method eq in object Eq
          |Eq.eq("asd", 5)
          |              ^
          |""".stripMargin.stripLineEnd
