@@ -14,7 +14,6 @@ object Writer {
   def tell[W](w: W): Writer[W, Unit] =
     Writer(() => w -> ())
 
-
   given [W]: Functor[[A] =>> Writer[W, A]] with {
     def fmap[A, B](fa: Writer[W, A])(f: A => B): Writer[W, B] =
       fa.run() match {
