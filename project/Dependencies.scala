@@ -14,28 +14,28 @@ object Dependencies {
 
     List(
       "specs2-core", "specs2-scalacheck", "specs2-matcher-extra"
-    ).map(group %% _ % version % "test, it" withSources() withJavadoc()) ++ List(
+    ).map(group %% _ % version % "test, integration" withSources() withJavadoc()) ++ List(
       "specs2-cats"
-    ).map(group %% _ % "4.20.2" % "test, it" withSources() withJavadoc())
+    ).map(group %% _ % "4.20.2" % "test, integration" withSources() withJavadoc())
   }
 
   lazy val munit: Seq[ModuleID] = {
     val group = "org.scalameta"
-    val version = "1.0.0-M8"
+    val version = "1.0.0-M10"
 
     List(
       "munit", "munit-scalacheck"
-    ).map(group %% _ % version % "test, it" withSources() withJavadoc() exclude("org.typelevel", "munit-cats-effect-2_2.13") exclude("org.typelevel", "munit-cats-effect-2")) ++ List(
-      "org.typelevel" %% "discipline-munit" % "2.0.0-M3" % "test, it"
+    ).map(group %% _ % version % "test, integration" withSources() withJavadoc() exclude("org.typelevel", "munit-cats-effect-2_2.13") exclude("org.typelevel", "munit-cats-effect-2")) ++ List(
+      "org.typelevel" %% "discipline-munit" % "2.0.0-M3" % "test, integration"
     )
   }
 
   lazy val weaver: Seq[ModuleID] =
-    List("com.disneystreaming" %% "weaver-cats" % "0.8.3" % "test, it" withSources() withJavadoc())
+    List("com.disneystreaming" %% "weaver-cats" % "0.8.3" % "test, integration" withSources() withJavadoc())
 
 
   lazy val scalacheck: Seq[ModuleID] =
-    List("org.scalacheck" %% "scalacheck" % "1.17.0" % "test, it" withSources() withJavadoc())
+    List("org.scalacheck" %% "scalacheck" % "1.17.0" % "test, integration" withSources() withJavadoc())
 
   lazy val scalatestContainers: Seq[ModuleID] = {
     val group = "com.dimafeng"
@@ -43,7 +43,7 @@ object Dependencies {
 
     List(
       "testcontainers-scala-munit", "testcontainers-scala-kafka", "testcontainers-scala-mysql", "testcontainers-scala-postgresql"
-    ).map(group %% _ % version % "test, it" withSources() withJavadoc())
+    ).map(group %% _ % version % "test, integration" withSources() withJavadoc())
   }
 
   lazy val scribe: Seq[ModuleID] =
@@ -60,14 +60,14 @@ object Dependencies {
       "cats-core", "cats-free"
     ).map(group %% _ % version withSources() withJavadoc()) ++ List(
       "cats-laws", "cats-testkit"
-    ).map(group %% _ % version % "test, it" withSources() withJavadoc()) ++ List(
+    ).map(group %% _ % version % "test, integration" withSources() withJavadoc()) ++ List(
       "cats-mtl"
     ).map(group %% _ % "1.3.1" withSources() withJavadoc())
   }
 
   lazy val catsEffect: Seq[ModuleID] = {
     val group = "org.typelevel"
-    val version = "3.3.14"
+    val version = "3.5.2"
 
     List(
       "cats-effect"
@@ -91,7 +91,7 @@ object Dependencies {
       "monocle-core", "monocle-macro"
     ).map(group %% _ % version withSources() withJavadoc()) ++ List(
       "monocle-law"
-    ).map(group %% _ % version % "test, it" withSources() withJavadoc())
+    ).map(group %% _ % version % "test, integration" withSources() withJavadoc())
   }
 
   lazy val shapeless: Seq[ModuleID] =
@@ -111,7 +111,7 @@ object Dependencies {
 
   lazy val fs2: Seq[ModuleID] = {
     val group = "co.fs2"
-    val version = "3.9.1"
+    val version = "3.9.2"
 
     List(
       "fs2-core", "fs2-io", "fs2-reactive-streams"
@@ -135,6 +135,6 @@ object Dependencies {
       "circe-core", "circe-generic", "circe-parser", "circe-refined"
     ).map(group %% _ % version withSources() withJavadoc()) ++ List(
       "circe-testing", "circe-literal"
-    ).map(group %% _ % version % "test, it" withSources() withJavadoc())
+    ).map(group %% _ % version % "test, integration" withSources() withJavadoc())
   }
 }
