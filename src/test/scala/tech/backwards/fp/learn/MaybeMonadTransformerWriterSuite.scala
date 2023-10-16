@@ -130,7 +130,7 @@ class MaybeMonadTransformerWriterSuite extends ScalaCheckSuite {
     )
   }
 
-  /*property("MaybeT Monad syntax") {
+  property("MaybeT Monad syntax") {
     import tech.backwards.fp.learn.Maybe.syntax.*
     import tech.backwards.fp.learn.Monad.syntax.*
 
@@ -167,9 +167,9 @@ class MaybeMonadTransformerWriterSuite extends ScalaCheckSuite {
       MaybeT(Writer(List("foo") -> Just(1))).flatMap(a => MaybeT(Writer(List("bar") -> Just(a + 1)))).value.run(),
       List("foo", "bar") -> Just(2)
     )
-  }*/
+  }
 
-  /*property("MaybeT Applicative") {
+  property("MaybeT Applicative") {
     val transformerFn: MaybeT[Writer[String, *], Int => Int] =
       Applicative[MaybeT[Writer[String, *], *]].pure(_ + 1)
 
@@ -210,9 +210,9 @@ class MaybeMonadTransformerWriterSuite extends ScalaCheckSuite {
       Applicative[MaybeT[Writer[List[String], *], *]].ap(MaybeT(Writer(List("foo") -> Just((x: Int) => x + 1))))(MaybeT(Writer(List("bar") -> Just(1)))).value.run(),
       List("foo", "bar") -> Just(2)
     )
-  }*/
+  }
 
-  /*property("MaybeT Applicative syntax") {
+  property("MaybeT Applicative syntax") {
     import tech.backwards.fp.learn.Applicative.syntax.*
 
     val transformerFn: MaybeT[Writer[String, *], Int => Int] =
@@ -241,7 +241,6 @@ class MaybeMonadTransformerWriterSuite extends ScalaCheckSuite {
       Nil -> Nothing[Int]
     )
 
-
     assertEquals(
       MaybeT(Writer(List.empty[String] -> Just((x: Int) => x + 1))).ap(MaybeT(Writer(Nil -> Just(1)))).value.run(),
       Nil -> Just(2)
@@ -251,11 +250,10 @@ class MaybeMonadTransformerWriterSuite extends ScalaCheckSuite {
       MaybeT(Writer(List("foo") -> Just((x: Int) => x + 1))).ap(MaybeT(Writer(List("bar") -> Just(1)))).value.run(),
       List("foo", "bar") -> Just(2)
     )
-  }*/
+  }
 
-  /*property("MaybeT Functor and Applicative syntax") {
+  property("MaybeT Functor and Applicative syntax") {
     import tech.backwards.fp.learn.Applicative.syntax.*
-    import tech.backwards.fp.learn.Disjunction.syntax.*
     import tech.backwards.fp.learn.Functor.syntax.*
     import tech.backwards.fp.learn.Maybe.syntax.*
 
@@ -286,11 +284,10 @@ class MaybeMonadTransformerWriterSuite extends ScalaCheckSuite {
       (MaybeT(Writer(List("foo") -> 10.just)) `<$>` add <*> MaybeT(Writer(List("bar") -> Just(1)))).value.run(),
       List("foo", "bar") -> Just(11)
     )
-  }*/
+  }
 
-  /*property("MaybeT Functor and Applicative function syntax") {
+  property("MaybeT Functor and Applicative function syntax") {
     import tech.backwards.fp.learn.Applicative.syntax.*
-    import tech.backwards.fp.learn.Disjunction.syntax.*
     import tech.backwards.fp.learn.Functor.syntax.function.*
     import tech.backwards.fp.learn.Maybe.syntax.*
 
@@ -321,9 +318,9 @@ class MaybeMonadTransformerWriterSuite extends ScalaCheckSuite {
       (add `<$>` MaybeT(Writer(List("foo") -> 10.just)) <*> MaybeT(Writer(List("bar") -> nothing[Int]))).value.run(),
       List("foo", "bar") -> nothing[Int]
     )
-  }*/
+  }
 
-  /*property("MaybeT for comprehension") {
+  property("MaybeT for comprehension") {
     import tech.backwards.fp.learn.Functor.syntax.*
     import tech.backwards.fp.learn.Maybe.syntax.*
     import tech.backwards.fp.learn.Monad.syntax.*
@@ -375,5 +372,5 @@ class MaybeMonadTransformerWriterSuite extends ScalaCheckSuite {
       ).value.run(),
       List("foo") -> nothing[Int]
     )
-  }*/
+  }
 }
