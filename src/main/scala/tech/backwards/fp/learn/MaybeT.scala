@@ -24,7 +24,9 @@ object MaybeT {
       MaybeT(Applicative[F].pure(Just(a)))
 
     def ap[A, B](ff: MaybeT[F, A => B])(fa: MaybeT[F, A]): MaybeT[F, B] =
-      MaybeT(ff.value `<$>` ((ff: Maybe[A => B]) => (fa: Maybe[A]) => ff <*> fa) <*> fa.value)
+      MaybeT(
+        ff.value `<$>` ((ff: Maybe[A => B]) => (fa: Maybe[A]) => ff <*> fa) <*> fa.value
+      )
   }
   
   given [F[_]: Functor: Monad]: Monad[[A] =>> MaybeT[F, A]] with {
