@@ -11,7 +11,7 @@ lazy val root: Project =
       name := "scala-3-backwards",
       organization := "tech.backwards",
       version := "0.1.0-SNAPSHOT",
-      scalaVersion := "3.3.1",
+      scalaVersion := "3.4.1",
       scalacOptions ++= List(
         "-explain",
         "-Yexplicit-nulls",

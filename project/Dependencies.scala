@@ -31,11 +31,11 @@ object Dependencies {
   }
 
   lazy val weaver: Seq[ModuleID] =
-    List("com.disneystreaming" %% "weaver-cats" % "0.8.3" % "test, integration" withSources() withJavadoc())
+    List("com.disneystreaming" %% "weaver-cats" % "0.8.4" % "test, integration" withSources() withJavadoc())
 
 
   lazy val scalacheck: Seq[ModuleID] =
-    List("org.scalacheck" %% "scalacheck" % "1.17.0" % "test, integration" withSources() withJavadoc())
+    List("org.scalacheck" %% "scalacheck" % "1.17.1" % "test, integration" withSources() withJavadoc())
 
   lazy val scalatestContainers: Seq[ModuleID] = {
     val group = "com.dimafeng"
@@ -47,7 +47,7 @@ object Dependencies {
   }
 
   lazy val scribe: Seq[ModuleID] =
-    List("com.outr" %% "scribe" % "3.12.2" withSources() withJavadoc())
+    List("com.outr" %% "scribe" % "3.13.2" withSources() withJavadoc())
 
   lazy val pprint: Seq[ModuleID] =
     List("com.lihaoyi" %% "pprint" % "0.8.1")
@@ -95,10 +95,10 @@ object Dependencies {
   }
 
   lazy val shapeless: Seq[ModuleID] =
-    List("org.typelevel" %% "shapeless3-deriving" % "3.3.0")
+    List("org.typelevel" %% "shapeless3-deriving" % "3.4.0")
 
   lazy val parserCombinators: Seq[ModuleID] =
-    List("org.scala-lang.modules" %% "scala-parser-combinators" % "2.3.0")
+    List("org.scala-lang.modules" %% "scala-parser-combinators" % "2.4.0")
 
   lazy val http4s: Seq[ModuleID] = {
     val group = "org.http4s"
