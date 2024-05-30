@@ -334,12 +334,12 @@ class IdMonadTransformerDisjunctionSuite extends ScalaCheckSuite {
 
     assertEquals(
       for {
-        x <- IdT.lift(10.right[String])
-        y <- IdT.lift(11.right[String])
-        z <- IdT.lift(12.right[String])
+        x <- IdT.lift[Disjunction[String, *], Int](10.right[String])
+        y <- IdT.lift[Disjunction[String, *], Int](11.right[String])
+        z <- IdT.lift[Disjunction[String, *], Int](12.right[String])
         _ <- IdT(0.right[String].map(Id.apply)) // Without "lift"
       } yield x + y + z,
-      IdT(Id(33).right)
+      IdT[Disjunction[String, *], Int](Id(33).right)
     )
 
     assertEquals(
