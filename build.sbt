@@ -18,6 +18,7 @@ lazy val root: Project =
         "-Ykind-projector",
         "-Ysafe-init"
       ),
+      usePipelining := true,
       fork := true,
       libraryDependencies ++= Dependencies(),
       integrationTestSettings
