@@ -1,6 +1,6 @@
 package tech.backwards.fp.learn
 
-sealed trait Disjunction[+L, +R]
+sealed infix trait Disjunction[+L, +R]
 
 final case class Left[L, R] private(value: L) extends Disjunction[L, R]
 
